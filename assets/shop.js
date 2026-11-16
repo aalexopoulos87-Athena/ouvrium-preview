@@ -10,24 +10,29 @@ const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
 const IDX=S.cards.map(c=>norm(c[0]+" "+c[1]));
 const BANDS=[["any",0,1e9,"Any price","Tous les prix"],["u5",0,5,"Under $5","Moins de 5 $"],["5-25",5,25,"$5–25","5–25 $"],["25-100",25,100,"$25–100","25–100 $"],["100-500",100,500,"$100–500","100–500 $"],["500",500,1e9,"$500 and up","500 $ et plus"]];
 const SORTS=[["pd","Price: high to low","Prix : décroissant"],["pa","Price: low to high","Prix : croissant"],["nm","Name A–Z","Nom A–Z"],["st","Most in stock","Plus en stock"]];
-let f=Object.assign({g:"all",band:"any",q:"",sort:"pd"},LS.get("ouv_shop_f",{}));f.q="";
+let f=Object.assign({g:"all",set:"",band:"any",q:"",sort:"pd"},LS.get("ouv_shop_f",{}));f.q="";
+const FALL=(O.root||"../")+"assets/cardback-ouvrium.svg";
+const art=c=>c[6]>=0&&S.hosts?S.hosts[c[6]]+c[7]:FALL;
+const inStock=gi=>S.cards.reduce((a,c)=>a+(c[2]===gi&&stockN(c)>0?1:0),0);
 let shown=48,sheetOpen=false;
 const cart=()=>Object.assign({items:{},ful:"pickup",credit:null,step:"cart",last:null},LS.get("ouv_cart",{}));
 const saveCart=c=>LS.set("ouv_cart",c);
 const sold=()=>LS.get("ouv_shop_sold",{});
 const stock=id=>Math.max(0,(byId[id]?byId[id][4]:0)-(sold()[id]||0));
+const stockN=c=>stock(c[5]);
 const gname=i=>S.games[i].name;
 
 function chips(){
-  $("#gameChips").innerHTML=[["all",T("All games","Tous les jeux")]].concat(S.games.map((g,i)=>[String(i),g.name])).map(([k,l])=>`<button class="chip${f.g===k?" on":""}" data-g="${k}" aria-pressed="${f.g===k}">${l}</button>`).join("");
-  $("#gameChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{f.g=b.dataset.g;shown=48;LS.set("ouv_shop_f",f);chips();list()});
+  $("#gameChips").innerHTML=[["all",T("All games","Tous les jeux"),S.cards.length]].concat(S.games.map((g,i)=>[String(i),g.name,inStock(i)])).map(([k,l,n])=>`<button class="chip${f.g===k?" on":""}" data-g="${k}" aria-pressed="${f.g===k}">${l} <span class="cnt">${n.toLocaleString(fr()?"fr-CA":"en-CA")}</span></button>`).join("");
+  $("#gameChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{f.g=b.dataset.g;f.set="";shown=48;LS.set("ouv_shop_f",f);chips();list()});
+  const ss=$("#sset");if(ss){const sets=f.g==="all"?[]:(S.sets[+f.g]||[]);ss.style.display=sets.length?"":"none";ss.innerHTML=`<option value="">${O.t("All sets","Toutes les séries")}</option>`+sets.map(x=>`<option value="${O.esc(x)}"${f.set===x?" selected":""}>${O.esc(x)}</option>`).join("");ss.onchange=e=>{f.set=e.target.value;shown=48;LS.set("ouv_shop_f",f);list()}}
   $("#sprice").innerHTML=BANDS.map(b=>`<option value="${b[0]}"${f.band===b[0]?" selected":""}>${fr()?b[4]:b[3]}</option>`).join("");
   $("#ssort").innerHTML=SORTS.map(s=>`<option value="${s[0]}"${f.sort===s[0]?" selected":""}>${fr()?s[2]:s[1]}</option>`).join("");
 }
 function filtered(){
   const b=BANDS.find(x=>x[0]===f.band)||BANDS[0],q=norm(f.q.trim()),terms=q?q.split(/\s+/):[];
   let out=[];for(let i=0;i<S.cards.length;i++){const c=S.cards[i];
-    if(f.g!=="all"&&String(c[2])!==f.g)continue;if(c[3]<b[1]||c[3]>=b[2])continue;
+    if(f.g!=="all"&&String(c[2])!==f.g)continue;if(f.set&&c[1]!==f.set)continue;if(c[3]<b[1]||c[3]>=b[2])continue;
     if(terms.length&&!terms.every(t=>IDX[i].includes(t)))continue;if(stock(c[5])<=0)continue;out.push(c)}
   if(f.sort==="pa")out.sort((a,b)=>a[3]-b[3]);else if(f.sort==="nm")out.sort((a,b)=>a[0].localeCompare(b[0]));else if(f.sort==="st")out.sort((a,b)=>stock(b[5])-stock(a[5])||b[3]-a[3]);
   return out;
@@ -36,7 +41,7 @@ function list(){
   const all=filtered(),c=cart(),rows=all.slice(0,shown);
   $("#scount").innerHTML=T(`Showing ${Math.min(shown,all.length).toLocaleString("en-CA")} of ${all.length.toLocaleString("en-CA")} singles in stock`,`${Math.min(shown,all.length).toLocaleString("fr-CA")} sur ${all.length.toLocaleString("fr-CA")} cartes en stock`);
   $("#slist").innerHTML=rows.length?rows.map(x=>{const st=stock(x[5]),inC=c.items[x[5]]||0,left=st-inC;
-    return `<div class="sitem"><div class="si-main"><div class="si-name">${O.esc(x[0])}</div><div class="small muted">${O.esc(x[1])} · ${gname(x[2])}</div>
+    return `<div class="sitem"><div class="si-art"><img src="${O.esc(art(x))}" alt="${O.esc(x[0])}" loading="lazy" decoding="async" referrerpolicy="no-referrer" width="245" height="342" onerror="this.onerror=null;this.src='${FALL}';this.classList.add('fb')"></div><div class="si-main"><div class="si-name">${O.esc(x[0])}</div><div class="small muted">${O.esc(x[1])} · ${gname(x[2])}</div>
     <div class="small"><span class="stock${st===1?" last":""}">${st===1?T("Last one in stock","Dernière en stock"):T(`${st} in stock`,`${st} en stock`)}</span>${inC?` · <b class="gold-t">${T(`${inC} in cart`,`${inC} au panier`)}</b>`:""}</div></div>
     <div class="si-buy"><div class="si-price">${O.money(x[3],2)}</div><button class="btn gold sm" data-add="${x[5]}" ${left>0?"":"disabled"}>${left>0?T("Buy with credit","Acheter avec mon crédit"):T("All in cart","Tout au panier")}</button></div></div>`}).join("")
     :`<p class="muted">${T("No singles match. Try another game, price or search.","Aucune carte ne correspond. Essaie un autre jeu, prix ou recherche.")}</p>`;

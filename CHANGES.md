@@ -36,3 +36,21 @@ Backup before editing: `/workspace/ouvrium-site/backups/2026-11-16-credit-*` (sr
 
 ### Unchanged
 Preview banner, noindex, no payment fields, waitlist disabled, fan-made disclaimers, original art only, published odds = draw odds.
+
+## 2026-11-16 (b): shop modelled on the Carta Magica storefront preview
+
+Read-only reuse from `/workspace/cm-art` (Carta Magica storefront preview repo; not modified):
+- Card-image matching: `data/ottawa-singles/{pokemon,one-piece,yugioh,gundam,union-arena}.json` maps Crystal Commerce
+  Product ID → public card-image URL. 5,255 of 5,390 shop singles now show card art (hotlinked like the CM site,
+  `loading=lazy`, `referrerpolicy=no-referrer`, fallback image on error).
+- Category structure: CM singles hub (game → set). Game chips now show in-stock counts and a Set filter appears per game,
+  sets ordered by in-stock count.
+- Product-card pattern: art-first tiles in a responsive grid (48 per page, "Show more").
+
+Not reused: Carta Magica logo, card back, colours of the CM brand assets. Fallback art is a new Ouvrium card back.
+Gundam images from gundam-gcg.com send `Cross-Origin-Resource-Policy: same-site`, so those 119 cards use the fallback.
+
+- New: `assets/cardback-ouvrium.svg` (original fallback art).
+- Edited: `assets/shop-data.js` (image host table + path per card, set lists), `assets/shop.js` (art tiles, set filter,
+  chip counts), `assets/style.css` (tile grid, hover lift; no motion under reduced-motion), `shop/index.html` (set select;
+  image disclaimer: card images identify the card for sale and belong to their owners).

@@ -5,6 +5,7 @@ const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelect
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 const SS={get(k){try{return sessionStorage.getItem(k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(k,v)}catch(e){}}};
 const O=window.OUV=window.OUV||{};
+O.root=((document.currentScript&&document.currentScript.src)||"").replace(/assets\/app\.js.*$/,"");
 O.$=$;O.$$=$$;O.LS=LS;
 O.lang=()=>document.documentElement.lang==="fr-CA"?"fr":"en";
 O.t=(en,fr)=>O.lang()==="fr"?fr:en;
@@ -21,7 +22,7 @@ function applyLang(l,push){
   const b=$("#langBtn");if(b){b.textContent=l==="fr"?"EN":"FR";b.setAttribute("aria-label",l==="fr"?"Switch to English":"Passer au français")}
   LS.set("ouv_lang",l);
   if(push){const u=new URL(location.href);if(l==="fr")u.searchParams.set("lang","fr");else u.searchParams.delete("lang");history.replaceState(null,"",u)}
-  document.dispatchEvent(new CustomEvent("ouv:lang",{detail:l}));
+  if(applyLang.busy)return;applyLang.busy=true;try{document.dispatchEvent(new CustomEvent("ouv:lang",{detail:l}))}finally{applyLang.busy=false}
 }
 O.applyLang=applyLang;
 const qp=new URLSearchParams(location.search).get("lang");

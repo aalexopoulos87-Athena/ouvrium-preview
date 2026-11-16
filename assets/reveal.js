@@ -5,8 +5,7 @@
 (function(){
 "use strict";
 const O=window.OUV,D=window.OUV_DATA,$=O.$,$$=O.$$;
-const root=document.getElementById("reveal");if(!root)return;
-const pack=O.findPack(root.dataset.pack);if(!pack)return;
+O.mountReveal=function(root,pack){
 const T=(en,fr)=>`<span data-l="en">${en}</span><span data-l="fr">${fr}</span>`;
 root.innerHTML=`
 <div class="stage" id="stage" style="--s1:${pack.stage[0]};--s2:${pack.stage[1]}">
@@ -105,7 +104,7 @@ async function rollsFor(s){
 }
 function drawFair(revealed){const f=$("#fair");if(!seed){f.textContent="";return}
   f.innerHTML=T("Provably fair (demo): before you tear, the server seed is locked by its SHA-256 hash ","Équité prouvable (démo) : avant la déchirure, la graine serveur est verrouillée par son empreinte SHA-256 ")+`<span class="kbd">${seed.hash}</span>`+
-  (revealed?`<br>${T("Revealed server seed","Graine serveur révélée")}: <span class="kbd">${seed.server}</span> · client <span class="kbd">${seed.client}</span> · nonce ${seed.nonce}. <a href="fairness.html#verify">${T("How to verify","Comment vérifier")}</a>`:"")}
+  (revealed?`<br>${T("Revealed server seed","Graine serveur révélée")}: <span class="kbd">${seed.server}</span> · client <span class="kbd">${seed.client}</span> · nonce ${seed.nonce}. <a href="${O.root||""}fairness.html#verify">${T("How to verify","Comment vérifier")}</a>`:"")}
 newSeed();
 
 /* ---------- tear interaction ---------- */
@@ -256,4 +255,6 @@ function shareImage(c,total){
 }
 function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
 function wrapText(g,s,x,y,mw,lh){const w=s.split(" ");let line="",yy=y;for(const word of w){const test=line?line+" "+word:word;if(g.measureText(test).width>mw&&line){g.fillText(line,x,yy);line=word;yy+=lh}else line=test}g.fillText(line,x,yy)}
+};
+const r0=document.getElementById("reveal");if(r0&&r0.dataset.pack&&r0.dataset.pack!=="custom"){const p=O.findPack(r0.dataset.pack);if(p)O.mountReveal(r0,p)}
 })();

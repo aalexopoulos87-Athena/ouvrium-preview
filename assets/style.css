@@ -157,3 +157,18 @@ details[open] summary{color:var(--gold-hi)}
 
 .pvpill{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#1a1204;background:linear-gradient(135deg,var(--gold-hi),var(--gold));border-radius:6px;padding:3px 7px;white-space:nowrap}
 @media (max-width:900px){.pvpill{margin-left:auto}.burger{margin-left:8px}}
+/* themed packs */
+.th-hero{padding:34px 0 30px;background-size:auto 100%,cover;background-repeat:repeat-x,no-repeat;border-bottom:1px solid var(--line)}
+.th-hero h1{margin:6px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px}
+.chip{display:inline-block;padding:5px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.3);color:#fff;font-weight:700;font-size:12px;text-decoration:none}
+.chip:hover,.chip.on{border-color:var(--gold);color:var(--gold-hi)}
+.theme-grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-top:18px}
+.theme-card{display:flex;gap:14px;align-items:center;padding:16px;border-radius:18px;border:1px solid var(--line);background-size:auto 100%,cover;background-repeat:repeat-x,no-repeat}
+.theme-card h3 a{color:#fff;text-decoration:none}.theme-card h3 a:hover{color:var(--gold-hi)}
+.tc-art{flex:0 0 auto}
+.econ{border:1px solid var(--line);border-radius:18px;padding:16px;background:var(--panel)}
+.econ .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pack-tile.soon{cursor:default}
+.g4{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+@media (max-width:560px){.theme-card{flex-direction:column;align-items:flex-start}.th-hero .foil{max-width:150px}}

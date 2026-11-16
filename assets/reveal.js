@@ -1,10 +1,12 @@
-/* Ouvrium DEMO reveal. Rules from the research: no roulette strip, no autoplay/turbo, no countdowns,
-   celebration only when total value >= pack price, Skip always available, reduced-motion respected. */
+/* Ouvrium DEMO reveal, v2: staged rarity-tier reveal.
+   Rules: no roulette strip or near-miss reel, no autoplay/turbo, no countdowns; the face-down cue colour is the
+   real outcome tier (it never fakes up); celebration only when total value >= pack price, a calm summary otherwise;
+   Skip always available; reduced-motion gets a static, instant version; sound muted by default. */
 (function(){
 "use strict";
 const O=window.OUV,D=window.OUV_DATA,$=O.$,$$=O.$$;
 const root=document.getElementById("reveal");if(!root)return;
-const pack=D.packs.find(p=>p.id===root.dataset.pack);
+const pack=O.findPack(root.dataset.pack);if(!pack)return;
 const T=(en,fr)=>`<span data-l="en">${en}</span><span data-l="fr">${fr}</span>`;
 root.innerHTML=`
 <div class="stage" id="stage" style="--s1:${pack.stage[0]};--s2:${pack.stage[1]}">
@@ -15,12 +17,12 @@ root.innerHTML=`
     <span class="sp"></span>
     <button class="ic" id="skip">${T("Skip ⏭","Passer ⏭")}</button>
   </div>
-  <canvas id="fx"></canvas><div class="burst" id="burst"></div>
+  <div class="rays" id="rays" aria-hidden="true"></div><div class="shock" id="shock" aria-hidden="true"></div><div class="shock s2" id="shock2" aria-hidden="true"></div><canvas id="fx"></canvas><div class="burst" id="burst"></div><div class="titlecard" id="titlecard" aria-live="polite"></div>
   <div class="tear-hint" id="hint">${T("Drag the glowing tab across to tear the foil","Glisse l'onglet lumineux pour déchirer l'emballage")}</div>
   <div class="packwrap" id="packwrap">
     <div class="pack" id="pack" style="--p1:${pack.foil[0]};--p2:${pack.foil[1]};--p3:${pack.foil[2]}">
       <div class="strip" id="strip"></div><div class="cut"></div><div class="grip" id="grip" aria-hidden="true">➜</div>
-      <div class="body"><div class="pwm">OUVRIUM</div><div class="pname">${pack.name}</div><div class="pprice">${O.money(pack.price,0)} CAD</div><div class="small" style="margin-top:6px">${pack.cards} ${pack.cards>1?T("cards","cartes"):T("card","carte")}</div><div class="pser">Series 1 · Carta Magica Ottawa</div></div>
+      <div class="body">${pack.motif?`<div class="motif" style="background-image:url(&quot;${pack.motif}&quot;)"></div>`:""}<div class="pwm">OUVRIUM</div><div class="pname">${pack.short||pack.name}</div><div class="pprice">${O.money(pack.price,0)} CAD</div><div class="small" style="margin-top:6px">${pack.cards} ${pack.cards>1?T("cards","cartes"):T("card","carte")}</div><div class="pser">${pack.theme?T("Fan-made theme","Thème non officiel")+" · ":""}Series 1 · Carta Magica Ottawa</div></div>
       <div class="sheen"></div>
     </div>
   </div>
@@ -58,18 +60,27 @@ const snd={
   tear:()=>{noise(.45,900,6000,.5);tone(220,0,.3,.05,"triangle")},
   flip:()=>noise(.22,3000,600,.25),
   tick:()=>tone(660,0,.08,.06,"triangle"),
-  hum:(lvl)=>{const a=A();if(!a)return;const o=a.createOscillator(),g=a.createGain();o.type="sawtooth";o.frequency.setValueAtTime(70,a.currentTime);o.frequency.exponentialRampToValueAtTime(120+lvl*60,a.currentTime+1.4);const lp=a.createBiquadFilter();lp.type="lowpass";lp.frequency.value=500+lvl*200;g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.05+lvl*.015,a.currentTime+1.2);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+1.6);o.connect(lp).connect(g).connect(a.destination);o.start();o.stop(a.currentTime+1.7)},
-  chime:(lvl)=>{const base=[523.25,659.25,783.99,1046.5,1318.5,1568];for(let i=0;i<Math.min(3+lvl,6);i++)tone(base[i],i*.09,.9+lvl*.1,.09,"sine");if(lvl>=3)tone(2093,.6,1.4,.05,"triangle")},
+  riser:(lvl,dur)=>{const a=A();if(!a)return;const t=a.currentTime;
+    const o=a.createOscillator(),g=a.createGain(),lp=a.createBiquadFilter();o.type="sawtooth";o.frequency.setValueAtTime(60,t);o.frequency.exponentialRampToValueAtTime(110+lvl*70,t+dur);
+    lp.type="lowpass";lp.frequency.setValueAtTime(300,t);lp.frequency.exponentialRampToValueAtTime(900+lvl*700,t+dur);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.035+lvl*.012,t+dur*.9);g.gain.exponentialRampToValueAtTime(.0001,t+dur+.08);
+    o.connect(lp).connect(g).connect(a.destination);o.start(t);o.stop(t+dur+.1);noise(dur,400,2500+lvl*1500,.05+lvl*.03)},
+  impact:(lvl)=>{const a=A();if(!a)return;const t=a.currentTime;const o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.setValueAtTime(70+lvl*6,t);o.frequency.exponentialRampToValueAtTime(32,t+.45);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.25+lvl*.08,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+.55);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.6);noise(.22,3000,300,.18+lvl*.05)},
+  chord:(lvl)=>{const sets=[[523.25,659.25,783.99],[523.25,659.25,783.99,987.77],[523.25,659.25,783.99,987.77,1174.66]];const ch=sets[Math.min(2,Math.max(0,lvl-2))];
+    ch.forEach((f,i)=>{tone(f,i*.06,1.2+lvl*.3,.05,"triangle");tone(f*1.0035,i*.06+.01,1.2+lvl*.3,.03,"sine")});
+    if(lvl>=3)[2093,2637,3136].forEach((f,i)=>tone(f,.35+i*.11,.5,.025,"sine"));if(lvl>=4)[3520,4186,3136,4699].forEach((f,i)=>tone(f,.9+i*.09,.35,.018,"sine"))},
   plain:()=>tone(440,0,.18,.05,"sine")
 };
 
-/* ---------- particles / confetti ---------- */
+/* ---------- particles: foil glints and dust (no confetti) ---------- */
 let parts=[],raf=null;
 function sizeFx(){const r=stage.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);fx.width=r.width*dpr;fx.height=r.height*dpr;ctx2.setTransform(dpr,0,0,dpr,0,0)}
 sizeFx();addEventListener("resize",sizeFx);
-function loop(){ctx2.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.life>0);for(const p of parts){p.vy+=p.g;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.life-=1;p.rot+=p.vr;ctx2.save();ctx2.globalAlpha=Math.max(0,Math.min(1,p.life/40));ctx2.translate(p.x,p.y);ctx2.rotate(p.rot);ctx2.fillStyle=p.c;if(p.k==="c")ctx2.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);else{ctx2.beginPath();ctx2.arc(0,0,p.s,0,7);ctx2.fill()}ctx2.restore()}if(parts.length)raf=requestAnimationFrame(loop);else raf=null}
-function emit(n,x,y,opts){if(reduced)return;for(let i=0;i<n;i++){const a=(opts.spread||Math.PI*2)*Math.random()+(opts.angle||0),v=(opts.v||4)*(.4+Math.random());parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-(opts.up||0),g:opts.g||.08,life:60+Math.random()*60,s:opts.s||2+Math.random()*2,c:opts.colors[i%opts.colors.length],k:opts.k||"s",rot:Math.random()*6,vr:(Math.random()-.5)*.3})}if(!raf)loop()}
-function confetti(color){const r=stage.getBoundingClientRect();emit(160,r.width/2,r.height*.35,{v:9,up:4,g:.18,k:"c",s:9,colors:["#F6E3A1","#D4AF37","#ffffff",color,"#3DFFB0"]})}
+function star(g,s){g.beginPath();for(let i=0;i<8;i++){const r=i%2?s*.32:s,an=i*Math.PI/4;g.lineTo(Math.cos(an)*r,Math.sin(an)*r)}g.closePath();g.fill()}
+function loop(){ctx2.clearRect(0,0,fx.width,fx.height);parts=parts.filter(p=>p.life>0);for(const p of parts){p.vy+=p.g;p.vx*=.985;p.x+=p.vx;p.y+=p.vy;p.life-=1;p.rot+=p.vr;ctx2.save();const tw=p.k==="g"?(.55+.45*Math.sin(p.life*.35+p.ph)):1;ctx2.globalAlpha=Math.max(0,Math.min(1,p.life/40))*tw;ctx2.translate(p.x,p.y);ctx2.rotate(p.rot);ctx2.fillStyle=p.c;if(p.k==="g"){ctx2.shadowColor=p.c;ctx2.shadowBlur=8;star(ctx2,p.s)}else{ctx2.beginPath();ctx2.arc(0,0,p.s,0,7);ctx2.fill()}ctx2.restore()}if(parts.length)raf=requestAnimationFrame(loop);else raf=null}
+function emit(n,x,y,opts){if(reduced)return;for(let i=0;i<n;i++){const a=(opts.spread||Math.PI*2)*Math.random()+(opts.angle||0),v=(opts.v||4)*(.4+Math.random());parts.push({x:x+(opts.jx||0)*(Math.random()-.5),y:y+(opts.jy||0)*(Math.random()-.5),vx:Math.cos(a)*v,vy:Math.sin(a)*v-(opts.up||0),g:opts.g==null?.08:opts.g,life:(opts.life||60)+Math.random()*60,s:opts.s||2+Math.random()*2,c:opts.colors[i%opts.colors.length],k:opts.k||"s",rot:Math.random()*6,vr:(Math.random()-.5)*.08,ph:Math.random()*6})}if(!raf)loop()}
+/* foil shimmer: slow, rising glints around the card (replaces v1 confetti) */
+function glints(n,el,colors){const r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect();emit(n,r.left-sr.left+r.width/2,r.top-sr.top+r.height/2,{v:1.6,g:-.012,k:"g",s:3+Math.random()*3,jx:r.width*1.1,jy:r.height*.9,life:70,colors})}
 
 /* ---------- pointer / gyro tilt + holo ---------- */
 function tilt(el,x,y){el.style.setProperty("--ry",((x-.5)*24)+"deg");el.style.setProperty("--rx",((.5-y)*20)+"deg");el.style.setProperty("--mx",(x*100)+"%");el.style.setProperty("--my",(y*100)+"%")}
@@ -116,64 +127,94 @@ async function tearOff(){
   setTimeout(()=>{wrap.classList.add("gone");dealCards()},reduced?0:650);
 }
 
-/* ---------- deal + flip ---------- */
-const priceOK=()=>cards.reduce((a,c)=>a+c.value,0)>=pack.price;
+/* ---------- deal + staged reveal ---------- */
+/* Cue ladder: the face-down glow colour IS the outcome tier, set from total pull value / pack price.
+   grey <0.6x · blue 0.6-1x · purple 1-2x · gold 2-5x · prismatic >=5x (the "chase" line used on every pack page). */
+const CUES=[{c:"#9AA3B5",en:"Grey",fr:"Gris"},{c:"#3D8BFF",en:"Blue",fr:"Bleu"},{c:"#9B5CFF",en:"Purple",fr:"Violet"},{c:"#F2C14E",en:"Gold",fr:"Or"},{c:"#F5D0FF",en:"Prismatic",fr:"Prismatique"}];
+const lvlOf=m=>m>=5?4:m>=2?3:m>=1?2:m>=.6?1:0;
+const total=()=>cards.reduce((a,c)=>a+c.value,0);
+const priceOK=()=>total()>=pack.price;
+let lvl=0,timers=[];const later=(fn,ms)=>timers.push(setTimeout(fn,ms));const clearTimers=()=>{timers.forEach(clearTimeout);timers=[]};
 function tierIdx(k){return D.tiers.findIndex(t=>t.k===k)}
+function setFx(on){stage.classList.toggle("fx-on",on)}
+function aimAt(el){const r=el.getBoundingClientRect(),sr=stage.getBoundingClientRect();stage.style.setProperty("--cx",(r.left-sr.left+r.width/2)+"px");stage.style.setProperty("--cy",(r.top-sr.top+r.height/2)+"px")}
+function buzz(p){if(navigator.vibrate)try{navigator.vibrate(p)}catch(e){}}
 function dealCards(){
-  state="reveal";cardsEl.innerHTML="";
-  cards.forEach((c,i)=>{const hit=i===cards.length-1;const t=O.tierOf(c.tier);const el=document.createElement("div");el.className="flip"+(hit?" hit":"");el.style.setProperty("--ac",t.color);el.style.setProperty("--ai",(.35+tierIdx(c.tier)*.08).toFixed(2));
-    el.innerHTML=`<div class="aura"></div><div class="backf"><div class="tcard back"></div></div><div class="face">${O.cardHTML(c)}</div>`;el.setAttribute("role","button");el.tabIndex=0;
-    el.setAttribute("aria-label",hit?O.t("Hit card, face down","Carte vedette, face cachée"):O.t("Card, face down. Tap to turn over","Carte face cachée. Touche pour retourner"));
+  state="reveal";cardsEl.innerHTML="";lvl=lvlOf(total()/pack.price);
+  stage.style.setProperty("--cue",CUES[lvl].c);stage.dataset.lvl=lvl;
+  cards.forEach((c,i)=>{const hit=i===cards.length-1;const t=O.tierOf(c.tier);const el=document.createElement("div");el.className="flip"+(hit?" hit":"");el.style.setProperty("--ac",hit?CUES[lvl].c:t.color);el.style.setProperty("--ai",(.35+lvl*.12).toFixed(2));
+    el.innerHTML=`<div class="aura"></div><div class="cue"></div><div class="backf"><div class="tcard back"></div></div><div class="face">${O.cardHTML(c)}<div class="sweep"></div></div>`;el.setAttribute("role","button");el.tabIndex=0;
+    el.setAttribute("aria-label",hit?O.t(`Hit card, face down. ${CUES[lvl].en} glow`,`Carte vedette, face cachée. Lueur ${CUES[lvl].fr.toLowerCase()}`):O.t("Card, face down. Tap to turn over","Carte face cachée. Touche pour retourner"));
     cardsEl.appendChild(el);setTimeout(()=>el.classList.add("in"),reduced?0:120+i*160);
     el.addEventListener("click",()=>onCard(i));el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();onCard(i)}});
   });
   flipped=0;nextControls();
 }
+/* Stage 1 (anticipation): the hit card glows in its tier colour; riser and light rays scale with the tier. */
+function cueStage(hitEl){
+  hitEl.classList.add("cue-on","cue-"+lvl);aimAt(hitEl);
+  if(reduced)return;
+  if(lvl>=2){stage.classList.add("rays-on");stage.style.setProperty("--ri",[0,0,.16,.3,.5][lvl])}
+  snd.riser(lvl,.7+lvl*.3);if(lvl>=3)buzz(12);
+}
 function nextControls(){
   const nCommons=cards.length-1;
   if(flipped<nCommons){controls.innerHTML=`<button class="btn ghost" id="nx">${T(`Turn over card ${flipped+1} of ${nCommons}`,`Retourner la carte ${flipped+1} sur ${nCommons}`)}</button>`;$("#nx").onclick=()=>onCard(flipped)}
-  else if(flipped===nCommons){const hitEl=cardsEl.children[nCommons];setTimeout(()=>{hitEl.classList.add("charge");snd.hum(Math.max(0,tierIdx(cards[nCommons].tier)-2))},reduced?0:250);
+  else if(flipped===nCommons){const hitEl=cardsEl.children[nCommons];later(()=>{hitEl.classList.add("charge");cueStage(hitEl)},reduced?0:250);
     controls.innerHTML=`<button class="btn gold" id="flipBtn">${T("Flip the hit card","Retourner la carte vedette")}</button>`;$("#flipBtn").onclick=()=>onCard(nCommons)}
   O.applyLang(O.lang(),false);
 }
+/* Stage 2 (flip): calm for grey/blue; push-in, slow-mo, shockwave and glints scale up for purple, gold, prismatic. */
+const FLIP=[600,600,650,1150,1900],IMPACT=[0,0,330,600,1000];
 function onCard(i){
-  if(state!=="reveal"||i!==flipped)return;const el=cardsEl.children[i];const c=cards[i];const hit=i===cards.length-1;
+  if(state!=="reveal"||i!==flipped)return;const el=cardsEl.children[i];const hit=i===cards.length-1;
   if(!hit){el.classList.add("open");snd.flip();flipped++;nextControls();return}
-  const big=tierIdx(c.tier)>=6||c.value>=pack.price*3;
-  controls.innerHTML="";
-  if(big&&!reduced){el.classList.add("slow");stage.classList.add("dim")}
+  controls.innerHTML="";flipped++;state="flipping";aimAt(el);
+  if(reduced){el.classList.add("open");finish(false);return}
+  if(lvl>=3){el.classList.add(lvl>=4?"slow":"med");stage.classList.add("push")}
+  if(lvl>=4)stage.classList.add("dim");
   el.classList.add("open");snd.flip();
-  setTimeout(()=>{stage.classList.remove("dim");el.classList.remove("charge");finish(false)},reduced?50:(big?1950:650));
-  flipped++;
+  if(lvl>=2)later(()=>{ // impact moment, card face arriving
+    snd.impact(lvl-2);const sh=$("#shock");sh.classList.remove("go");void sh.offsetWidth;sh.classList.add("go");
+    if(lvl>=3){const s2=$("#shock2");s2.classList.remove("go");void s2.offsetWidth;later(()=>s2.classList.add("go"),140)}
+    stage.style.setProperty("--ri",[0,0,.3,.55,.85][lvl]);stage.classList.add("rays-hot");
+    el.classList.add("sweeping");glints([0,0,26,60,130][lvl],el,lvl>=4?["#fff","#ffd6f6","#c6f3ff","#fff1b8","#d9c8ff"]:["#fff",CUES[lvl].c,"#F6E3A1"]);
+    buzz(lvl>=4?[60,40,120,40,220]:lvl>=3?[40,30,90]:[30]);
+    later(()=>snd.chord(lvl),120);
+  },IMPACT[lvl]);
+  else later(()=>buzz(12),300);
+  later(()=>{stage.classList.remove("dim");el.classList.remove("charge");finish(false)},FLIP[lvl]+(lvl>=2?250:50));
 }
 $("#skip").onclick=()=>{
   if(state==="sealed"){A();tearOffSkip();return}
-  if(state==="reveal"){[...cardsEl.children].forEach(e=>{e.classList.remove("slow","charge");e.classList.add("in","open")});flipped=cards.length;finish(true)}
+  if(state==="reveal"||state==="flipping"){clearTimers();[...cardsEl.children].forEach(e=>{e.classList.remove("slow","med","charge");e.classList.add("in","open")});stage.classList.remove("dim","push","rays-on","rays-hot");flipped=cards.length;finish(true)}
 };
-async function tearOffSkip(){state="opening";const {r}=await rollsFor(seed);cards=O.openPack(pack,r);session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();wrap.classList.add("gone");$("#hint").style.display="none";state="reveal";dealCards();[...cardsEl.children].forEach(e=>e.classList.add("in","open"));flipped=cards.length;finish(true)}
+async function tearOffSkip(){state="opening";const {r}=await rollsFor(seed);cards=O.openPack(pack,r);session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();wrap.classList.add("gone");$("#hint").style.display="none";dealCards();[...cardsEl.children].forEach(e=>e.classList.add("in","open"));flipped=cards.length;finish(true)}
 
-/* ---------- result: honest verdict, celebration only when value >= price ---------- */
+/* Stage 3 (title card or calm summary). Celebration only when total value >= pack price. */
 function finish(skipped){
-  if(state==="done")return;state="done";
-  const total=cards.reduce((a,c)=>a+c.value,0),hit=cards[cards.length-1],win=total>=pack.price;
+  if(state==="done")return;state="done";clearTimers();
+  const tot=total(),hit=cards[cards.length-1],win=tot>=pack.price,mult=tot/pack.price;
   const v=$("#verdict");$("#result").classList.add("show");
-  $$(".flip.open .tcard",cardsEl).forEach(e=>e.style.setProperty("--holo",win?".9":".35"));
+  $$(".flip.open .tcard",cardsEl).forEach(e=>e.style.setProperty("--holo",win?(lvl>=4?"1":".8"):".25"));
+  const tc=$("#titlecard");const cue=CUES[lvl];const mx=(mult>=10?Math.floor(mult).toFixed(0):(Math.floor(mult*10)/10).toFixed(1)).replace(".",O.lang()==="fr"?",":".");
   if(win){
-    const lvl=Math.min(4,Math.floor(Math.log2(total/pack.price))+1);
-    v.className="verdict win";v.innerHTML=T(`Hit: ${O.money(total,2)} in cards from a ${O.money(pack.price,0)} pack`,`Belle prise : ${O.money(total,2)} en cartes pour un paquet de ${O.money(pack.price,0)}`);
-    if(!skipped){confetti(O.tierOf(hit.tier).color);snd.chime(lvl)}
-    if(navigator.vibrate)try{navigator.vibrate(lvl>=3?[60,40,120,40,200]:[50,30,90])}catch(e){}
+    tc.className="titlecard show lvl"+lvl+(skipped||reduced?" static":"");stage.classList.add("done");
+    tc.innerHTML=`<div class="tc-tier">${T(cue.en,cue.fr)} · ${T("demo pull","tirage démo")}</div><div class="tc-name">${O.esc(hit.name.split(" - ")[0])}</div><div class="tc-val">${O.money(hit.value,2)}${cards.length>1?` <span class="muted">(${T("pack total","total du paquet")} ${O.money(tot,2)})</span>`:""}</div><div class="tc-x">${T(`${mx}× the pack price`,`${mx} × le prix du paquet`)}</div>`;
+    v.className="verdict win";v.innerHTML=T(`${O.money(tot,2)} in cards from a ${O.money(pack.price,0)} pack`,`${O.money(tot,2)} en cartes pour un paquet de ${O.money(pack.price,0)}`);
   }else{
-    v.className="verdict";v.innerHTML=T(`${O.money(total,2)} in cards · pack price ${O.money(pack.price,0)}`,`${O.money(total,2)} en cartes · prix du paquet ${O.money(pack.price,0)}`);
-    snd.plain();
+    tc.className="titlecard";tc.innerHTML="";
+    v.className="verdict calm";v.innerHTML=T(`${O.money(tot,2)} in cards · pack price ${O.money(pack.price,0)}. Most pulls land below the pack price; the odds are below.`,`${O.money(tot,2)} en cartes · prix du paquet ${O.money(pack.price,0)}. La plupart des tirages valent moins que le paquet; les probabilités sont plus bas.`);
+    if(!skipped)snd.plain();
   }
+  stage.classList.remove("push","rays-on");later(()=>stage.classList.remove("rays-hot"),reduced?0:1600);
   drawFair(true);
-  const credit=Math.round(total*0.9*100)/100;
+  const credit=Math.round(tot*0.9*100)/100;
   const after=$("#after");after.classList.add("show");
   after.innerHTML=`<div class="card"><h3>${T("What do you want to do with it?","Que veux-tu en faire ?")}</h3>
   <div class="tbl-wrap" style="margin:10px 0"><table class="tbl"><tr><th>${T("Card","Carte")}</th><th>${T("Tier","Palier")}</th><th class="num">${T("Store value","Valeur en magasin")}</th></tr>
-  ${cards.map(c=>`<tr><td>${O.esc(c.name)}<div class="small muted">${O.esc(c.set)}</div></td><td><span class="rc" style="--c:${O.tierOf(c.tier).color}">${c.tier}</span></td><td class="num">${O.money(c.value,2)}</td></tr>`).join("")}
-  <tr><td colspan="2"><b>${T("Total vs pack price","Total vs prix du paquet")}</b></td><td class="num"><b>${O.money(total,2)}</b> / ${O.money(pack.price,0)}</td></tr></table></div>
+  ${cards.map(c=>`<tr><td>${O.esc(c.name)}<div class="small muted">${O.esc(c.set)}</div></td><td><span class="rc" style="--c:${O.tierOf(c.tier).color}">${O.tierOf(c.tier).short||c.tier}</span></td><td class="num">${O.money(c.value,2)}</td></tr>`).join("")}
+  <tr><td colspan="2"><b>${T("Total vs pack price","Total vs prix du paquet")}</b></td><td class="num"><b>${O.money(tot,2)}</b> / ${O.money(pack.price,0)}</td></tr></table></div>
   <div class="choice" id="choice">
    <button data-c="keep"><b>${T("Keep in my vault","Garder dans mon coffre")}</b>${T("Free, insured storage. Decide later.","Entreposage gratuit et assuré. Décide plus tard.")}</button>
    <button data-c="sell"><b>${T("Sell back: ","Revendre : ")}${O.money(credit,2)} ${T("credit","de crédit")}</b>${T("90% of store value in Carta Magica credit. Open for 7 days, no fee.","90 % de la valeur en crédit Carta Magica. Offre ouverte 7 jours, sans frais.")}</button>
@@ -188,13 +229,13 @@ function finish(skipped){
     if(c==="sell"){O.addCredit(credit);const v=O.vault();for(let i=0;i<cards.length;i++)v[i].status="sold";O.LS.set("ouv_vault",v);O.toast(O.t(`Demo: ${O.money(credit,2)} store credit added. You have 7 days to change your mind.`,`Démo : ${O.money(credit,2)} de crédit ajouté. Tu as 7 jours pour changer d'idée.`))}
     else O.toast(O.t("Demo: saved to your demo vault.","Démo : ajouté à ton coffre démo."));
     $$("#choice button").forEach(x=>x.disabled=true)});
-  $("#share").onclick=()=>shareImage(hit,total);
+  $("#share").onclick=()=>shareImage(hit,tot);
   $("#again").onclick=reset;
   // spending-limit reminder, set by the user in the demo sign-up (never a re-buy nudge)
   const s=O.LS.get("ouv_signup",null);if(s&&s.limit&&session.spend>=s.limit)O.toast(O.t(`You've reached the demo limit you set (${O.money(s.limit,0)}). Time for a break?`,`Tu as atteint la limite démo que tu as fixée (${O.money(s.limit,0)}). Une pause ?`));
   controls.innerHTML="";
 }
-function reset(){state="sealed";cards=[];cardsEl.innerHTML="";const vd=$("#verdict");vd.className="verdict";vd.innerHTML="";$$(".flip").forEach(e=>e.remove());$("#result").classList.remove("show");$("#after").classList.remove("show");wrap.classList.remove("gone");packEl.classList.remove("torn");$("#strip").classList.remove("off");setTear(0);$("#hint").style.display="";controls.innerHTML=`<button class="btn neon" id="tearBtn">${T("Tear pack (demo)","Déchirer le paquet (démo)")}</button>`;O.applyLang(O.lang(),false);$("#tearBtn").onclick=()=>{A();let p=0;const step=()=>{p+=.07;setTear(Math.min(1,p));if(p<1&&!reduced)requestAnimationFrame(step);else tearOff()};step()};newSeed();stage.scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"})}
+function reset(){clearTimers();state="sealed";cards=[];cardsEl.innerHTML="";stage.classList.remove("dim","push","rays-on","rays-hot","done");const tc=$("#titlecard");tc.className="titlecard";tc.innerHTML="";$$(".shock").forEach(e=>e.classList.remove("go"));const vd=$("#verdict");vd.className="verdict";vd.innerHTML="";$$(".flip").forEach(e=>e.remove());$("#result").classList.remove("show");$("#after").classList.remove("show");wrap.classList.remove("gone");packEl.classList.remove("torn");$("#strip").classList.remove("off");setTear(0);$("#hint").style.display="";controls.innerHTML=`<button class="btn neon" id="tearBtn">${T("Tear pack (demo)","Déchirer le paquet (démo)")}</button>`;O.applyLang(O.lang(),false);$("#tearBtn").onclick=()=>{A();let p=0;const step=()=>{p+=.07;setTear(Math.min(1,p));if(p<1&&!reduced)requestAnimationFrame(step);else tearOff()};step()};newSeed();stage.scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"})}
 
 /* ---------- share-your-pull image ---------- */
 function shareImage(c,total){
@@ -203,7 +244,7 @@ function shareImage(c,total){
   g.fillStyle="#F6E3A1";g.font="48px Georgia";g.textAlign="center";g.fillText("O U V R I U M",W/2,110);
   g.save();g.shadowColor=t.color;g.shadowBlur=80;g.fillStyle="#111729";rr(g,290,180,500,700,36);g.fill();g.restore();
   g.lineWidth=10;g.strokeStyle=t.color;rr(g,290,180,500,700,36);g.stroke();
-  g.fillStyle=t.color;g.font="bold 40px system-ui";g.fillText(c.tier+" · "+c.game,W/2,260);
+  g.fillStyle=t.color;g.font="bold 40px system-ui";g.fillText((t.short||c.tier)+" · "+c.game,W/2,260);
   g.fillStyle="#fff";g.font="56px Georgia";wrapText(g,c.name.split(" - ")[0],W/2,560,440,64);
   g.fillStyle="#F6E3A1";g.font="bold 64px system-ui";g.fillText(O.money(c.value,2),W/2,820);
   g.fillStyle="#fff";g.font="40px system-ui";g.fillText(pack.name+" "+O.money(pack.price,0)+" CAD",W/2,990);

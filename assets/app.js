@@ -42,14 +42,15 @@ O.toast=(msg)=>{let t=$("#toast");if(!t){t=document.createElement("div");t.id="t
 O.rng=(seed)=>{let s=seed>>>0||1;return()=>{s^=s<<13;s>>>=0;s^=s>>>17;s^=s<<5;s>>>=0;return s/4294967296}};
 O.tierOf=k=>(window.OUV_DATA.tiers.find(t=>t.k===k));
 O.pickTier=(probs,r)=>{let x=r(),acc=0;const ks=Object.keys(probs);for(const k of ks){acc+=probs[k];if(x<acc)return k}return ks[ks.length-1]};
-O.pickCard=(tierK,poolName,r)=>{
-  const D=window.OUV_DATA;let list=D.pool[tierK];if(poolName==="Pokemon")list=list.filter(c=>c[2]==="Pokemon");
-  if(!list.length)list=D.pool[tierK];
+O.pickCard=(tierK,poolName,r,pack)=>{
+  const D=window.OUV_DATA;let list;
+  if(pack&&pack.own){list=pack.own[tierK]||[]}else{list=D.pool[tierK];if(poolName==="Pokemon")list=list.filter(c=>c[2]==="Pokemon");if(!list.length)list=D.pool[tierK]}
   const tot=list.reduce((a,c)=>a+c[4],0);let x=r()*tot;for(const c of list){x-=c[4];if(x<=0)return {name:c[0],set:c[1],game:c[2],value:c[3],qty:c[4],id:c[5],tier:tierK}}
   const c=list[list.length-1];return {name:c[0],set:c[1],game:c[2],value:c[3],qty:c[4],id:c[5],tier:tierK};
 };
-O.openPack=(pack,r)=>{const cards=[];for(let i=0;i<(pack.fixed.C||0);i++)cards.push(O.pickCard("C",pack.pool,r));const tk=O.pickTier(pack.probs,r);cards.push(O.pickCard(tk,pack.pool,r));return cards};
-O.cardHTML=(c,opts={})=>{const t=O.tierOf(c.tier);const mono=(c.game||"?").slice(0,1);return `<div class="tcard" style="--c:${t.color}"><div class="gm">${esc(c.game)} · ${t.k}</div><div class="mono">${mono}</div><div class="nm">${esc(c.name)}</div>${opts.noValue?"":`<div class="vl">${O.money(c.value,2)}</div>`}</div>`};
+O.openPack=(pack,r)=>{const cards=[];for(let i=0;i<((pack.fixed||{}).C||0);i++)cards.push(O.pickCard("C",pack.pool,r,pack));const tk=O.pickTier(pack.probs,r);cards.push(O.pickCard(tk,pack.pool,r,pack));return cards};
+O.findPack=id=>(window.OUV_DATA.packs.find(p=>p.id===id)||((window.OUV_THEMES||{}).packs||[]).find(p=>p.id===id));
+O.cardHTML=(c,opts={})=>{const t=O.tierOf(c.tier);const mono=(c.game||"?").slice(0,1);return `<div class="tcard" style="--c:${t.color}"><div class="gm">${esc(c.game)} · ${t.short||t.k}</div><div class="mono">${mono}</div><div class="nm">${esc(c.name)}</div>${opts.noValue?"":`<div class="vl">${O.money(c.value,2)}</div>`}</div>`};
 function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 O.esc=esc;
 

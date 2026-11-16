@@ -397,3 +397,9 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
 @media (max-width:900px){.sp-card{bottom:12px}}
 @media (max-width:600px){.bc-card{top:34px;width:30%}}
 @media (min-width:601px) and (max-width:900px){.sp-art{height:280px}.sp-char{left:auto;right:4%;width:60%;height:350px;object-fit:contain;object-position:50% 100%}.sp-card{right:auto;left:18px;bottom:14px}}
+/* 16 Nov 2026 (e): official card images (unaltered product images of in-stock singles) in the brand card and spotlight slots */
+.off-card{display:block;width:100%;height:auto;aspect-ratio:63/88;object-fit:cover;border-radius:6%/4.3%;background:#111;
+ box-shadow:0 0 0 2px rgba(223,175,72,.85),0 0 14px rgba(223,175,72,.45),0 12px 18px rgba(0,0,0,.6)}
+.bc-card.is-off{max-width:104px}.sp-card.is-off{max-width:150px}
+.bc-off{margin:2px 0 0;font-size:12px;color:#f6e3a1}
+.sp-feat{margin:10px 0 0;color:#f6e3a1;max-width:560px}

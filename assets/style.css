@@ -333,3 +333,67 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
  .cta-blob b{font-size:26px}}
 @media (prefers-reduced-motion:reduce){.hp-art,.pa .sheen{animation:none}.h3js .rv,.rv{opacity:1;translate:none;transition:none}
  .hp,.drop,.drop-pop,.cta-blob{transition:none}.drop:hover,.cta-blob:hover,.drop:hover .drop-pop{transform:none}.hp{transform:none!important}}
+/* ===== Brand cards + day-of-week spotlight (16 Nov 2026). Pop-out character style from the Carta Magica preview Events tab
+   (ev-char: breaks out above the card, gold rim glow, mask fade, lift on hover, slow float). Original preview art, no logos. ===== */
+.h3-spot{padding:34px 0 10px;background:linear-gradient(180deg,#0b0b0b,#0d0a05)}
+.sp-wrap{position:relative;margin-top:56px}
+.sp{position:relative;display:grid;grid-template-columns:118px minmax(0,1fr) minmax(0,44%);border-radius:24px;overflow:visible;
+ background:radial-gradient(90% 140% at 85% 30%,var(--s1),var(--s2) 70%,#0a0a0a);border:2px solid rgba(223,175,72,.6);box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4) inset;min-height:340px}
+.sp[hidden]{display:none}
+.sp-stub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:linear-gradient(180deg,#e0b85a,#b88a2c);color:#111;text-transform:uppercase;font-weight:900;border-radius:22px 0 0 22px;border-right:2px dashed rgba(0,0,0,.35)}
+.sp-stub span{font-size:13px;letter-spacing:.14em}.sp-stub b{font-size:50px;line-height:1}.sp-stub em{font-style:normal;font-size:11px;letter-spacing:.12em;background:#111;color:#f6e3a1;border-radius:999px;padding:3px 9px;margin-top:6px}
+.sp:not(.is-today) .sp-stub em{background:rgba(0,0,0,.25);color:#111}
+.sp-copy{position:relative;z-index:3;padding:26px 10px 24px 26px;display:flex;flex-direction:column;gap:4px}
+.sp-copy .eyebrow{margin-top:8px}
+.sp-pill{align-self:flex-start;background:rgba(0,0,0,.45);color:#f6e3a1;border:1px solid rgba(223,175,72,.6)}
+.sp-h{font-size:clamp(34px,4.4vw,58px);margin:0;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.sp-who{margin:2px 0 6px;color:#f6e3a1;font-weight:700}.sp-who b{color:#fff}
+.sp-line{margin:4px 0 12px;max-width:560px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.sp-note{margin:12px 0 0;max-width:560px}
+.sp-art{position:relative;z-index:2}
+.sp-char{position:absolute;right:-16px;bottom:0;top:-70px;width:112%;height:calc(100% + 70px);object-fit:cover;object-position:50% 30%;pointer-events:none;
+ -webkit-mask-image:linear-gradient(to right,transparent 0,#000 26%),linear-gradient(to bottom,transparent 0,#000 7%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 26%),linear-gradient(to bottom,transparent 0,#000 7%);mask-composite:intersect;
+ filter:drop-shadow(0 0 1.5px rgba(240,200,110,.7)) drop-shadow(0 14px 18px rgba(0,0,0,.5));animation:evFloat 4.5s ease-in-out infinite;transition:filter .3s}
+.sp:hover .sp-char{animation-duration:2.2s;filter:drop-shadow(0 0 2px rgba(255,214,120,.95)) drop-shadow(0 0 16px rgba(223,175,72,.6)) drop-shadow(0 12px 16px rgba(0,0,0,.5)) brightness(1.08)}
+.sp-card{position:absolute;left:-6%;bottom:18px;width:34%;max-width:150px;z-index:3;transform:rotate(-7deg);transition:transform .3s cubic-bezier(.22,.61,.36,1)}
+.sp-card svg,.bc-card svg{display:block;width:100%;height:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.45)) drop-shadow(0 12px 16px rgba(0,0,0,.6))}
+.sp:hover .sp-card{transform:rotate(-3deg) translateY(-8px) scale(1.04)}
+.sp-days{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:16px}
+.sp-days>span{margin-right:4px}
+.sp-day{display:flex;flex-direction:column;align-items:center;min-width:74px;padding:7px 10px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,var(--s1),#0d0d0d 120%);color:#fff;font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.sp-day small{font-size:10px;font-weight:700;letter-spacing:.02em;text-transform:none;opacity:.85}
+.sp-day.today{box-shadow:0 0 0 2px #dfaf48}.sp-day[aria-pressed="true"]{background:#dfaf48;color:#111;border-color:#dfaf48}
+.sp-day:focus-visible{outline:3px solid #f6e3a1;outline-offset:2px}
+.h3-brands{padding:30px 0 20px}
+.bcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:70px 18px;padding-top:58px}
+.bc{position:relative;display:flex;flex-direction:column;border-radius:22px;padding-top:215px;overflow:visible;
+ background:radial-gradient(130% 80% at 70% 0%,var(--s1),var(--s2) 70%,#0c0c0c);border:1px solid rgba(223,175,72,.45);box-shadow:0 12px 30px rgba(0,0,0,.45);transition:transform .25s,box-shadow .25s}
+.bc:hover,.bc:focus-within{transform:translateY(-4px);box-shadow:0 0 0 2px #dfaf48,0 16px 36px rgba(192,144,48,.32)}
+.bc.today{box-shadow:0 0 0 3px #dfaf48,0 12px 30px rgba(223,175,72,.35)}
+.bc-char{position:absolute;z-index:1;top:-56px;right:-14px;width:84%;height:275px;object-fit:cover;object-position:50% 30%;pointer-events:none;
+ -webkit-mask-image:linear-gradient(to top,transparent 0,#000 30%),linear-gradient(to right,transparent 0,#000 18%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to top,transparent 0,#000 30%),linear-gradient(to right,transparent 0,#000 18%);mask-composite:intersect;
+ filter:drop-shadow(0 0 1.5px rgba(240,200,110,.75)) drop-shadow(0 10px 14px rgba(0,0,0,.45));transition:transform .3s cubic-bezier(.22,.61,.36,1),filter .3s;transform-origin:70% 60%}
+.bc:hover .bc-char,.bc:focus-within .bc-char{transform:translate(-6px,-8px) scale(1.06) rotate(-1.5deg);filter:drop-shadow(0 0 2px rgba(255,214,120,.95)) drop-shadow(0 0 14px rgba(223,175,72,.55)) drop-shadow(0 12px 16px rgba(0,0,0,.5)) brightness(1.08)}
+.bc-card{position:absolute;z-index:2;left:14px;top:58px;width:40%;max-width:120px;transform:rotate(-6deg);animation:evFloat 4.5s ease-in-out infinite;animation-delay:calc(var(--i)*-1.1s)}
+.bc-b{position:relative;z-index:3;padding:0 16px 16px;display:flex;flex-direction:column;gap:3px}
+.bc-day{font-size:11px;text-transform:uppercase;letter-spacing:.14em;font-weight:800;color:#f6e3a1}
+.bc-b h3{margin:0;font-size:22px;font-weight:900;font-family:system-ui,sans-serif;line-height:1.1;text-shadow:0 1px 4px rgba(0,0,0,.7)}
+.bc-who{margin:0;font-size:13px;font-weight:700;color:#fff}.bc-who span{font-weight:400;color:#d9dbe4}
+.bc-l{justify-content:flex-start}
+.bc-cta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:10px;font-size:13px}
+@media (max-width:900px){.sp{grid-template-columns:96px minmax(0,1fr)}.sp-art{grid-column:1/-1;grid-row:1;height:250px}
+ .sp-stub{grid-row:2;border-radius:0 0 0 22px}.sp-copy{grid-row:2;padding:20px 16px 20px 18px}
+ .sp-char{top:-60px;right:0;left:0;width:100%;height:310px;object-position:50% 28%;-webkit-mask-image:linear-gradient(to top,transparent 0,#000 30%);mask-image:linear-gradient(to top,transparent 0,#000 30%)}
+ .sp-card{left:14px;bottom:-14px;width:28%;max-width:120px}.sp-wrap{margin-top:70px}}
+@media (max-width:600px){.sp{grid-template-columns:1fr}.sp-stub{grid-row:2;flex-direction:row;gap:10px;padding:10px;border-radius:0;border-right:0;border-bottom:2px dashed rgba(0,0,0,.35)}
+ .sp-stub b{font-size:30px}.sp-stub em{margin-top:0}.sp-copy{grid-row:3}.sp-art{height:230px}.sp-char{height:290px}
+ .sp-day{min-width:0;flex:1 1 calc(25% - 8px);padding:6px 4px}.sp-days>span{flex-basis:100%}
+ .bcs{grid-template-columns:1fr;gap:64px}.bc{padding-top:200px}.bc-char{width:78%;height:255px}}
+@media (prefers-reduced-motion:reduce){.sp-char,.bc-card{animation:none}.bc,.bc-char,.sp-card{transition:none}.bc:hover,.bc:focus-within,.bc:hover .bc-char,.bc:focus-within .bc-char,.sp:hover .sp-card{transform:none}.bc-card,.sp-card{transform:rotate(-6deg)}}
+/* spotlight card hangs below the panel edge so it never covers the CTAs */
+.sp-card{left:8%;bottom:-38px;width:30%;max-width:140px}
+@media (max-width:900px){.sp-card{left:auto;right:14px;bottom:-24px;width:26%;max-width:110px}}
+.sp-card{bottom:-24px}.sp-days{margin-top:34px}.bc-card{max-width:100px}
+@media (max-width:900px){.sp-card{bottom:12px}}
+@media (max-width:600px){.bc-card{top:34px;width:30%}}
+@media (min-width:601px) and (max-width:900px){.sp-art{height:280px}.sp-char{left:auto;right:4%;width:60%;height:350px;object-fit:contain;object-position:50% 100%}.sp-card{right:auto;left:18px;bottom:14px}}

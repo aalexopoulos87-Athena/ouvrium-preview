@@ -14,8 +14,25 @@
       el.classList.toggle('today',d.toDateString()===now.toDateString());
     });
   }
+  /* Spotlight (16 Nov 2026): one brand per weekday, picked from the visitor's own clock (getDay: Sun=0 .. Sat=6).
+     Day buttons only preview another day's panel; nothing is timed, nothing expires. */
+  var spSel=null;
+  function spot(){
+    var L=fr()?'fr':'en', now=new Date(), td=now.getDay(), d=spSel===null?td:spSel;
+    var mon=new Date(now); mon.setHours(12,0,0,0); mon.setDate(now.getDate()-((now.getDay()+6)%7));
+    document.querySelectorAll('.sp').forEach(function(el){
+      var k=+el.getAttribute('data-sp'), on=k===d; el.hidden=!on; el.classList.toggle('is-today',k===td);
+      if(on){var dt=new Date(mon); dt.setDate(mon.getDate()+((k+6)%7));
+        el.querySelector('[data-sp-d]').textContent=dt.getDate(); el.querySelector('[data-sp-m]').textContent=MO[L][dt.getMonth()];
+        var em=el.querySelector('.sp-stub em'); if(em) em.textContent=k===td?(L==='fr'?"AUJOURD'HUI":'TODAY'):(L==='fr'?'APERÇU':'PREVIEW');}
+    });
+    document.querySelectorAll('[data-sp-btn]').forEach(function(b){var k=+b.getAttribute('data-sp-btn');b.classList.toggle('today',k===td);b.setAttribute('aria-pressed',String(k===d))});
+    document.querySelectorAll('.bc').forEach(function(b){b.classList.toggle('today',+b.getAttribute('data-dow')===td)});
+  }
+  document.querySelectorAll('[data-sp-btn]').forEach(function(b){b.addEventListener('click',function(){spSel=+b.getAttribute('data-sp-btn');spot()})});
+  spot();
   dates();
-  new MutationObserver(dates).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  new MutationObserver(function(){dates();spot()}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   var rv=document.querySelectorAll('.rv');
   if(RM||!('IntersectionObserver' in window)){rv.forEach(function(e){e.classList.add('in')});return;}
   document.documentElement.classList.add('h3js');

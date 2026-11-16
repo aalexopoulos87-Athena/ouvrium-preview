@@ -11,6 +11,8 @@ const IDX=S.cards.map(c=>norm(c[0]+" "+c[1]));
 const BANDS=[["any",0,1e9,"Any price","Tous les prix"],["u5",0,5,"Under $5","Moins de 5 $"],["5-25",5,25,"$5–25","5–25 $"],["25-100",25,100,"$25–100","25–100 $"],["100-500",100,500,"$100–500","100–500 $"],["500",500,1e9,"$500 and up","500 $ et plus"]];
 const SORTS=[["pd","Price: high to low","Prix : décroissant"],["pa","Price: low to high","Prix : croissant"],["nm","Name A–Z","Nom A–Z"],["st","Most in stock","Plus en stock"]];
 let f=Object.assign({g:"all",set:"",band:"any",q:"",sort:"pd"},LS.get("ouv_shop_f",{}));f.q="";
+/* 16 Nov 2026: ?game=<id> (from the home spotlight / brand cards) opens the shop on that game; ?game=all shows every game. */
+{const qg=new URLSearchParams(location.search).get("game");if(qg){const gi=S.games.findIndex(g=>g.id===qg);if(gi>=0||qg==="all"){f.g=qg==="all"?"all":String(gi);f.set="";}}}
 const FALL=(O.root||"../")+"assets/cardback-ouvrium.svg";
 const art=c=>c[6]>=0&&S.hosts?S.hosts[c[6]]+c[7]:FALL;
 const inStock=gi=>S.cards.reduce((a,c)=>a+(c[2]===gi&&stockN(c)>0?1:0),0);

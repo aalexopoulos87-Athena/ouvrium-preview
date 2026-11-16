@@ -16,5 +16,5 @@ function render(){
 }
 render();document.addEventListener("ouv:lang",render);
 document.querySelector("[data-claim]")?.addEventListener("click",()=>setTimeout(render,50));
-$("#vClear").onclick=()=>{["ouv_vault","ouv_credit","ouv_daily","ouv_session","ouv_signup"].forEach(k=>LS.del(k));render();O.toast(O.t("Demo data cleared.","Données démo effacées."))};
+$("#vClear").onclick=()=>{["ouv_vault","ouv_credit","ouv_daily","ouv_session","ouv_signup","ouv_credit_hist","ouv_cart","ouv_orders","ouv_shop_sold","ouv_lastpay"].forEach(k=>LS.del(k));render();O.toast(O.t("Demo data cleared.","Données démo effacées."))};
 });})();

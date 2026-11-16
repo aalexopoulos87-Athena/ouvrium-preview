@@ -31,6 +31,7 @@ root.innerHTML=`
     <button class="btn neon" id="tearBtn">${T("Tear pack (demo)","Déchirer le paquet (démo)")}</button>
   </div>
 </div>
+<div class="paybox" id="paybox"></div>
 <div class="small muted" style="margin-top:10px" id="fair"></div>
 <div class="after" id="after"></div>`;
 O.applyLang(O.lang(),false);
@@ -38,6 +39,8 @@ O.applyLang(O.lang(),false);
 const stage=$("#stage"),packEl=$("#pack"),wrap=$("#packwrap"),cardsEl=$("#cards"),controls=$("#controls"),fx=$("#fx"),ctx2=fx.getContext("2d");
 let state="sealed",cards=[],flipped=0,session=O.LS.get("ouv_session",{opened:0,spend:0}),t0=Date.now(),seed=null;
 const reduced=O.reduced;
+/* credit wallet: pay with credit, full or partial (assets/credit.js) */
+const pay=O.payPanel?O.payPanel($("#paybox"),pack):null;
 
 /* ---------- session clock (no countdowns, only elapsed time) ---------- */
 const sessEl=$("#sess");
@@ -118,7 +121,7 @@ $("#tearBtn").onclick=()=>{if(state!=="sealed")return;A();askGyro();if(reduced){
 async function tearOff(){
   if(state!=="sealed")return;state="opening";
   const {r}=await rollsFor(seed);cards=O.openPack(pack,r);
-  session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();
+  session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();if(pay)pay.commit();
   packEl.classList.add("torn");$("#strip").classList.add("off");$("#hint").style.display="none";snd.tear();
   const b=$("#burst");b.classList.remove("go");void b.offsetWidth;b.classList.add("go");
   const sr=stage.getBoundingClientRect(),pr=packEl.getBoundingClientRect();emit(70,pr.left-sr.left+pr.width/2,pr.top-sr.top+46,{v:6,colors:["#fff","#F6E3A1","#D4AF37",pack.foil[1]],g:.1});
@@ -188,7 +191,7 @@ $("#skip").onclick=()=>{
   if(state==="sealed"){A();tearOffSkip();return}
   if(state==="reveal"||state==="flipping"){clearTimers();[...cardsEl.children].forEach(e=>{e.classList.remove("slow","med","charge");e.classList.add("in","open")});stage.classList.remove("dim","push","rays-on","rays-hot");flipped=cards.length;finish(true)}
 };
-async function tearOffSkip(){state="opening";const {r}=await rollsFor(seed);cards=O.openPack(pack,r);session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();wrap.classList.add("gone");$("#hint").style.display="none";dealCards();[...cardsEl.children].forEach(e=>e.classList.add("in","open"));flipped=cards.length;finish(true)}
+async function tearOffSkip(){state="opening";const {r}=await rollsFor(seed);cards=O.openPack(pack,r);session.opened++;session.spend+=pack.price;O.LS.set("ouv_session",session);drawSess();if(pay)pay.commit();wrap.classList.add("gone");$("#hint").style.display="none";dealCards();[...cardsEl.children].forEach(e=>e.classList.add("in","open"));flipped=cards.length;finish(true)}
 
 /* Stage 3 (title card or calm summary). Celebration only when total value >= pack price. */
 function finish(skipped){
@@ -225,7 +228,7 @@ function finish(skipped){
   O.applyLang(O.lang(),false);
   $$("#choice button").forEach(b=>b.onclick=()=>{$$("#choice button").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");const c=b.dataset.c;
     cards.forEach(cd=>O.vaultAdd({...cd,pack:pack.name}));
-    if(c==="sell"){O.addCredit(credit);const v=O.vault();for(let i=0;i<cards.length;i++)v[i].status="sold";O.LS.set("ouv_vault",v);O.toast(O.t(`Demo: ${O.money(credit,2)} store credit added. You have 7 days to change your mind.`,`Démo : ${O.money(credit,2)} de crédit ajouté. Tu as 7 jours pour changer d'idée.`))}
+    if(c==="sell"){const nm=cards.map(x=>x.name.split(" - ")[0]).join(", ");if(O.creditEarn)O.creditEarn(credit,`Buyback 90%: ${nm}`,`Rachat 90 % : ${nm}`);else O.addCredit(credit);const ac=$("#after .card");if(ac&&O.root!=null)ac.insertAdjacentHTML("beforeend",`<p class="small" id="spendLinks">${T("Spend your credit:","Utilise ton crédit :")} <a href="${O.root}packs.html">${T("on packs","sur des paquets")}</a> · <a href="${O.root}shop/">${T("on cards in the shop","sur des cartes de la boutique")}</a> · <a href="${O.root}credit/">${T("balance and history","solde et historique")}</a></p>`),O.applyLang(O.lang(),false);const v=O.vault();for(let i=0;i<cards.length;i++)v[i].status="sold";O.LS.set("ouv_vault",v);O.toast(O.t(`Demo: ${O.money(credit,2)} store credit added. You have 7 days to change your mind.`,`Démo : ${O.money(credit,2)} de crédit ajouté. Tu as 7 jours pour changer d'idée.`))}
     else O.toast(O.t("Demo: saved to your demo vault.","Démo : ajouté à ton coffre démo."));
     $$("#choice button").forEach(x=>x.disabled=true)});
   $("#share").onclick=()=>shareImage(hit,tot);
@@ -234,7 +237,7 @@ function finish(skipped){
   const s=O.LS.get("ouv_signup",null);if(s&&s.limit&&session.spend>=s.limit)O.toast(O.t(`You've reached the demo limit you set (${O.money(s.limit,0)}). Time for a break?`,`Tu as atteint la limite démo que tu as fixée (${O.money(s.limit,0)}). Une pause ?`));
   controls.innerHTML="";
 }
-function reset(){clearTimers();state="sealed";cards=[];cardsEl.innerHTML="";stage.classList.remove("dim","push","rays-on","rays-hot","done");const tc=$("#titlecard");tc.className="titlecard";tc.innerHTML="";$$(".shock").forEach(e=>e.classList.remove("go"));const vd=$("#verdict");vd.className="verdict";vd.innerHTML="";$$(".flip").forEach(e=>e.remove());$("#result").classList.remove("show");$("#after").classList.remove("show");wrap.classList.remove("gone");packEl.classList.remove("torn");$("#strip").classList.remove("off");setTear(0);$("#hint").style.display="";controls.innerHTML=`<button class="btn neon" id="tearBtn">${T("Tear pack (demo)","Déchirer le paquet (démo)")}</button>`;O.applyLang(O.lang(),false);$("#tearBtn").onclick=()=>{A();let p=0;const step=()=>{p+=.07;setTear(Math.min(1,p));if(p<1&&!reduced)requestAnimationFrame(step);else tearOff()};step()};newSeed();stage.scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"})}
+function reset(){if(pay)pay.refresh();clearTimers();state="sealed";cards=[];cardsEl.innerHTML="";stage.classList.remove("dim","push","rays-on","rays-hot","done");const tc=$("#titlecard");tc.className="titlecard";tc.innerHTML="";$$(".shock").forEach(e=>e.classList.remove("go"));const vd=$("#verdict");vd.className="verdict";vd.innerHTML="";$$(".flip").forEach(e=>e.remove());$("#result").classList.remove("show");$("#after").classList.remove("show");wrap.classList.remove("gone");packEl.classList.remove("torn");$("#strip").classList.remove("off");setTear(0);$("#hint").style.display="";controls.innerHTML=`<button class="btn neon" id="tearBtn">${T("Tear pack (demo)","Déchirer le paquet (démo)")}</button>`;O.applyLang(O.lang(),false);$("#tearBtn").onclick=()=>{A();let p=0;const step=()=>{p+=.07;setTear(Math.min(1,p));if(p<1&&!reduced)requestAnimationFrame(step);else tearOff()};step()};newSeed();stage.scrollIntoView({behavior:reduced?"auto":"smooth",block:"center"})}
 
 /* ---------- share-your-pull image ---------- */
 function shareImage(c,total){

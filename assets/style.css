@@ -761,3 +761,10 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
   .sp[data-sp="2"] .sp-spark{animation:none;opacity:.45;transform:none}
   .sp[data-sp="3"] .sp-spark{animation:none;opacity:.4;transform:none}
 }
+
+/* 17 Nov 2026 (b): official card art (or Ouvrium cardback) on pack / vault / daily reveals */
+.tcard.tcard-art{padding:0;background:#111}
+.tcard-art .tcard-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;background:#111;border:0}
+.tcard-art .tcard-img.fb{object-fit:contain;object-position:center;padding:8%;box-sizing:border-box}
+.tcard-art .tmeta{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:22% 8% 8%;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.7) 45%,transparent 100%);pointer-events:none}
+.tcard-art .gm,.tcard-art .nm,.tcard-art .vl{position:relative;text-shadow:0 1px 2px rgba(0,0,0,.8)}

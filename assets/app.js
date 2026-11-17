@@ -51,9 +51,23 @@ O.pickCard=(tierK,poolName,r,pack)=>{
 };
 O.openPack=(pack,r)=>{const cards=[];for(let i=0;i<((pack.fixed||{}).C||0);i++)cards.push(O.pickCard("C",pack.pool,r,pack));const tk=O.pickTier(pack.probs,r);cards.push(O.pickCard(tk,pack.pool,r,pack));return cards};
 O.findPack=id=>(window.OUV_DATA.packs.find(p=>p.id===id)||((window.OUV_THEMES||{}).packs||[]).find(p=>p.id===id));
-O.cardHTML=(c,opts={})=>{const t=O.tierOf(c.tier);const mono=(c.game||"?").slice(0,1);return `<div class="tcard" style="--c:${t.color}"><div class="gm">${esc(c.game)} · ${t.short||t.k}</div><div class="mono">${mono}</div><div class="nm">${esc(c.name)}</div>${opts.noValue?"":`<div class="vl">${O.money(c.value,2)}</div>`}</div>`};
 function esc(s){return String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}
 O.esc=esc;
+O.cardBack=()=>(O.root||"")+"assets/cardback-ouvrium.svg";
+O.shopById=(function(){let map;return function(){if(map)return map;map=Object.create(null);const S=window.OUV_SHOP;if(S&&S.cards)for(const row of S.cards)map[row[5]]=row;return map}})();
+/* Official card art from the shop catalog (host+path), looked up by Crystal Commerce product id.
+   If the shop has no usable image (all Gundam, plus a few others, plus pool cards not in the shop),
+   show the Ouvrium cardback — never a "?" monogram. Image pixels are unaltered. */
+O.cardArtUrl=c=>{
+  const S=window.OUV_SHOP,row=c&&c.id!=null?O.shopById()[c.id]:null;
+  if(row&&row[6]>=0&&S&&S.hosts&&S.hosts[row[6]])return S.hosts[row[6]]+row[7];
+  return null;
+};
+O.cardHTML=(c,opts={})=>{
+  const t=O.tierOf(c.tier)||{color:"#888",short:"",k:c.tier||""};
+  const src=O.cardArtUrl(c)||O.cardBack(), fall=esc(O.cardBack());
+  return `<div class="tcard tcard-art" style="--c:${t.color}"><img class="tcard-img" src="${esc(src)}" alt="${esc(c.name||"")}" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='${fall}';this.classList.add('fb')"><div class="tmeta"><div class="gm">${esc(c.game||"")} · ${esc(t.short||t.k)}</div><div class="nm">${esc(c.name||"")}</div>${opts.noValue?"":`<div class="vl">${O.money(c.value,2)}</div>`}</div></div>`;
+};
 
 /* ---------- live pull feed (DEMO data) ---------- */
 function initFeed(){

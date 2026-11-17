@@ -336,7 +336,7 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
 /* ===== Brand cards + day-of-week spotlight (16 Nov 2026). Pop-out character style from the Carta Magica preview Events tab
    (ev-char: breaks out above the card, gold rim glow, mask fade, lift on hover, slow float). Original preview art, no logos. ===== */
 .h3-spot{padding:34px 0 10px;background:linear-gradient(180deg,#0b0b0b,#0d0a05)}
-.sp-wrap{position:relative;margin-top:56px}
+.sp-wrap{position:relative;margin-top:64px}
 .sp{position:relative;display:grid;grid-template-columns:118px minmax(0,1fr) minmax(0,44%);border-radius:24px;overflow:visible;
  background:radial-gradient(90% 140% at 85% 30%,var(--s1),var(--s2) 70%,#0a0a0a);border:2px solid rgba(223,175,72,.6);box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4) inset;min-height:340px}
 .sp[hidden]{display:none}
@@ -439,7 +439,7 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
 @media (max-width:600px){.pp-pack .pp-fan{width:92px;height:128px;margin-left:-46px}.pp-pack .pp-fan .pp-c{width:92px}}
 
 /* ===== 17 Nov 2026: official daily spotlights (Jinx v11b standard).
-   Scoped to Mon (1) / Tue (2) / Wed (3) / Sun (0) only. Thu / Fri / Sat unchanged.
+   Scoped to Mon (1) / Tue (2) / Wed (3) / Sun (0). Saturday (6) is in the 17 Nov (e) block.
    Official art unaltered (CSS masks and scale only). No glow, no sample cards.
    Art clipped to the rounded panel. Keyframes are per-day to avoid collisions. ===== */
 .sp[data-sp="1"],
@@ -453,11 +453,13 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
 .sp[data-sp="1"] .sp-card,
 .sp[data-sp="2"] .sp-card,
 .sp[data-sp="3"] .sp-card,
-.sp[data-sp="0"] .sp-card{display:none !important}
+.sp[data-sp="0"] .sp-card,
+.sp[data-sp="6"] .sp-card{display:none !important}
 .sp[data-sp="1"] .sp-copy,
 .sp[data-sp="2"] .sp-copy,
 .sp[data-sp="3"] .sp-copy,
-.sp[data-sp="0"] .sp-copy{position:relative;z-index:3}
+.sp[data-sp="0"] .sp-copy,
+.sp[data-sp="6"] .sp-copy{position:relative;z-index:3}
 
 /* --- Monday · Mega Charizard Y (v10d) --- */
 .sp[data-sp="1"]{
@@ -771,17 +773,19 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
 
 /* 17 Nov 2026 (c): official spotlights pop out above the gold frame (Mon/Tue/Wed/Sun).
    Soft mask on the overflow — no hard box. Art pixels, colours, and scale unchanged.
-   Thursday, Friday and Saturday are left as they are. */
+   Thursday and Friday are left as they are. Saturday is in the 17 Nov (e) block. */
 .sp[data-sp="1"],
 .sp[data-sp="2"],
 .sp[data-sp="3"],
-.sp[data-sp="0"]{
+.sp[data-sp="0"],
+.sp[data-sp="6"]{
   overflow:visible;
 }
 .sp[data-sp="1"] .sp-art,
 .sp[data-sp="2"] .sp-art,
 .sp[data-sp="3"] .sp-art,
-.sp[data-sp="0"] .sp-art{
+.sp[data-sp="0"] .sp-art,
+.sp[data-sp="6"] .sp-art{
   overflow:visible !important;
 }
 /* Same painted size, shifted up so the top can break out of the frame. */
@@ -834,7 +838,8 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
   .sp[data-sp="1"] .sp-art,
   .sp[data-sp="2"] .sp-art,
   .sp[data-sp="3"] .sp-art,
-  .sp[data-sp="0"] .sp-art{
+  .sp[data-sp="0"] .sp-art,
+  .sp[data-sp="6"] .sp-art{
     overflow:visible !important;
   }
   .sp[data-sp="1"] .sp-char-wrap,
@@ -889,4 +894,121 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
     top:-44px;
     height:120%;
   }
+}
+
+/* ===== 17 Nov 2026 (e): Saturday Ouvrium Core / The Gilded Lion (sat_v1).
+   Jinx v11b footprint + pop-out. Original Ouvrium art (not official/, brand tile unchanged).
+   Mane sits at the top of the asset, so the wrap uses top:-88px and the top fade reaches
+   solid at 7% desktop / 10% mobile (not the 14% / -72px used on Jinx). ===== */
+
+.sp[data-sp="6"]{
+  overflow:visible;
+  border-radius:24px;
+  box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4) inset;
+  min-height:360px;
+  background:
+    radial-gradient(70% 90% at 82% 52%, rgba(212,140,40,.32) 0%, transparent 58%),
+    radial-gradient(90% 140% at 22% 40%, #6a4514 0%, #2a1a08 46%, #120e08 70%, #141414 100%);
+}
+.sp[data-sp="6"] .sp-art{
+  overflow:visible !important;
+  background:transparent;
+  border-radius:0 22px 22px 0;
+}
+.sp[data-sp="6"] .sp-char-wrap{
+  position:absolute;z-index:1;
+  right:-2%;bottom:-6%;left:auto;
+  top:-88px;
+  width:108%;height:112%;
+  max-width:760px;max-height:760px;
+  pointer-events:none;animation:none;overflow:visible;
+}
+.sp[data-sp="6"] .sp-fx{
+  position:absolute;z-index:0;inset:-8% -4% -4% -6%;
+  pointer-events:none;overflow:visible;
+}
+.sp[data-sp="6"] .sp-fx-svg{width:100%;height:100%;display:block;overflow:visible}
+.sp[data-sp="6"] .sp-ember,
+.sp[data-sp="6"] .sp-spark{
+  transform-box:fill-box;transform-origin:center;
+  animation:spEmberRiseSat 3.6s ease-in-out infinite;
+  opacity:.7;
+}
+.sp[data-sp="6"] .sp-ember:nth-child(2){animation-duration:3.0s;animation-delay:.3s}
+.sp[data-sp="6"] .sp-ember:nth-child(3){animation-duration:3.8s;animation-delay:.7s}
+.sp[data-sp="6"] .sp-ember:nth-child(4){animation-duration:3.2s;animation-delay:.15s}
+.sp[data-sp="6"] .sp-ember:nth-child(5){animation-duration:2.9s;animation-delay:.85s}
+.sp[data-sp="6"] .sp-ember:nth-child(6){animation-duration:3.5s;animation-delay:.45s}
+.sp[data-sp="6"] .sp-ember:nth-child(7){animation-duration:3.1s;animation-delay:1s}
+.sp[data-sp="6"] .sp-ember:nth-child(8){animation-duration:2.8s;animation-delay:.4s}
+.sp[data-sp="6"] .sp-spark{animation-name:spTwinkleSat;animation-duration:2.5s}
+.sp[data-sp="6"] .sp-spark:nth-child(10){animation-duration:2.2s;animation-delay:.5s}
+.sp[data-sp="6"] .sp-spark:nth-child(11){animation-duration:2.7s;animation-delay:.9s}
+@keyframes spEmberRiseSat{
+  0%{opacity:0;transform:translateY(5px) scale(.65)}
+  24%{opacity:.75;transform:translateY(0) scale(1)}
+  70%{opacity:.35;transform:translateY(-8px) scale(.75)}
+  100%{opacity:0;transform:translateY(-14px) scale(.35)}
+}
+@keyframes spTwinkleSat{
+  0%,100%{opacity:0;transform:scale(.5)}
+  40%{opacity:.8;transform:scale(1)}
+  75%{opacity:.3;transform:scale(.8)}
+}
+.sp[data-sp="6"] .sp-char-wrap .sp-char{
+  position:relative !important;z-index:1;inset:auto !important;
+  top:auto !important;right:auto !important;bottom:auto !important;left:auto !important;
+  display:block !important;
+  width:100% !important;height:100% !important;
+  max-width:760px !important;max-height:760px !important;
+  object-fit:contain !important;
+  object-position:right 82% !important;
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 20%),
+    linear-gradient(to bottom, transparent 0%, #000 7%, #000 100%) !important;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 20%),
+    linear-gradient(to bottom, transparent 0%, #000 7%, #000 100%) !important;
+  -webkit-mask-composite:source-in;mask-composite:intersect;mask-mode:alpha;
+  animation:none !important;transform:none !important;filter:none !important;
+  background:transparent;
+}
+@media (max-width:900px){
+  .sp[data-sp="6"]{min-height:0}
+  .sp[data-sp="6"] .sp-art{
+    height:280px;
+    border-radius:22px 22px 0 0;
+    overflow:visible !important;
+  }
+  .sp[data-sp="6"] .sp-char-wrap{
+    right:0;left:auto;bottom:-4%;
+    top:-52px;
+    width:86%;height:118%;
+    max-width:760px;margin:0 0 0 auto;
+  }
+  .sp[data-sp="6"] .sp-char-wrap .sp-char{
+    object-position:right 70% !important;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 16%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%) !important;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 16%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 100%) !important;
+    -webkit-mask-composite:source-in;mask-composite:intersect;
+  }
+}
+@media (max-width:600px){
+  .sp[data-sp="6"] .sp-art{height:260px}
+  .sp[data-sp="6"] .sp-char-wrap{
+    width:92%;height:120%;
+    right:-2%;bottom:-6%;
+    top:-44px;
+  }
+  .sp[data-sp="6"] .sp-char-wrap .sp-char{
+    max-width:380px !important;max-height:380px !important;margin:0 0 0 auto;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .sp[data-sp="6"] .sp-ember,
+  .sp[data-sp="6"] .sp-spark{animation:none;opacity:.55}
 }

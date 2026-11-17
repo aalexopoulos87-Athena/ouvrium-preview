@@ -59,8 +59,14 @@ O.shopById=(function(){let map;return function(){if(map)return map;map=Object.cr
    If the shop has no usable image (all Gundam, plus a few others, plus pool cards not in the shop),
    show the Ouvrium cardback — never a "?" monogram. Image pixels are unaltered. */
 O.cardArtUrl=c=>{
-  const S=window.OUV_SHOP,row=c&&c.id!=null?O.shopById()[c.id]:null;
-  if(row&&row[6]>=0&&S&&S.hosts&&S.hosts[row[6]])return S.hosts[row[6]]+row[7];
+  const S=window.OUV_SHOP,id=c&&c.id!=null?c.id:null,row=id!=null?O.shopById()[id]:null;
+  const loc=S&&S.local&&id!=null&&(S.local[String(id)]||S.local[id]);
+  if(loc) return (O.root||"")+loc;
+  if(row&&row[6]>=0&&S&&S.hosts&&S.hosts[row[6]]){
+    const h=S.hosts[row[6]];
+    if(h==="local:"||h==="local") return (O.root||"")+row[7];
+    return h+row[7];
+  }
   return null;
 };
 O.cardHTML=(c,opts={})=>{

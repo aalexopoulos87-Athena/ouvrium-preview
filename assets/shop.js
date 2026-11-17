@@ -13,8 +13,18 @@ const SORTS=[["pd","Price: high to low","Prix : décroissant"],["pa","Price: low
 let f=Object.assign({g:"all",set:"",band:"any",q:"",sort:"pd"},LS.get("ouv_shop_f",{}));f.q="";
 /* 16 Nov 2026: ?game=<id> (from the home spotlight / brand cards) opens the shop on that game; ?game=all shows every game. */
 {const qg=new URLSearchParams(location.search).get("game");if(qg){const gi=S.games.findIndex(g=>g.id===qg);if(gi>=0||qg==="all"){f.g=qg==="all"?"all":String(gi);f.set="";}}}
-const FALL=(O.root||"../")+"assets/cardback-ouvrium.svg";
-const art=c=>c[6]>=0&&S.hosts?S.hosts[c[6]]+c[7]:FALL;
+const ROOT=O.root||"../";
+const FALL=ROOT+"assets/cardback-ouvrium.svg";
+const art=c=>{
+  const loc=S.local&&(S.local[String(c[5])]||S.local[c[5]]);
+  if(loc) return ROOT+loc;
+  if(c[6]>=0&&S.hosts&&S.hosts[c[6]]){
+    const h=S.hosts[c[6]];
+    if(h==="local:"||h==="local") return ROOT+c[7];
+    return h+c[7];
+  }
+  return FALL;
+};
 const inStock=gi=>S.cards.reduce((a,c)=>a+(c[2]===gi&&stockN(c)>0?1:0),0);
 let shown=48,sheetOpen=false;
 const cart=()=>Object.assign({items:{},ful:"pickup",credit:null,step:"cart",last:null},LS.get("ouv_cart",{}));

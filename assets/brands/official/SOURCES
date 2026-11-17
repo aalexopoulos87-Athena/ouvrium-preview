@@ -1,0 +1,11 @@
+# Official UNION ARENA title key visuals from Bandai (https://www.unionarena-tcg.com/).
+# Files are unaltered byte-for-byte copies of the official NA titles-page main visuals.
+# Downloaded 2026-11-17. CSS crop and masks only; do not re-encode.
+#
+# Columns: local-filename <tab> official-url <tab> bytes <tab> sha256
+# Ichigo Kurosaki (BLEACH: Thousand-Year Blood War)
+ua-title-ichigo-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_blc.webp	82002	ffd2e370563f66748bbd2c15782128fd0615bb4062d732282faf0ec78c097b4d
+# Gon Freecss (HUNTER×HUNTER)
+ua-title-gon-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_htr.webp	84424	848c0e5ccdfdfb3c2932e945e5e2113c2a259baff07bb01dc3c7e385a2e05eb1
+# Izuku Midoriya (My Hero Academia)
+ua-title-midoriya-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_mha.webp	109826	15a7d5d63390bdf3c19f2cf9f6804548de8ef828dd3a040124c3232b319d9b46

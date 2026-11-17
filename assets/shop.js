@@ -34,9 +34,28 @@ const stock=id=>Math.max(0,(byId[id]?byId[id][4]:0)-(sold()[id]||0));
 const stockN=c=>stock(c[5]);
 const gname=i=>S.games[i].name;
 
+
+function gameId(){return f.g==="all"?"all":(S.games[+f.g]&&S.games[+f.g].id);}
+function setGame(k){
+  f.g=k;f.set="";shown=48;LS.set("ouv_shop_f",f);
+  const u=new URL(location.href);
+  const id=gameId();
+  if(id) u.searchParams.set("game",id); else u.searchParams.delete("game");
+  history.replaceState(null,"",u.pathname+u.search+u.hash);
+  chips();list();hero();
+}
+function hero(){
+  const box=$("#shopHero"),intro=$("#shopIntro");
+  const id=gameId(),on=id&&id!=="all"&&box&&box.querySelector('[data-shop-game="'+id+'"]');
+  if(box) box.hidden=!on;
+  if(intro) intro.hidden=!!on;
+  if(!box) return;
+  box.querySelectorAll(".sp[data-shop-game]").forEach(p=>{p.hidden=p.getAttribute("data-shop-game")!==id});
+}
+
 function chips(){
   $("#gameChips").innerHTML=[["all",T("All games","Tous les jeux"),S.cards.length]].concat(S.games.map((g,i)=>[String(i),g.name,inStock(i)])).map(([k,l,n])=>`<button class="chip${f.g===k?" on":""}" data-g="${k}" aria-pressed="${f.g===k}">${l} <span class="cnt">${n.toLocaleString(fr()?"fr-CA":"en-CA")}</span></button>`).join("");
-  $("#gameChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{f.g=b.dataset.g;f.set="";shown=48;LS.set("ouv_shop_f",f);chips();list()});
+  $("#gameChips").querySelectorAll("button").forEach(b=>b.onclick=()=>{setGame(b.dataset.g)});
   const ss=$("#sset");if(ss){const sets=f.g==="all"?[]:(S.sets[+f.g]||[]);ss.style.display=sets.length?"":"none";ss.innerHTML=`<option value="">${O.t("All sets","Toutes les séries")}</option>`+sets.map(x=>`<option value="${O.esc(x)}"${f.set===x?" selected":""}>${O.esc(x)}</option>`).join("");ss.onchange=e=>{f.set=e.target.value;shown=48;LS.set("ouv_shop_f",f);list()}}
   $("#sprice").innerHTML=BANDS.map(b=>`<option value="${b[0]}"${f.band===b[0]?" selected":""}>${fr()?b[4]:b[3]}</option>`).join("");
   $("#ssort").innerHTML=SORTS.map(s=>`<option value="${s[0]}"${f.sort===s[0]?" selected":""}>${fr()?s[2]:s[1]}</option>`).join("");
@@ -137,8 +156,8 @@ $("#sq").addEventListener("input",e=>{clearTimeout(qt);qt=setTimeout(()=>{f.q=e.
 $("#sprice").onchange=e=>{f.band=e.target.value;shown=48;LS.set("ouv_shop_f",f);list()};
 $("#ssort").onchange=e=>{f.sort=e.target.value;LS.set("ouv_shop_f",f);list()};
 $("#smore").onclick=()=>{shown+=48;list()};
-document.addEventListener("ouv:lang",()=>{chips();list();renderCart()});
+document.addEventListener("ouv:lang",()=>{chips();list();renderCart();hero()});
 document.addEventListener("ouv:credit",()=>renderCart());
-chips();list();renderCart();
+chips();list();renderCart();hero();
 O.shopAdd=add; // used by tests
 })();

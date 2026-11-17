@@ -1190,3 +1190,25 @@ td.pos{color:#9fe3b0}td.neg{color:#ffb4b4}
   .sp[data-sp="5"] .sp-char-wrap--gon{right:-4%;bottom:-6%;width:230px;}
   .sp[data-sp="5"] .sp-char-wrap--midoriya{margin-left:-118px;top:-44px;width:236px;}
 }
+
+/* ===== 17 Nov 2026 (g): shop category heroes reuse homepage spotlight art =====
+   Same gold frame, pop-out, CSS crop/masks and FX as the daily spotlight.
+   Official art is unaltered. The weekday ticket stub is hidden — this is a
+   category page, not the daily front-page rotation. */
+.shop-page,
+section.shop{overflow:visible}
+.shop-hero{margin:0 0 22px;overflow:visible}
+.shop-hero .sp-wrap{margin-top:64px}
+.shop-hero .sp-stub{display:none}
+.shop-hero .sp{grid-template-columns:minmax(0,1fr) minmax(0,44%)}
+.shop-hero .sp-copy{padding-left:28px}
+@media (max-width:900px){
+  .shop-hero .sp{grid-template-columns:minmax(0,1fr)}
+  .shop-hero .sp-art{grid-column:auto;grid-row:1}
+  .shop-hero .sp-copy{grid-row:2;padding:20px 16px 22px}
+  .shop-hero .sp-wrap{margin-top:70px}
+}
+@media (max-width:600px){
+  .shop-hero .sp-copy{grid-row:2}
+  .shop-hero .sp-art{height:230px}
+}

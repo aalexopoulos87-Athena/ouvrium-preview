@@ -16,7 +16,16 @@
   }
   /* Spotlight (16 Nov 2026): one brand per weekday, picked from the visitor's own clock (getDay: Sun=0 .. Sat=6).
      Day buttons only preview another day's panel; nothing is timed, nothing expires. */
-  var spSel=null;
+  var DAY_Q={sun:0,sunday:0,'0':0,mon:1,monday:1,'1':1,tue:2,tues:2,tuesday:2,'2':2,wed:3,wednesday:3,'3':3,thu:4,thur:4,thurs:4,thursday:4,'4':4,fri:5,friday:5,'5':5,sat:6,saturday:6,'6':6,pokemon:1,onepiece:2,'one-piece':2,yugioh:3,'yu-gi-oh':3,'yu-gi-oh!':3,gundam:4,anime:5,'union-arena':5,unionarena:5,core:6,riftbound:0,jinx:0,build:0};
+  function dayQuery(){
+    try{
+      var u=new URLSearchParams(location.search), q=u.get('day')||u.get('sp')||'';
+      if(!q) return null;
+      var k=DAY_Q[String(q).toLowerCase()];
+      return k===undefined?null:k;
+    }catch(e){return null;}
+  }
+  var spSel=dayQuery();
   function spot(){
     var L=fr()?'fr':'en', now=new Date(), td=now.getDay(), d=spSel===null?td:spSel;
     var mon=new Date(now); mon.setHours(12,0,0,0); mon.setDate(now.getDate()-((now.getDay()+6)%7));

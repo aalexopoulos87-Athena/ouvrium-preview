@@ -1530,3 +1530,31 @@ section.shop{overflow:visible}
 
 /* Thursday only: the mobile art runs past the screen edge; clip sideways (not vertically) so the page never scrolls sideways. */
 .h3-spot:has(.sp[data-sp="4"]:not([hidden])){overflow-x:clip}
+
+/* ===== 19 Nov 2026 (b): Thursday Gundam mobile integration (approved v14n option B). Mobile only; desktop unchanged. ===== */
+/* v14n option B (mobile only): bigger pop-out. Same placement as A (character centred, mace inside the panel),
+   but linear fades: the sides dissolve before the gold border while the top (slash + mace) keeps more strength
+   as it breaks out above the frame; bottom flush on the date band. Warm/violet wash behind. */
+@media (max-width:900px){
+  #spotlight .sp[data-sp="4"] .sp-art::before{
+    content:"";position:absolute;inset:0;z-index:0;pointer-events:none;border-radius:22px 22px 0 0;
+    background:
+      radial-gradient(62% 62% at 50% 96%, rgba(255,120,40,.40) 0%, rgba(200,50,40,.20) 45%, transparent 75%),
+      radial-gradient(55% 60% at 58% 34%, rgba(150,80,255,.30) 0%, rgba(110,40,160,.12) 50%, transparent 75%),
+      linear-gradient(to bottom, transparent 55%, rgba(255,140,60,.12) 100%);
+  }
+  #spotlight .sp[data-sp="4"] .sp-char-wrap{right:-5% !important;width:160% !important;z-index:2 !important}
+  #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, transparent 35%, #000 47%, #000 86%, transparent 95%),
+      linear-gradient(to bottom, transparent 0%, #000 22%, #000 91.2%, transparent 91.65%) !important;
+    mask-image:
+      linear-gradient(to right, transparent 0%, transparent 35%, #000 47%, #000 86%, transparent 95%),
+      linear-gradient(to bottom, transparent 0%, #000 22%, #000 91.2%, transparent 91.65%) !important;
+    -webkit-mask-composite:source-in !important;mask-composite:intersect !important;
+    -webkit-mask-size:100% 100% !important;mask-size:100% 100% !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-embers{inset:16% 8% 12% 34% !important}
+  #spotlight .sp[data-sp="4"] .sp-aura{inset:6% 6% 9% 36% !important}
+  #spotlight .sp[data-sp="4"] .sp-streaks{inset:10% 8% 9% 34% !important}
+}

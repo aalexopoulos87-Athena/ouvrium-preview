@@ -9,3 +9,10 @@ ua-title-ichigo-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_blc.w
 ua-title-gon-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_htr.webp	84424	848c0e5ccdfdfb3c2932e945e5e2113c2a259baff07bb01dc3c7e385a2e05eb1
 # Izuku Midoriya (My Hero Academia)
 ua-title-midoriya-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_mha.webp	109826	15a7d5d63390bdf3c19f2cf9f6804548de8ef828dd3a040124c3232b319d9b46
+
+# Official GungHo Puzzle & Dragons × Gundam collab art (https://pad.gungho.jp/member/collabo/gundam/2404/), ©SOTSU·SUNRISE.
+# Downloaded 2026-11-19. Master: 960×700 transparent PNG, sha256 9fee3dd0683b1795dbaa1a2de6a16f399b28f384d03bbc35bac8eb2df399546b.
+# Web copy: name label cropped off at y=576 with a 70 px alpha fade on that cut edge, trimmed to the art bbox.
+# No redraw, no AI, no upscale; CSS scale and masks only on the site.
+# Gundam Barbatos Lupus (PAD No. 9751), Thursday spotlight
+pad_barbatos_lupus_nolabel.png	https://pad.gungho.jp/member/collabo/gundam/2404/img/chara/29-2.png	1013206	5ba6f00c616d57528635bfce1fdfc6d818e9a28cec7cd9abc1b0200407f1dbe0

@@ -1212,3 +1212,321 @@ section.shop{overflow:visible}
   .shop-hero .sp-copy{grid-row:2}
   .shop-hero .sp-art{height:230px}
 }
+
+/* ===== 19 Nov 2026: Thursday Gundam spotlight v14m (approved). Official GungHo Puzzle & Dragons x Gundam
+   collab art, Gundam Barbatos Lupus (c)SOTSU·SUNRISE. Transparent PNG with the name label cropped off,
+   otherwise unaltered; CSS scale/position/masks only. Anchored flush on the panel bottom (translateY 8.35% +
+   mask cut at the frame, because the PNG's own art fades out over its last ~46 rows), pops out above the
+   gold frame like Tue. Particles: embers, gold/violet twinkles, warm aura, streaks. Scoped to #spotlight .sp[data-sp="4"] (homepage only; the shop Gundam hero also uses data-sp="4" and is untouched). ===== */
+
+  /* Mockup-only v14i-A: official IBO anime art (crop_A_lupus_space_thrusters.png), painted background faded into the panel via the Jinx-standard CSS masks. Crop only, no redraw, no AI. */
+  #spotlight .sp[data-sp="4"] .sp-art{overflow:visible;background:transparent;border-radius:0;min-height:464.515625px;position:relative}
+  #spotlight .sp[data-sp="4"]{
+    background:radial-gradient(95% 140% at 22% 42%, #22375c 0%, #162540 36%, #0f182b 58%, #0a0f1b 78%, #070a12 100%);
+    box-shadow:0 18px 44px rgba(0,0,0,.5),0 0 0 1px rgba(0,0,0,.4) inset;
+    min-height:468.515625px;
+    border-radius:24px;
+    overflow:hidden; /* clip art to the rounded gold frame */
+  }
+  #spotlight .sp[data-sp="4"] .sp-char-wrap{
+    position:absolute;z-index:1;
+    right:-2%;bottom:-6%;top:auto;left:auto;
+    /* 108% + ~25% leftward extension behind the copy (v12f). */
+    width:133%;height:112%;
+    max-width:none;max-height:none;
+    pointer-events:none;
+    animation:none;
+    overflow:visible;
+  }
+  #spotlight .sp[data-sp="4"] .sp-embers{
+    position:absolute;z-index:0;inset:-10% -6% -8% -8%;
+    pointer-events:none;overflow:visible;
+  }
+  #spotlight .sp[data-sp="4"] .sp-ember,
+  #spotlight .sp[data-sp="4"] .sp-spark{
+    position:absolute;left:var(--x);top:var(--y);
+    width:calc(11px * var(--s,1));height:calc(11px * var(--s,1));
+    margin-left:-5px;margin-top:-5px;
+    animation:spEmberThuBase var(--d,3.2s) ease-in-out var(--delay,0s) infinite;
+    opacity:0;pointer-events:none;
+  }
+  #spotlight .sp[data-sp="4"] .sp-ember{
+    border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #ffffff 0 22%, #b9cdf2 48%, #5a7cc4 68%, transparent 76%);
+  }
+  #spotlight .sp[data-sp="4"] .sp-ember.is-violet{
+    background:radial-gradient(circle at 40% 35%, #ffe1e1 0 22%, #e0485a 48%, #a8162a 68%, transparent 76%);
+  }
+  #spotlight .sp[data-sp="4"] .sp-spark{
+    width:calc(8px * var(--s,1));height:calc(8px * var(--s,1));
+    margin-left:-4px;margin-top:-4px;
+    background:
+      linear-gradient(#e8eefc,#e8eefc) center/1.5px 100% no-repeat,
+      linear-gradient(#e8eefc,#e8eefc) center/100% 1.5px no-repeat;
+  }
+  #spotlight .sp[data-sp="4"] .sp-spark.is-violet{
+    background:
+      linear-gradient(#ffb3bb,#ffb3bb) center/1.5px 100% no-repeat,
+      linear-gradient(#ffb3bb,#ffb3bb) center/100% 1.5px no-repeat;
+  }
+  @keyframes spEmberThuBase{
+    0%{opacity:0;transform:translate(0,10px) scale(.35)}
+    18%{opacity:.75;transform:translate(var(--dx,8px),-5px) scale(1)}
+    62%{opacity:.4;transform:translate(calc(var(--dx,8px)*1.35),-28px) scale(.7)}
+    100%{opacity:0;transform:translate(calc(var(--dx,8px)*1.6),-52px) scale(.25)}
+  }
+  #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+    position:relative !important;z-index:1;inset:auto !important;
+    top:auto !important;right:auto !important;bottom:auto !important;left:auto !important;
+    display:block !important;
+    width:auto !important;
+    height:100% !important;
+    aspect-ratio:1 / 1;
+    max-width:none !important;
+    max-height:100% !important;
+    margin-left:auto;
+    margin-right:0;
+    object-fit:cover !important;
+    object-position:center center !important;
+    /* Wide left dissolve (0→35%) + soft feather on the other three edges. */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 35%, #000 88%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%) !important;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 35%, #000 88%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%) !important;
+    -webkit-mask-composite:source-in;
+    mask-composite:intersect;
+    -webkit-mask-repeat:no-repeat;
+    mask-repeat:no-repeat;
+    -webkit-mask-size:100% 100%;
+    mask-size:100% 100%;
+    animation:none !important;transform:none !important;
+    filter:none !important;
+    background:transparent;
+  }
+  #spotlight .sp[data-sp="4"] .sp-card{display:none !important}
+  #spotlight .sp[data-sp="4"] .sp-copy{position:relative;z-index:3}
+  #spotlight .sp[data-sp="4"] .sp-copy .sp-h,
+  #spotlight .sp[data-sp="4"] .sp-copy .sp-line,
+  #spotlight .sp[data-sp="4"] .sp-copy .sp-who,
+  #spotlight .sp[data-sp="4"] .sp-copy .sp-note,
+  #spotlight .sp[data-sp="4"] .sp-copy .eyebrow,
+  #spotlight .sp[data-sp="4"] .sp-copy .cta-row{
+    text-shadow:0 1px 3px rgba(0,0,0,.85),0 0 12px rgba(0,0,0,.55);
+  }
+  @media (min-width:901px){
+    #spotlight .sp[data-sp="4"] .cta-row{gap:8px;flex-wrap:nowrap}
+  }
+  @media (max-width:900px){
+    #spotlight .sp[data-sp="4"]{min-height:0;overflow:hidden}
+    #spotlight .sp[data-sp="4"] .sp-art{min-height:0;height:280px;border-radius:22px 22px 0 0;overflow:hidden}
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{right:0;left:auto;bottom:-4%;top:auto;width:100%;height:118%;max-width:none;margin:0}
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+      object-position:center center !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 22%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 22%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%) !important;
+    }
+  }
+  @media (max-width:600px){
+    #spotlight .sp[data-sp="4"] .sp-art{height:260px;min-height:260px;overflow:hidden}
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{width:92%;height:120%;right:-2%;bottom:-6%}
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{margin:0 0 0 auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #spotlight .sp[data-sp="4"] .sp-ember,#spotlight .sp[data-sp="4"] .sp-spark{animation:none;opacity:.45;transform:none}
+  }
+
+
+  /* ===== v14j effects (reused from live Tue/Wed, recoloured for Barbatos) =====
+     - Tue (One Piece): rising, drifting embers with a 6px soft halo (spEmberTue motion) -> blue thruster embers
+     - Wed (Blue-Eyes): cross-shaped twinkle sparks in .ice / .gold (spTwinkleWed motion) -> ice-blue + Barbatos gold
+     - New, same family: faint thruster aura and thin motion streaks in the PANEL behind the art (z-index 0, visible only where the art fades out).
+     Art is untouched; nothing is drawn on the figure itself. */
+  #spotlight .sp[data-sp="4"] .sp-aura{
+    position:absolute;z-index:0;pointer-events:none;
+    inset:0;
+    background:
+      radial-gradient(38% 34% at 62% 86%, rgba(70,140,255,.50) 0%, rgba(40,90,220,.22) 45%, transparent 74%),
+      radial-gradient(30% 30% at 96% 70%, rgba(110,170,255,.34) 0%, transparent 70%),
+      radial-gradient(26% 40% at 30% 40%, rgba(80,150,255,.22) 0%, transparent 70%),
+      radial-gradient(40% 18% at 60% 2%, rgba(150,200,255,.16) 0%, transparent 70%);
+  }
+  #spotlight .sp[data-sp="4"] .sp-embers{z-index:2 !important;inset:-6% -4% -6% -4% !important}
+  #spotlight .sp[data-sp="4"] .sp-ember{
+    border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, #ffffff 0 24%, #9fd0ff 48%, #3a7cff 70%, transparent 76%) !important;
+    box-shadow:0 0 6px 1px rgba(90,160,255,.45);
+    animation-name:spEmberThu !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-spark{animation-name:spTwinkleThu !important}
+  #spotlight .sp[data-sp="4"] .sp-spark.ice{
+    background:
+      linear-gradient(#e8f6ff,#e8f6ff) center/1.5px 100% no-repeat,
+      linear-gradient(#e8f6ff,#e8f6ff) center/100% 1.5px no-repeat !important;
+    box-shadow:0 0 5px 1px rgba(160,210,255,.45);
+  }
+  #spotlight .sp[data-sp="4"] .sp-spark.gold{
+    background:
+      linear-gradient(#ffe9a0,#ffe9a0) center/1.5px 100% no-repeat,
+      linear-gradient(#ffe9a0,#ffe9a0) center/100% 1.5px no-repeat !important;
+    box-shadow:0 0 5px 1px rgba(255,210,120,.4);
+  }
+  @keyframes spEmberThu{
+    0%{opacity:0;transform:translate(0,10px) scale(.35)}
+    18%{opacity:.75;transform:translate(var(--dx,8px),-5px) scale(1)}
+    62%{opacity:.45;transform:translate(calc(var(--dx,8px)*1.35),-28px) scale(.7)}
+    100%{opacity:0;transform:translate(calc(var(--dx,8px)*1.6),-52px) scale(.25)}
+  }
+  @keyframes spTwinkleThu{
+    0%,100%{opacity:0;transform:scale(.5)}
+    40%{opacity:.95;transform:scale(1)}
+    75%{opacity:.35;transform:scale(.8)}
+  }
+  #spotlight .sp[data-sp="4"] .sp-streaks{position:absolute;z-index:0;inset:0;pointer-events:none;overflow:hidden}
+  #spotlight .sp[data-sp="4"] .sp-streak{
+    position:absolute;left:var(--x);top:var(--y);
+    width:var(--w,140px);height:2px;border-radius:2px;
+    background:linear-gradient(90deg, transparent 0%, rgba(150,200,255,.0) 10%, rgba(190,225,255,.85) 70%, rgba(255,255,255,1) 100%);
+    box-shadow:0 0 4px rgba(120,180,255,.6));
+    transform:rotate(var(--r,-32deg));transform-origin:100% 50%;
+    opacity:0;
+    animation:spStreakThu var(--d,2.6s) cubic-bezier(.3,.6,.4,1) var(--delay,0s) infinite;
+  }
+  @keyframes spStreakThu{
+    0%{opacity:0;translate:40px 26px}
+    20%{opacity:.85}
+    70%{opacity:.45}
+    100%{opacity:0;translate:-60px -38px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    #spotlight .sp[data-sp="4"] .sp-streak{animation:none;opacity:.25}
+  }
+
+  /* ===== v14k: official PAD × Gundam collab art (transparent PNG, label cropped off, otherwise unaltered).
+     Landscape art laid out like the live Wednesday (Blue-Eyes) panel: wide wrap, art anchored right/low,
+     contain (never cropped), left fade + soft feather. v14j particles kept, recoloured to the art:
+     Tue orange embers, gold + violet twinkles, warm aura and streaks behind the art (show through its
+     transparent areas). ===== */
+  #spotlight .sp[data-sp="4"]{background:radial-gradient(95% 140% at 22% 42%, #6e1824 0%, #3a0e18 38%, #241018 58%, #14080e 78%, #10080c 100%) !important}
+  #spotlight .sp[data-sp="4"] .sp-char-wrap{right:-3% !important;left:auto !important;bottom:-3% !important;top:auto !important;width:128% !important;height:104% !important}
+  #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+    width:100% !important;height:100% !important;aspect-ratio:auto !important;
+    object-fit:contain !important;object-position:right 60% !important;
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, #000 30%, #000 94%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 6%, #000 90%, transparent 100%) !important;
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 30%, #000 94%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 6%, #000 90%, transparent 100%) !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-aura{
+    background:
+      radial-gradient(42% 40% at 66% 62%, rgba(255,90,30,.26) 0%, rgba(160,30,40,.14) 48%, transparent 74%),
+      radial-gradient(30% 30% at 50% 30%, rgba(150,80,255,.16) 0%, transparent 70%) !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-ember{
+    background:radial-gradient(circle at 40% 35%, #fff6c8 0 26%, #ffb347 50%, #ff6a1a 70%, transparent 76%) !important;
+    box-shadow:0 0 6px 1px rgba(255,150,40,.45) !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-spark.ice{
+    background:
+      linear-gradient(#e6d2ff,#e6d2ff) center/1.5px 100% no-repeat,
+      linear-gradient(#e6d2ff,#e6d2ff) center/100% 1.5px no-repeat !important;
+    box-shadow:0 0 5px 1px rgba(170,110,255,.45) !important;
+  }
+  #spotlight .sp[data-sp="4"] .sp-streak{
+    background:linear-gradient(90deg, transparent 0%, rgba(255,160,80,0) 10%, rgba(255,190,110,.8) 70%, rgba(255,245,220,1) 100%) !important;
+    box-shadow:0 0 4px rgba(255,130,40,.6) !important;
+  }
+  @media (max-width:900px){
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{right:0 !important;width:100% !important;height:100% !important;bottom:0 !important}
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{object-position:center 70% !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 88%, transparent 100%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 8%, #000 88%, transparent 100%) !important;}
+  }
+
+  /* ===== v14l: bigger art + pop-out (same idea as live Tue "17 Nov (c)" block: panel overflow visible,
+     art wrap shifted up past the gold frame, soft fade in the overflow). Art pixels unaltered; size is CSS only. ===== */
+  #spotlight .sp[data-sp="4"]{overflow:visible !important}
+  #spotlight .sp[data-sp="4"] .sp-art{overflow:visible !important}
+  @media (min-width:901px){
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{
+      left:auto !important;right:-70px !important;top:-118px !important;bottom:auto !important;
+      width:740px !important;height:452px !important;z-index:2 !important;
+    }
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+      object-fit:contain !important;object-position:right bottom !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, transparent 20%, #000 36%, #000 95%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 86%, transparent 100%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, transparent 20%, #000 36%, #000 95%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 86%, transparent 100%) !important;
+    }
+    /* keep particles/aura/streaks inside the panel area so they don't float above the page */
+    #spotlight .sp[data-sp="4"] .sp-embers{inset:30% 8% 4% 18% !important}
+  }
+  @media (max-width:900px){
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{
+      left:auto !important;right:-15% !important;top:-46px !important;bottom:auto !important;
+      width:130% !important;height:auto !important;aspect-ratio:905/551;z-index:2 !important;
+    }
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+      object-fit:contain !important;object-position:center bottom !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 12%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 14%, #000 88%, transparent 100%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 12%, #000 90%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 14%, #000 88%, transparent 100%) !important;
+    }
+    #spotlight .sp[data-sp="4"] .sp-embers{inset:28% 6% 0 6% !important}
+  }
+
+  /* ===== v14m: bottom of the art sits on the bottom of the panel ===== */
+  @media (min-width:901px){
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{
+      left:auto !important;right:-60px !important;top:auto !important;bottom:0 !important;
+      width:953px !important;height:580px !important;transform:translateY(8.35%);
+    }
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+      object-fit:contain !important;object-position:right bottom !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, transparent 40%, #000 50%, #000 95%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90.9%, transparent 91.65%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, transparent 40%, #000 50%, #000 95%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 10%, #000 90.9%, transparent 91.65%) !important;
+    }
+    #spotlight .sp[data-sp="4"] .sp-embers{inset:20% 8% 12% 44% !important}
+    #spotlight .sp[data-sp="4"] .sp-streaks{inset:4% 6% 9% 44% !important}
+  }
+  @media (max-width:900px){
+    #spotlight .sp[data-sp="4"] .sp-char-wrap{
+      left:auto !important;right:-27% !important;top:auto !important;bottom:0 !important;
+      width:155% !important;height:auto !important;aspect-ratio:905/551;transform:translateY(8.35%);
+    }
+    #spotlight .sp[data-sp="4"] .sp-char-wrap .sp-char{
+      object-fit:contain !important;object-position:center bottom !important;
+      -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 16%, #000 88%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 90.9%, transparent 91.65%) !important;
+      mask-image:
+        linear-gradient(to right, transparent 0%, #000 16%, #000 88%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 90.9%, transparent 91.65%) !important;
+    }
+    #spotlight .sp[data-sp="4"] .sp-embers{inset:20% 18% 12% 18% !important}
+    #spotlight .sp[data-sp="4"] .sp-streaks{inset:6% 18% 9% 18% !important}
+  }
+
+/* Thursday only: the mobile art runs past the screen edge; clip sideways (not vertically) so the page never scrolls sideways. */
+.h3-spot:has(.sp[data-sp="4"]:not([hidden])){overflow-x:clip}

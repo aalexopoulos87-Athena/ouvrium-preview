@@ -1559,13 +1559,15 @@ section.shop{overflow:visible}
   #spotlight .sp[data-sp="4"] .sp-streaks{inset:10% 8% 9% 34% !important}
 }
 
-/* ===== 20 Nov 2026 (b): Friday Union Arena / Nezuko Kamado — homepage only (#spotlight).
-   Owner-supplied official UNION ARENA art, unaltered 512×298 transparent PNG (no larger official copy found).
-   CSS scale, masks and fades only; no glow, no sample card. Bigger than (a): sized from the panel height so
-   she is about Jinx's height, her lower edge flush on the panel bottom, hair popping out above the gold frame
-   (Barbatos / One Piece treatment). Shifted right with translateX so the face stays clear of the copy; the
-   right-side overflow is faded out before the panel border. Small "Sample" label on the art's bottom edge.
-   The shop Union Arena hero (/shop/?game=anime) still uses the 17 Nov (f) trio rules above. ===== */
+/* ===== 20 Nov 2026 (tj): Friday Union Arena / Tanjiro Kamado — homepage only (#spotlight).
+   Replaces the 20 Nov Nezuko art with a higher-resolution owner-supplied official-style Demon Slayer image
+   of Tanjiro Kamado (772×629 transparent PNG, lossless WebP + PNG fallback). CSS scale, masks and fades
+   only; no AI edits, no glow, no sample card on the character. Sized from the panel height so the lower
+   edge is flush on the panel bottom and the fire/water swirl pops out above the gold frame (Barbatos /
+   One Piece treatment). Shifted right so the figure stays clear of the copy; overflow is faded before the
+   panel border. Small "Sample" label kept on the art's bottom edge.
+   The shop Union Arena hero (/shop/?game=anime) still uses the 17 Nov (f) trio rules above.
+   The previous Nezuko file remains at assets/brands/official/ua_nezuko_kamado.png (not deleted). ===== */
 #spotlight .sp[data-sp="5"]{
   background:
     radial-gradient(60% 85% at 80% 60%, rgba(214, 28, 84, .30) 0%, transparent 62%),
@@ -1576,6 +1578,7 @@ section.shop{overflow:visible}
 #spotlight .sp[data-sp="5"] .sp-art::before{
   content:"";position:absolute;z-index:0;inset:0 0 0 -12%;pointer-events:none;border-radius:0 22px 22px 0;
   background:
+    radial-gradient(46% 58% at 54% 58%, rgba(40, 120, 255, .16) 0%, transparent 68%),
     radial-gradient(50% 62% at 60% 66%, rgba(255, 70, 130, .26) 0%, rgba(179, 18, 63, .18) 38%, transparent 70%),
     repeating-linear-gradient(118deg, rgba(255, 90, 150, .045) 0 2px, transparent 2px 26px);
   -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 30%);
@@ -1584,26 +1587,27 @@ section.shop{overflow:visible}
 }
 @keyframes spNzWash{0%,100%{opacity:.75}50%{opacity:1}}
 /* Height = art column (panel) height + 52px pop-out; width follows the 512:298 ratio. */
-#spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko{
+#spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro picture{display:block;width:100%;height:100%}
+#spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro{
   position:absolute;z-index:1;pointer-events:none;animation:none;
   top:-52px;bottom:0;left:auto;right:0;height:auto;width:auto;
-  aspect-ratio:512 / 298;max-width:none;max-height:none;
-  transform:translateX(16%);
+  aspect-ratio:772 / 629;max-width:none;max-height:none;
+  transform:translateX(6%);
 }
-#spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko .sp-char{
+#spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro .sp-char{
   position:relative !important;z-index:1;inset:auto !important;
   top:auto !important;right:auto !important;bottom:auto !important;left:auto !important;
   display:block !important;width:100% !important;height:100% !important;
   max-width:none !important;max-height:none !important;
   object-fit:fill !important;
-  /* Left fade keeps the copy clear; right fade ends at the panel border (wrap is shifted 16% right);
-     soft top fade where the hair breaks the frame; bottom stays solid (flush) with a 2% feather. */
+  /* Soft edge feathers only: the figure already sits in the art column, so a heavy left fade would
+     hide the sword and water swirl. Top fade where the fire breaks the frame; bottom flush with a 2% feather. */
   -webkit-mask-image:
-    linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,.45) 30%, #000 40%, #000 74%, transparent 84%),
-    linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+    linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 98%, rgba(0,0,0,.7) 100%) !important;
   mask-image:
-    linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,.45) 30%, #000 40%, #000 74%, transparent 84%),
-    linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+    linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 8%, #000 98%, rgba(0,0,0,.7) 100%) !important;
   -webkit-mask-composite:source-in;mask-composite:intersect;mask-mode:alpha;
   animation:none !important;transform:none !important;filter:none !important;background:transparent;
 }
@@ -1641,16 +1645,16 @@ section.shop{overflow:visible}
   #spotlight .sp[data-sp="5"] .sp-art::before{inset:0;border-radius:22px 22px 0 0;-webkit-mask-image:none;mask-image:none}
   #spotlight .sp[data-sp="5"] .sp-stub{position:relative;z-index:6}
   /* Mobile: centred, flush on the gold date band, sides fade before the panel border. */
-  #spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko{
+  #spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro{
     top:-40px;bottom:0;right:auto;left:50%;transform:translateX(-50%);
   }
-  #spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko .sp-char{
+  #spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro .sp-char{
     -webkit-mask-image:
-      linear-gradient(to right, transparent 9%, #000 24%, #000 76%, transparent 91%),
-      linear-gradient(to bottom, transparent 0%, #000 12%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+      linear-gradient(to right, transparent 2%, #000 10%, #000 90%, transparent 98%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
     mask-image:
-      linear-gradient(to right, transparent 9%, #000 24%, #000 76%, transparent 91%),
-      linear-gradient(to bottom, transparent 0%, #000 12%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+      linear-gradient(to right, transparent 2%, #000 10%, #000 90%, transparent 98%),
+      linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
     -webkit-mask-composite:source-in;mask-composite:intersect;
   }
   #spotlight .sp[data-sp="5"] .sp-embers{inset:6% 14% 6% 14%}

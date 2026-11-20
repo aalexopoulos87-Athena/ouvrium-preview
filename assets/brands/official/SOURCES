@@ -25,3 +25,13 @@ pad_barbatos_lupus_nolabel.png	https://pad.gungho.jp/member/collabo/gundam/2404/
 # pad.gungho.jp/member/collabo/kimetsu/201013/ and /2508/, Kimetsu no Yaiba Fandom game and collab gallery, web search).
 # Source stays the owner-supplied 512×298 file; displayed CSS-enlarged about 1.8× on desktop.
 ua_nezuko_kamado.png	owner-supplied (chat attachment 2026-11-20)	78658	5999a2ed2e4bba5909d4fc6aa5e40de2113e641882493cded792b779de5bdd9c
+
+# Official-style Demon Slayer art of Tanjiro Kamado, supplied by the owner in chat on 2026-11-20
+# ("replace nezuko with this item as i believe its better quality"). Original source URL not recorded.
+# ©Koyoharu Gotoge / SHUEISHA, Aniplex, ufotable. Friday homepage spotlight (replaces ua_nezuko_kamado.png in
+# the visible slot; the Nezuko file is kept, not deleted).
+# PNG is a byte-for-byte copy of the supplied 772×629 palette PNG with real transparency (no crop into the art,
+# no redraw, no AI, no upscale). WebP is a lossless encode of the same pixels (smaller than the PNG). CSS scale,
+# masks and fades only on the site.
+ua_tanjiro_kamado.png	owner-supplied (chat attachment 2026-11-20)	204684	1d8a565aa80791c5c010b01902f26990061e777882c458644af4df1e752fe26a
+ua_tanjiro_kamado.webp	lossless WebP of the same pixels	172416	0f0aeec7d0c693bad295f55c81498af7a242e773a6906be37c8ff45173df620b

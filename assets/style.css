@@ -1746,3 +1746,56 @@ section.shop{overflow:visible}
     width:90%;height:290px;top:-64px;right:-6px;
   }
 }
+
+
+/* ===== 20 Nov 2026 (bg): Pick your brand tile backgrounds, sampled from the official art =====
+   Pokémon: the tile was meadow-green (#1f7a43 / #06180d). It is now a reddish-blue gradient
+   sampled from Mega Charizard Y (ember reds ~#b84020 / #c55d3a, steel blues ~#006080 / #2e779d),
+   with a faint tiled Poké Ball outline in a slightly lighter shade of that blue (#3d5c74).
+   One Piece: the tile was teal (#0d5876 / #03121b). It is now a reddish-white / ivory-ember
+   gradient sampled from the Ace & Luffy art (cream #f0c8a0, flame #f06808), darkening to
+   maroon at the bottom so the type stays readable, plus a very faint Straw Hat jolly roger
+   line-art watermark (~5% opacity) behind the figures.
+   CSS/SVG only; art pixels unchanged. Monday and Tuesday daily spotlights already have their
+   own ember backgrounds (not the old green/teal) and are left as they are. */
+.bc-pokemon{
+  --s1:#8a2c3c;
+  --s2:#0c1a28;
+  background:
+    radial-gradient(80% 70% at 82% 6%, rgba(196,80,40,.62) 0%, transparent 55%),
+    radial-gradient(70% 90% at 16% 36%, rgba(30,110,160,.6) 0%, transparent 58%),
+    radial-gradient(130% 80% at 70% 0%, #8a2c3c 0%, #1a4a68 46%, #0c1a28 72%, #070b12 100%);
+}
+.bc-pokemon::before{
+  content:"";
+  position:absolute;inset:0;border-radius:inherit;
+  z-index:0;pointer-events:none;
+  background-image:url("brands/pokeball-pattern.svg");
+  background-size:88px 88px;
+  background-repeat:repeat;
+  opacity:.16;
+}
+.bc-onepiece{
+  --s1:#c47a62;
+  --s2:#140808;
+  background:
+    radial-gradient(80% 55% at 78% 4%, rgba(255,236,220,.3) 0%, transparent 52%),
+    radial-gradient(90% 80% at 40% 0%, rgba(232,120,70,.48) 0%, transparent 58%),
+    radial-gradient(130% 80% at 70% 0%, #c47a62 0%, #8a3024 40%, #3a1210 68%, #140808 100%);
+}
+.bc-onepiece::before{
+  content:"";
+  position:absolute;z-index:0;pointer-events:none;
+  top:-6%;right:-10%;
+  width:82%;height:78%;
+  background:url("brands/strawhat-jolly-roger.svg") center / contain no-repeat;
+  opacity:.05;
+}
+/* Keep copy on a darker field so the new palettes stay readable. */
+.bc-pokemon .bc-b,
+.bc-onepiece .bc-b{
+  background:linear-gradient(to top, rgba(7,8,12,.4) 0%, rgba(7,8,12,.1) 50%, transparent 100%);
+  border-radius:0 0 21px 21px;
+  margin:0 -1px -1px;
+  padding-bottom:16px;
+}

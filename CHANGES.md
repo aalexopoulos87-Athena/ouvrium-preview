@@ -14,6 +14,39 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-20 (bg): Pokémon and One Piece brand-tile backgrounds, sampled from the art · DEPLOYED TO PREVIEW
+
+Owner request (20 Nov, voice): change the Pokémon brand-tile background from green to a
+reddish-blue that matches Mega Charizard Y, with a faded Poké Ball pattern; change the One
+Piece tile to a reddish-white that matches Ace and Luffy, with a very faint Straw Hat jolly
+roger watermark. Backup before editing: git tag `pre-brand-bgs-20261120` (commit a557a76),
+branch `backup/2026-11-20-pre-brand-bgs`, files at
+`/workspace/ouvrium-site/backups/2026-11-20-pre-brand-bgs-1102/`.
+
+- CSS/SVG only; official art pixels unchanged. Cache tag `?v=20261120bg`. Site stays noindexed.
+  Text stays on a darker lower field so it remains readable.
+- Pokémon tile (`.bc-pokemon`): was meadow green `#1f7a43` / `#06180d`. Now a reddish-blue
+  gradient sampled from the Charizard art (ember reds ~`#b84020` / `#c55d3a`, steel blues
+  ~`#006080` / `#2e779d`) → `#8a2c3c` into `#1a4a68` into `#0c1a28`. A simple tiled Poké Ball
+  outline (`assets/brands/pokeball-pattern.svg`, original line art) sits at 16% opacity in a
+  slightly lighter shade of that blue (`#3d5c74`).
+- One Piece tile (`.bc-onepiece`): was teal `#0d5876` / `#03121b`. Now a reddish-ivory / ember
+  gradient sampled from Ace and Luffy (cream `#f0c8a0`, flame `#f06808`) → warm ivory glow over
+  `#c47a62` / `#8a3024` into maroon `#140808`. Straw Hat jolly roger line art
+  (`assets/brands/strawhat-jolly-roger.svg`, original thin outline, not a traced official file)
+  is a ~5% opacity watermark, offset behind the figures.
+- Monday and Tuesday daily spotlights were not retinted: they already have their own ember
+  backgrounds (Monday `#7a2410` / `#3d120a`, Tuesday `#7a1c10` / `#2a0b08`) and do not use the
+  old green/teal. Homepage pack/drop/week cards that still carry the old green/teal were left
+  as they are (not spotlight or theme backgrounds).
+- Theme and pack heroes/tiles that did use the same green/teal (`theme-pokemon.html`,
+  `theme-onepiece.html`, `pack-pokemon-*.html`, `pack-onepiece-*.html`) were retinted to the new
+  palettes. Their existing meadow / treasure motifs were kept; the new patterns were applied
+  on the Pick your brand tiles, which is where the request was aimed.
+- Generators: `src/themes_build.py` stage colours for Pokémon and One Piece now match, and
+  `src/brands_build.py` notes that those stages feed the brand tiles only (not the already-
+  custom spotlight panels). A full regeneration was not run.
+
 ## 2026-11-20 (ba): Pick your brand — official pop-out art replaces generated illustrations · DEPLOYED TO PREVIEW
 
 Owner request (20 Nov): the Pick your brand section still has AI art; replace every generated

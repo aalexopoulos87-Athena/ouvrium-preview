@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Staggered simple Poké Ball outlines, for a low-contrast tile repeat. -->
+  <g fill="none" stroke="#3d5c74" stroke-width="2" stroke-linecap="round">
+    <g transform="translate(32 32)">
+      <circle cx="0" cy="0" r="16"/>
+      <line x1="-16" y1="0" x2="16" y2="0"/>
+      <circle cx="0" cy="0" r="4.5"/>
+    </g>
+    <g transform="translate(96 96)">
+      <circle cx="0" cy="0" r="16"/>
+      <line x1="-16" y1="0" x2="16" y2="0"/>
+      <circle cx="0" cy="0" r="4.5"/>
+    </g>
+  </g>
+</svg>

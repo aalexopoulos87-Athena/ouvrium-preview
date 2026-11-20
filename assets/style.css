@@ -1663,3 +1663,10 @@ section.shop{overflow:visible}
   #spotlight .sp[data-sp="5"] .sp-art::before{animation:none}
   #spotlight .sp[data-sp="5"] .sp-ember{animation:none;opacity:.35}
 }
+
+/* 2026-11-20 (w): Wildlands pack loop video (owner-supplied), white margins cropped out at encode. CSS only. */
+.wl-vid{display:block;aspect-ratio:436/798;height:auto;object-fit:cover;border-radius:3px;background:#2a1640;pointer-events:none}
+.hp-art .wl-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.pp-art .wl-vid{width:80%;margin:0 auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .wl-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .wl-vid.foil{max-width:120px}}

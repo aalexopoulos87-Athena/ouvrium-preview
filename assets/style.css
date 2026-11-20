@@ -1558,3 +1558,108 @@ section.shop{overflow:visible}
   #spotlight .sp[data-sp="4"] .sp-aura{inset:6% 6% 9% 36% !important}
   #spotlight .sp[data-sp="4"] .sp-streaks{inset:10% 8% 9% 34% !important}
 }
+
+/* ===== 20 Nov 2026 (b): Friday Union Arena / Nezuko Kamado — homepage only (#spotlight).
+   Owner-supplied official UNION ARENA art, unaltered 512×298 transparent PNG (no larger official copy found).
+   CSS scale, masks and fades only; no glow, no sample card. Bigger than (a): sized from the panel height so
+   she is about Jinx's height, her lower edge flush on the panel bottom, hair popping out above the gold frame
+   (Barbatos / One Piece treatment). Shifted right with translateX so the face stays clear of the copy; the
+   right-side overflow is faded out before the panel border. Small "Sample" label on the art's bottom edge.
+   The shop Union Arena hero (/shop/?game=anime) still uses the 17 Nov (f) trio rules above. ===== */
+#spotlight .sp[data-sp="5"]{
+  background:
+    radial-gradient(60% 85% at 80% 60%, rgba(214, 28, 84, .30) 0%, transparent 62%),
+    radial-gradient(90% 140% at 20% 42%, #4a0a1c, #22060e 46%, #12060a 72%, #0d0508 100%);
+}
+#spotlight .sp[data-sp="5"] .sp-art{overflow:visible !important;background:transparent;border-radius:0}
+/* Subtle effects behind the character: crimson/pink wash + faint diagonal flame sheen, inside the panel. */
+#spotlight .sp[data-sp="5"] .sp-art::before{
+  content:"";position:absolute;z-index:0;inset:0 0 0 -12%;pointer-events:none;border-radius:0 22px 22px 0;
+  background:
+    radial-gradient(50% 62% at 60% 66%, rgba(255, 70, 130, .26) 0%, rgba(179, 18, 63, .18) 38%, transparent 70%),
+    repeating-linear-gradient(118deg, rgba(255, 90, 150, .045) 0 2px, transparent 2px 26px);
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 30%);
+  mask-image:linear-gradient(to right, transparent 0%, #000 30%);
+  animation:spNzWash 6s ease-in-out infinite;
+}
+@keyframes spNzWash{0%,100%{opacity:.75}50%{opacity:1}}
+/* Height = art column (panel) height + 52px pop-out; width follows the 512:298 ratio. */
+#spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko{
+  position:absolute;z-index:1;pointer-events:none;animation:none;
+  top:-52px;bottom:0;left:auto;right:0;height:auto;width:auto;
+  aspect-ratio:512 / 298;max-width:none;max-height:none;
+  transform:translateX(16%);
+}
+#spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko .sp-char{
+  position:relative !important;z-index:1;inset:auto !important;
+  top:auto !important;right:auto !important;bottom:auto !important;left:auto !important;
+  display:block !important;width:100% !important;height:100% !important;
+  max-width:none !important;max-height:none !important;
+  object-fit:fill !important;
+  /* Left fade keeps the copy clear; right fade ends at the panel border (wrap is shifted 16% right);
+     soft top fade where the hair breaks the frame; bottom stays solid (flush) with a 2% feather. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,.45) 30%, #000 40%, #000 74%, transparent 84%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+  mask-image:
+    linear-gradient(to right, transparent 0%, transparent 18%, rgba(0,0,0,.45) 30%, #000 40%, #000 74%, transparent 84%),
+    linear-gradient(to bottom, transparent 0%, #000 10%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+  -webkit-mask-composite:source-in;mask-composite:intersect;mask-mode:alpha;
+  animation:none !important;transform:none !important;filter:none !important;background:transparent;
+}
+#spotlight .sp[data-sp="5"]:hover .sp-char{filter:none !important}
+#spotlight .sp[data-sp="5"] .sp-embers{position:absolute;z-index:0;inset:8% 20% 6% 34%;pointer-events:none}
+#spotlight .sp[data-sp="5"] .sp-ember{
+  position:absolute;left:var(--x);top:var(--y);
+  width:calc(9px * var(--s,1));height:calc(9px * var(--s,1));margin:-4px 0 0 -4px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #ffd6e4 0 22%, #ff4d8d 52%, #b3123f 72%, transparent 78%);
+  opacity:0;animation:spNzEmber var(--d,4s) ease-in-out var(--delay,0s) infinite;
+}
+@keyframes spNzEmber{
+  0%{opacity:0;transform:translate(0,10px) scale(.4)}
+  20%{opacity:.55;transform:translate(var(--dx,6px),-6px) scale(1)}
+  65%{opacity:.3;transform:translate(calc(var(--dx,6px)*1.4),-30px) scale(.7)}
+  100%{opacity:0;transform:translate(calc(var(--dx,6px)*1.7),-54px) scale(.3)}
+}
+/* "Sample" label: small caps, white ~70%, on the art's bottom edge, below the face. */
+#spotlight .sp[data-sp="5"] .sp-sample{
+  position:absolute;z-index:3;left:34%;bottom:12px;transform:translateX(-50%);
+  font:600 11px/1 inherit;font-variant:small-caps;letter-spacing:.18em;text-transform:lowercase;
+  color:rgba(255,255,255,.7);text-shadow:0 1px 2px rgba(0,0,0,.6);
+  padding:4px 9px 5px;border-radius:999px;background:rgba(13,5,8,.42);
+  pointer-events:none;white-space:nowrap;
+}
+#spotlight .sp[data-sp="5"] .sp-copy .sp-h,
+#spotlight .sp[data-sp="5"] .sp-copy .sp-line,
+#spotlight .sp[data-sp="5"] .sp-copy .sp-who,
+#spotlight .sp[data-sp="5"] .sp-copy .sp-note,
+#spotlight .sp[data-sp="5"] .sp-copy .eyebrow{
+  text-shadow:0 1px 3px rgba(0,0,0,.85),0 0 12px rgba(0,0,0,.55);
+}
+@media (max-width:900px){
+  #spotlight .sp[data-sp="5"] .sp-art{height:250px;border-radius:22px 22px 0 0}
+  #spotlight .sp[data-sp="5"] .sp-art::before{inset:0;border-radius:22px 22px 0 0;-webkit-mask-image:none;mask-image:none}
+  #spotlight .sp[data-sp="5"] .sp-stub{position:relative;z-index:6}
+  /* Mobile: centred, flush on the gold date band, sides fade before the panel border. */
+  #spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko{
+    top:-40px;bottom:0;right:auto;left:50%;transform:translateX(-50%);
+  }
+  #spotlight .sp[data-sp="5"] .sp-char-wrap--nezuko .sp-char{
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 9%, #000 24%, #000 76%, transparent 91%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+    mask-image:
+      linear-gradient(to right, transparent 9%, #000 24%, #000 76%, transparent 91%),
+      linear-gradient(to bottom, transparent 0%, #000 12%, #000 98%, rgba(0,0,0,.7) 100%) !important;
+    -webkit-mask-composite:source-in;mask-composite:intersect;
+  }
+  #spotlight .sp[data-sp="5"] .sp-embers{inset:6% 14% 6% 14%}
+  #spotlight .sp[data-sp="5"] .sp-sample{left:50%;bottom:8px;font-size:10px}
+}
+@media (max-width:600px){
+  #spotlight .sp[data-sp="5"] .sp-art{height:230px}
+}
+@media (prefers-reduced-motion:reduce){
+  #spotlight .sp[data-sp="5"] .sp-art::before{animation:none}
+  #spotlight .sp[data-sp="5"] .sp-ember{animation:none;opacity:.35}
+}

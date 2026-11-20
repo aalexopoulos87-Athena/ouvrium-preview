@@ -16,3 +16,12 @@ ua-title-midoriya-na.webp	https://www.unionarena-tcg.com/na/images/titles/mv_mha
 # No redraw, no AI, no upscale; CSS scale and masks only on the site.
 # Gundam Barbatos Lupus (PAD No. 9751), Thursday spotlight
 pad_barbatos_lupus_nolabel.png	https://pad.gungho.jp/member/collabo/gundam/2404/img/chara/29-2.png	1013206	5ba6f00c616d57528635bfce1fdfc6d818e9a28cec7cd9abc1b0200407f1dbe0
+
+# Official UNION ARENA art of Nezuko Kamado (Demon Slayer: Kimetsu no Yaiba), supplied by the owner in chat on 2026-11-20
+# ("use this art for union arena"). Original source URL not recorded. ©Koyoharu Gotoge / SHUEISHA, Aniplex, ufotable.
+# Byte-for-byte copy of the supplied file: 512×298 palette PNG with real transparency (no white background, nothing removed).
+# No redraw, no AI, no upscale, no re-encode; CSS scale, masks and fades only on the site. Friday spotlight (homepage only).
+# 2026-11-20 search for a larger official copy found none (UNION ARENA EN/NA/JP Demon Slayer product and title pages,
+# pad.gungho.jp/member/collabo/kimetsu/201013/ and /2508/, Kimetsu no Yaiba Fandom game and collab gallery, web search).
+# Source stays the owner-supplied 512×298 file; displayed CSS-enlarged about 1.8× on desktop.
+ua_nezuko_kamado.png	owner-supplied (chat attachment 2026-11-20)	78658	5999a2ed2e4bba5909d4fc6aa5e40de2113e641882493cded792b779de5bdd9c

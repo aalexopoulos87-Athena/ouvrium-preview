@@ -1695,3 +1695,54 @@ section.shop{overflow:visible}
 .hp-art .tp-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
 .drop-pop .tp-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .tp-vid.foil{max-width:120px}}
+
+
+/* ===== 20 Nov 2026 (ba): Pick your brand tiles — official pop-out art =====
+   Licensed TCG tiles use already self-hosted official / official-style art (Charizard,
+   Ace & Luffy, Blue-Eyes, Barbatos Lupus, Tanjiro). Ouvrium Core uses the approved
+   Gilded Lion (same asset as the Saturday spotlight). Build your own keeps Tess
+   (Ouvrium tool, no official product character). CSS scale, mask and pop-out only;
+   art pixels unchanged. Generated char-*.webp files are kept, not deleted.
+   The figure breaks past the tile's top edge (same standing pop-out rule as the
+   daily spotlights): overflow already visible, wrap shifted up, soft mask fade. */
+.bc-pokemon .bc-char,
+.bc-onepiece .bc-char,
+.bc-yugioh .bc-char,
+.bc-gundam .bc-char,
+.bc-anime .bc-char,
+.bc-core .bc-char{
+  object-fit:contain;
+  object-position:center 18%;
+  width:96%;
+  height:310px;
+  top:-72px;
+  right:-10px;
+  left:auto;
+}
+.bc-anime .bc-char-pic{
+  position:absolute;z-index:1;pointer-events:none;
+  top:-72px;right:-10px;left:auto;
+  width:96%;height:310px;
+  display:block;
+}
+.bc-anime .bc-char-pic .bc-char{
+  position:relative;top:auto;right:auto;left:auto;
+  width:100%;height:100%;
+  object-fit:contain;object-position:center 22%;
+}
+.bc-pokemon .bc-char{object-position:80% 12%}
+.bc-onepiece .bc-char{object-position:70% 16%}
+.bc-yugioh .bc-char{object-position:60% 18%}
+.bc-gundam .bc-char{object-position:center 28%}
+.bc-core .bc-char{object-position:center 8%}
+@media (max-width:600px){
+  .bc-pokemon .bc-char,
+  .bc-onepiece .bc-char,
+  .bc-yugioh .bc-char,
+  .bc-gundam .bc-char,
+  .bc-anime .bc-char,
+  .bc-core .bc-char,
+  .bc-anime .bc-char-pic{
+    width:90%;height:290px;top:-64px;right:-6px;
+  }
+}

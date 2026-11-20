@@ -14,6 +14,39 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-20 (ba): Pick your brand — official pop-out art replaces generated illustrations · DEPLOYED TO PREVIEW
+
+Owner request (20 Nov): the Pick your brand section still has AI art; replace every generated
+image with appropriate official art for each category. Backup before editing: git tag
+`pre-brands-art-20261120` (commit e90ba87), branch `backup/2026-11-20-pre-brands-art`, files at
+`/workspace/ouvrium-site/backups/2026-11-20-pre-brands-art-1028/`.
+
+- CSS / markup only; art pixels unchanged. Generated `assets/brands/char-*.webp` files are kept,
+  not deleted. Cache tag `?v=20261120ba`. Site stays noindexed. The pop-out standing rule applies:
+  figures break past the tile's top edge (`overflow:visible`, `top:-72px`, contain, existing gold
+  drop-shadow and soft masks).
+- Each licensed tile now uses already self-hosted official or official-style art from the same
+  sources as the daily spotlights:
+  - Pokémon: `official/mega_charizard_y_retailer_kit.png` (official Pokémon retailer-kit art,
+    Mega Charizard Y) — was Juniper & Voltkit.
+  - One Piece: `official/ace_luffy_onepiece.png` (owner-supplied official-style Ace and Luffy) —
+    was Captain Reyes.
+  - Yu-Gi-Oh!: `official/blue_eyes_white_dragon.png` (owner-supplied Blue-Eyes White Dragon) —
+    was Vespera.
+  - Gundam: `official/pad_barbatos_lupus_nolabel.png` (official GungHo Puzzle & Dragons × Gundam
+    collab, Barbatos Lupus, name label cropped) — was Crimson Vanguard. The decorative SVG brand
+    card face uses the same official asset.
+  - Union Arena: `official/ua_tanjiro_kamado.webp` + PNG fallback (owner-supplied official-style
+    Tanjiro Kamado) — was Kaze.
+- Ouvrium Core is not a licensed TCG. The tile now uses the approved `gilded_lion.webp` (same
+  original Ouvrium asset as the Saturday spotlight) instead of the older generated `char-core.webp`.
+- Build your own is an Ouvrium tool, not a licensed brand, and has no official product character.
+  Tess the Packsmith (`char-build.webp`) stays, including on the decorative SVG card face, until
+  original non-generated art is supplied. There is no Magic, Lorcana or Dragon Ball tile in this
+  section (those games are "coming" elsewhere).
+- Generator: `src/brands_build.py` `_char()` now points licensed tiles and Core at these assets
+  and the intro/who lines match, so a future rebuild keeps them. A full regeneration was not run.
+
 ## 2026-11-20 (tm): Friday Tanjiro spotlight — slightly larger on mobile, aligned with the other days · DEPLOYED TO PREVIEW
 
 Owner request (20 Nov): make the Friday Tanjiro art slightly larger on mobile so it lines up with the

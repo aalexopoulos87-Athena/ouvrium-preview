@@ -1670,3 +1670,9 @@ section.shop{overflow:visible}
 .pp-art .wl-vid{width:80%;margin:0 auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
 .drop-pop .wl-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .wl-vid.foil{max-width:120px}}
+
+/* 2026-11-20 (t): Treasure (One Piece) pack loop video (owner-supplied), white margins cropped out at encode. CSS only. */
+.tp-vid{display:block;aspect-ratio:436/822;height:auto;object-fit:cover;border-radius:3px;background:#03121b;pointer-events:none}
+.hp-art .tp-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .tp-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .tp-vid.foil{max-width:120px}}

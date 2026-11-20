@@ -14,6 +14,22 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-20 (tm): Friday Tanjiro spotlight — slightly larger on mobile, aligned with the other days · DEPLOYED TO PREVIEW
+
+Owner request (20 Nov): make the Friday Tanjiro art slightly larger on mobile so it lines up with the
+other TCGs. Backup before editing: git tag `pre-tanjiro-mobile-20261120` (commit 3ae51d4), branch
+`backup/2026-11-20-pre-tanjiro-mobile`, files at
+`/workspace/ouvrium-site/backups/2026-11-20-fri-tanjiro-mobile-1024/`.
+
+- CSS only, still scoped to `#spotlight .sp[data-sp="5"]`. The mobile art column was 250px (≤900px) /
+  230px (≤600px) — leftover from the older Friday trio / Nezuko band — while Mon/Tue/Wed/Sat/Sun use
+  280px / 260px. That made Tanjiro's wrap shorter (295px / 276px vs 330px / 312px) even though the
+  pop-out percentages already matched (`top:-52px; height:118%` and `top:-44px; height:120%`).
+- Art column heights now match the other official days. Wrap top, height %, and overshoot stay the
+  same, so at 768px and 390px the figure is the same height and breaks the gold frame by the same
+  52px / 44px as Mon–Sun. The wrap stays centred (circular composition). No art-pixel edits.
+  Cache tag `?v=20261120tm`. Site stays noindexed.
+
 ## 2026-11-20 (po): Friday Tanjiro spotlight — pop out of the gold frame like the other days · DEPLOYED TO PREVIEW
 
 Owner request (20 Nov): the Friday Tanjiro art needs to pop out of the banner like all the other art,

@@ -1648,7 +1648,9 @@ section.shop{overflow:visible}
 }
 @media (max-width:900px){
   #spotlight .sp[data-sp="5"]{min-height:0}
-  #spotlight .sp[data-sp="5"] .sp-art{height:250px;border-radius:22px 22px 0 0;overflow:visible !important}
+  /* Match Mon/Tue/Wed/Sat/Sun mobile art-column height (280px), so the wrap
+     (top:-52px / height:118%) lands at the same size and top overshoot. */
+  #spotlight .sp[data-sp="5"] .sp-art{height:280px;border-radius:22px 22px 0 0;overflow:visible !important}
   #spotlight .sp[data-sp="5"] .sp-art::before{inset:0;border-radius:22px 22px 0 0;-webkit-mask-image:none;mask-image:none}
   #spotlight .sp[data-sp="5"] .sp-stub{position:relative;z-index:6}
   /* Same mobile pop-out as 17 Nov (c): top:-52px, height:118%. Centred so the figure stays in view. */
@@ -1670,7 +1672,8 @@ section.shop{overflow:visible}
   #spotlight .sp[data-sp="5"] .sp-sample{left:50%;bottom:8px;font-size:10px}
 }
 @media (max-width:600px){
-  #spotlight .sp[data-sp="5"] .sp-art{height:230px}
+  /* Match the other live official days (art column 260px, wrap top:-44px / height:120%). */
+  #spotlight .sp[data-sp="5"] .sp-art{height:260px}
   #spotlight .sp[data-sp="5"] .sp-char-wrap--tanjiro{
     top:-44px;height:120%;bottom:-6%;
   }

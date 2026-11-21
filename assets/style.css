@@ -1767,6 +1767,19 @@ section.shop{overflow:visible}
   }
 }
 
+/* 2026-11-21 (as): enlarge One Piece, Yu-Gi-Oh! and Gundam pop-out art so the figures
+   match Charizard's rendered size and pop-out. CSS scale/position only; art unaltered.
+   Scales from measured figure-height ratios vs Charizard (1.12 / 1.29 / 1.31).
+   max-width:none overrides the global img{max-width:100%} so the box can exceed the tile. */
+.bc-onepiece .bc-char{width:108%;max-width:none;height:348px;top:-86px;right:-14px;object-position:70% 14%}
+.bc-yugioh .bc-char{width:124%;max-width:none;height:401px;top:-106px;right:-30px;object-position:64% 16%}
+.bc-gundam .bc-char{width:126%;max-width:none;height:407px;top:-106px;right:-28px;object-position:center 22%}
+@media (max-width:600px){
+  .bc-onepiece .bc-char{width:101%;max-width:none;height:325px;top:-78px;right:-8px}
+  .bc-yugioh .bc-char{width:116%;max-width:none;height:375px;top:-108px;right:-10px}
+  .bc-gundam .bc-char{width:118%;max-width:none;height:381px;top:-110px;right:-10px}
+}
+
 
 /* ===== 20 Nov 2026 (bg): Pick your brand tile backgrounds, sampled from the official art =====
    Pokémon: the tile was meadow-green (#1f7a43 / #06180d). It is now a reddish-blue gradient

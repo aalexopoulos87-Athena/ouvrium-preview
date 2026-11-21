@@ -14,6 +14,28 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (as): One Piece, Yu-Gi-Oh! and Gundam art sized to match Charizard · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): enlarge the One Piece, Yu-Gi-Oh! and Gundam pop-out figures on the
+Pick your brand row so they are the same size as Charizard. Backup before editing: git tag
+`pre-art-size-20261121` (commit 86061e7).
+
+- Measured the rendered opaque-content box of each figure on desktop (1366) and mobile (390).
+  Charizard’s figure was 199×255 px and popped 58 px above the tile. Ace & Luffy, Blue-Eyes
+  and Barbatos were the same CSS box (96% × 310 px, object-fit contain) but shorter on screen
+  because those assets are wider and have more empty margin, so contain-fit made the figures
+  about 89% / 77% / 76% of Charizard’s height.
+- CSS scale/position only; art pixels unchanged. The three tiles now use a larger image box
+  (`max-width:none` so they can exceed the global `img{max-width:100%}`) sized to the measured
+  height ratios (about 1.12 / 1.29 / 1.31). After a small top/right nudge, desktop figure
+  heights are 199 / 199 / 199 / 199 px (within 0.3% of Charizard) and pop-out above the tile
+  is 58 / 59 / 57 / 57 px. Heads stay fully in frame; featured cards stay visible. Because
+  Blue-Eyes and Barbatos are wider aspect, they are a bit wider than Charizard — that is what
+  matching the height requires. Hover still uses the existing 1.06 scale.
+- Mobile uses the same ratios at the 600 px breakpoint (box 101% / 116% / 118%). Cache tag
+  `?v=20261121as` on `index.html` (the only page with this row). Site stays noindexed. A full
+  regeneration was not run.
+
 ## 2026-11-21 (bp): faded tiled brand patterns on every brand cell · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): put the faded Poké Ball background used on the Pokémon brand tile onto

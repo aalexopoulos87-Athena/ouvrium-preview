@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Original geometric line art for a low-contrast tile repeat. Not a trademarked logo. -->
+  <g fill="none" stroke="#9a7ac4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(32 32)">
+      <path d="M-17 0 Q0 -9.5 17 0 Q0 9.5 -17 0 Z"/>
+      <circle cx="0" cy="0" r="4.2"/>
+      <circle cx="0" cy="0" r="1.6"/>
+      <path d="M4.2 0 Q7 -3 10 0"/>
+    </g>
+    <g transform="translate(96 96)">
+      <path d="M-17 0 Q0 -9.5 17 0 Q0 9.5 -17 0 Z"/>
+      <circle cx="0" cy="0" r="4.2"/>
+      <circle cx="0" cy="0" r="1.6"/>
+      <path d="M4.2 0 Q7 -3 10 0"/>
+    </g>
+  </g>
+</svg>

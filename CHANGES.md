@@ -14,6 +14,35 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (bp): faded tiled brand patterns on every brand cell · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): put the faded Poké Ball background used on the Pokémon brand tile onto
+every brand's cells, with a motif thematic to that brand. Backup before editing: git tag
+`pre-brand-patterns-20261121` (commit 15a891a).
+
+- Same treatment as the existing Pokémon pattern (`.bc-pokemon::before`): CSS only, tiled SVG
+  outline at `background-size:88px 88px`, `opacity:.16`, `position:absolute; inset:0`,
+  `pointer-events:none`, `z-index:0`. Official art and copy stay above the overlay. Contrast
+  checked on desktop and mobile; the pattern is visible on the mid-tone field and stays quiet
+  over text.
+- Motifs are original geometric line art, not trademarked logos and not AI art, each a slightly
+  lighter shade of that brand's field (same idea as the Poké Ball stroke `#3d5c74`):
+  Pokémon keeps `pokeball-pattern.svg`; One Piece a simple straw hat (replaces the earlier 5%
+  single jolly-roger watermark so the treatment matches); Yu-Gi-Oh! an almond eye with a short
+  swirl; Gundam a hex panel with a mono-eye slit and a small V-fin; Union Arena / anime an
+  asanoha (hemp-leaf) lattice; Dragon Ball a ringed sphere with a four-point star; Magic a
+  circle pip with a small star; Lorcana an ink drop; Riftbound a crystal shard with a rift;
+  Ouvrium Core an eight-point spark; Build your own stacked card frames with a plus.
+- Applied across brand tiles (`.bc-*`), Today's drops, home hero pack tiles, mid-page
+  `#pokemon-pack`, the weekday cells, theme cards, themed and core pack tiles, and the
+  coming-soon Lorcana / Dragon Ball / Magic / Riftbound tiles. Daily spotlight panels were
+  left alone (they already have their own ember art backgrounds). Full-width theme/pack
+  heroes keep their existing meadow / treasure motifs and were not double-patterned.
+- The Pokémon brand tile itself is unchanged. One Piece's brand tile now uses the tiled hat
+  at 16% instead of the large 5% jolly roger (`strawhat-jolly-roger.svg` is kept in the repo,
+  unused). Cache tag `?v=20261121bp` on the 8 pages that show these cells. Site stays
+  noindexed; `robots.txt` unchanged. A full regeneration was not run.
+
 ## 2026-11-21 (p50): Pokémon $50 pack loop video · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): place his pack video on the Pokémon $50 pack only, same treatment as

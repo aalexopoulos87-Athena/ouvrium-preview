@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Original geometric line art for a low-contrast tile repeat. Not a trademarked logo. -->
+  <g fill="none" stroke="#c4a070" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="translate(32 32)">
+      <polygon points="0,0 6.50,-3.75 16.00,0.00 6.50,3.75"/>
+      <polygon points="0,0 6.50,3.75 8.00,13.86 0.00,7.50"/>
+      <polygon points="0,0 0.00,7.50 -8.00,13.86 -6.50,3.75"/>
+      <polygon points="0,0 -6.50,3.75 -16.00,0.00 -6.50,-3.75"/>
+      <polygon points="0,0 -6.50,-3.75 -8.00,-13.86 -0.00,-7.50"/>
+      <polygon points="0,0 -0.00,-7.50 8.00,-13.86 6.50,-3.75"/>
+    </g>
+    <g transform="translate(96 96)">
+      <polygon points="0,0 6.50,-3.75 16.00,0.00 6.50,3.75"/>
+      <polygon points="0,0 6.50,3.75 8.00,13.86 0.00,7.50"/>
+      <polygon points="0,0 0.00,7.50 -8.00,13.86 -6.50,3.75"/>
+      <polygon points="0,0 -6.50,3.75 -16.00,0.00 -6.50,-3.75"/>
+      <polygon points="0,0 -6.50,-3.75 -8.00,-13.86 -0.00,-7.50"/>
+      <polygon points="0,0 -0.00,-7.50 8.00,-13.86 6.50,-3.75"/>
+    </g>
+  </g>
+</svg>

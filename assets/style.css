@@ -1696,6 +1696,19 @@ section.shop{overflow:visible}
 .drop-pop .tp-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .tp-vid.foil{max-width:120px}}
 
+/* 2026-11-21 (gy): Gundam Hangar pack loop video (owner-supplied). CSS only; no crop (source already full-bleed 9:16). */
+.gd-vid{display:block;aspect-ratio:436/776;height:auto;object-fit:cover;border-radius:3px;background:#050c16;pointer-events:none}
+.hp-art .gd-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .gd-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .gd-vid.foil{max-width:120px}}
+
+/* 2026-11-21 (gy): Yu-Gi-Oh! Arcane Duel pack loop video (owner-supplied). White margins on the opening pack shot cropped at encode. CSS only. */
+.yg-vid{display:block;aspect-ratio:436/788;height:auto;object-fit:cover;border-radius:3px;background:#1d0b3a;pointer-events:none}
+.hp-art .yg-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .yg-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .yg-vid.foil{max-width:120px}}
+
+
 
 /* ===== 20 Nov 2026 (ba): Pick your brand tiles — official pop-out art =====
    Licensed TCG tiles use already self-hosted official / official-style art (Charizard,

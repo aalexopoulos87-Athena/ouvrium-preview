@@ -14,6 +14,42 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (gy): Gundam Hangar and Yu-Gi-Oh! Arcane Duel pack loop videos · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): place his Gundam pack video on every Hangar pack, then add the second video to
+every Yu-Gi-Oh! Arcane Duel pack, same treatment as Treasure (`77fb5a5`). Backup before editing: git tag
+`pre-gundam-yugioh-video-20261121` (commit b858996).
+
+- Gundam source: owner-supplied 720×1280, 24 fps, 10 s / 240-frame MP4. Frames show a Wing Gundam / Wing
+  Zero-style cinematic (feathers, beams, fireworks, starfield) used as Hangar pack art — not a physical
+  booster wrapper. No white margins, so the encode is uncropped, scaled to 436×776.
+- Yu-Gi-Oh! source: owner-supplied 720×1280, 24 fps, 10 s / 240-frame MP4. Confirmed official-style Dark
+  Magician Girl “OUVRIUM BOOSTER PACK” / “BOOSTER PACK - 1 CARD PER PACK” with the Yu-Gi-Oh! TCG logo.
+  Only the opening pack-on-white shot has white margins; later frames zoom into full-bleed art and do not
+  return to the closed pack. White removed by a fixed rectangular crop at encode (696×1258 from x 16,
+  y 14) — tight enough to clear the t0 white, mild enough not to clip the later full-bleed frames.
+  Scaled to 436×788. Not redrawn or AI-edited.
+- Loop (both): last 0.83 s (20 frames) crossfades into the first 0.83 s (output starts at frame 19 /
+  0.79 s of the source), so the last frame flows into the first. 9.21 s, 221 frames, `autoplay muted
+  loop playsinline`, poster = first output frame. Audio stripped. Yu-Gi-Oh! loop MAE is a bit higher
+  (~9.5 vs ~5.6 on Gundam) because the source ends on zoomed art and dissolves back to the pack.
+- Files: `assets/video/gundam.webm` / `gundam.mp4` (VP9 + H.264 High faststart, 2.3 MB each) and
+  `gundam-poster.jpg`; `assets/video/yugioh.webm` (3.1 MB) / `yugioh.mp4` (2.9 MB) and
+  `yugioh-poster.jpg`. Cache tag `?v=20261121gy`.
+- Replaces the drawn pack SVG in all 23 Hangar and Arcane Duel placements. Gundam (13): the three Hangar
+  rows in Today's drops, `theme-gundam.html` (hero row + 3 tiles), `themes.html` card, and the hero of
+  `pack-gundam-{5,25,50}.html`. There is no Gundam home-hero tile and no mid-page `#gundam-pack` section.
+  Yu-Gi-Oh! (10): home hero ($25), the two Arcane Duel rows in Today's drops, `theme-yugioh.html`
+  (hero row + 2 tiles), `themes.html` card, and the hero of `pack-yugioh-{5,25}.html`. There is no $50
+  or $100 Yu-Gi-Oh! pack and no mid-page `#yugioh-pack` section. Character / spotlight art, `packs.html`
+  core-pack foils, and `fairness.html` were left alone. Same 0.8 width factor as Wildlands/Treasure so
+  layout height stays close to the old SVG; same glow/rotation via CSS (`.gd-vid` / `.yg-vid`).
+- CSS only (`.gd-vid` and `.yg-vid` blocks after `.tp-vid` in `style.css`). `style.css` tag bumped to
+  `?v=20261121gy` on the 9 changed pages. Site stays noindexed; `robots.txt` unchanged.
+- Generator: `pack_loop_video()` in `src/themes_build.py` and home `_pk_art()` now emit the Hangar and
+  Arcane Duel videos as well, so a future rebuild keeps them. A full regeneration was not run, because
+  other later manual page edits would be overwritten.
+
 ## 2026-11-20 (bg): Pokémon and One Piece brand-tile backgrounds, sampled from the art · DEPLOYED TO PREVIEW
 
 Owner request (20 Nov, voice): change the Pokémon brand-tile background from green to a

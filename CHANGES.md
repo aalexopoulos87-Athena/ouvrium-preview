@@ -14,6 +14,38 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (gp): Gundam Hangar pack as a static transparent PNG cutout · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): looking at the Gundam pack (the pack sat in a dark
+blue grid/brand-pattern box, with a small gray tab remnant on the right
+edge): “I want no background just png.” Backup before editing: git tag
+`pre-gundam-png-20261121` (commit ff8bd49).
+
+- The 13 Gundam pack-loop videos are replaced with a static transparent
+  cutout of the clean pack-shot frame (source frame 19 of
+  `/workspace/ouvrium-incoming/gundam_v2.mp4`, 720×1280 — not the
+  downscaled encode). Official art is not redrawn; only the wooden table,
+  studio wall, and the gray wall remnant on the right edge are removed.
+  The foil crimp and the pack’s left side-seam tab are kept. 1 px feather.
+  Tight-cropped to 688×1252.
+- `assets/video/gundam.png` (1.4 MB, RGBA) and `assets/video/gundam.webp`
+  (lossless alpha, 683 KB) are served via a `<picture>` element. The pack
+  floats on the page with the same pop-out gold glow / drop-shadow as the
+  other foil packs. No matte, no `border-radius` box, and no CSS background
+  on the pack media — the tile card and hero pattern stay, they just no
+  longer sit in a rectangle behind the pack. `picture:has(> .gd-pack)` is
+  `display:contents` so the image, not a frame, is the layout box.
+- The loop videos (`gundam.webm`, `gundam.mp4`, `gundam-poster.jpg`) are
+  kept in the repo unused, in case the loop is wanted back. `.gd-vid` CSS
+  is unchanged.
+- Cache tag on the new stills is `?v=20261121gp` in all 13 placements
+  (Today’s drops $5/$25/$50, `theme-gundam.html` hero row + 3 tiles,
+  `themes.html` card, and the hero of `pack-gundam-{5,25,50}.html`).
+  `assets/style.css?v=20261121gp` on those six pages. Site stays noindexed.
+  A full regeneration was not run. Generator `pack_loop_video()` in
+  `src/themes_build.py` emits the PNG/WebP still for Gundam so a future
+  rebuild keeps it.
+
 ## 2026-11-21 (gnt): keep the Gundam pack crimp intact while removing the table · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): on the Gundam pack, remove the wood table background and only

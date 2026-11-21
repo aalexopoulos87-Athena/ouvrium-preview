@@ -14,6 +14,52 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (gn): remove the wooden table from the Gundam Hangar pack loop · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): on the Gundam pack, remove the wood table background and only
+have the pack. Backup before editing: git tag `pre-gundam-notable-20261121`
+(commit b450ce8).
+
+- The opening and closing shots of the v2 loop (44db779) show the foil
+  “MOBILE SUIT GUNDAM CARD GAME” wrapper on a textured brown wooden table (and a
+  light wall at the top). Mid-loop is a full-bleed space cinematic. A simple
+  near-white edge flood like the Pokémon $50 fix would not work on wood.
+- Method: OpenCV GrabCut with a tracked pack bounding box (vertical Sobel for
+  left/right; row-wise brown-fraction profile for top/bottom). Sure background
+  is outside a padded box; sure foreground is an eroded interior. 4 GrabCut
+  iterations, a 9×9 close, largest component, 1.2 px Gaussian feather. Offline
+  rembg (u2net / birefnet-lite) was tried first: birefnet ran out of memory,
+  and u2net kept only the title bar of the dark pack, so it was not used.
+  When the box detector returned a full-frame box (source frames 39–42 and
+  188–191, where the table is dark/faint), top/bottom were interpolated from
+  neighbouring good boxes so leftover table under the pack was excluded.
+- Pack-on-table and zoom-transition frames are matted (source 0–45 and
+  186–239). On the zoom-across frames, the pack mask is unioned with light
+  wing/feather pixels so overflowing official art is kept and no wood shows.
+  Full-bleed cinematic frames (source 46–185) are left fully opaque and
+  untouched. Official art is not redrawn; only the table/wall is removed.
+  The pack crimp is kept intact.
+- `gundam.webm` is VP9 with an alpha channel (2.8 MB) so the tile background
+  and brand pattern show through around the pack. `gundam.mp4` is H.264 High
+  faststart (3.3 MB) flattened onto the existing `.gd-vid` matte `#050c16`
+  for browsers that do not composite VP9 alpha. Poster is the first output
+  frame on the same matte. Same uncropped scale (436×776), 9.21 s / 221-frame
+  crossfade loop, `autoplay muted loop playsinline`, audio stripped. Loop MAE
+  first-vs-last ~2.8. Every output frame was checked, especially the first and
+  last ~1.5 s and the 0.83 s crossfade; no wood remains at the edges.
+- Compromises: a tiny notch in the top crimp on a few mid-closing frames; wing
+  and feather tips are slightly chewed on a few busy zoom-transition frames;
+  the cut from the pack+wings cutout into the full-bleed cinematic (and the
+  reverse on the way back) is one frame, not a gradual fade — fading those
+  frames toward opaque would have brought the table back in.
+- Cache tag on the three Gundam assets bumped to `?v=20261121gn` in all 13
+  placements (Today’s drops $5/$25/$50, `theme-gundam.html` hero row + 3 tiles,
+  `themes.html` card, and the hero of `pack-gundam-{5,25,50}.html`). Yu-Gi-Oh!
+  and other videos still use their own tags. CSS unchanged. Site stays
+  noindexed. A full regeneration was not run. Generator `pack_loop_video()`
+  cache tag for Gundam in `src/themes_build.py` was updated so a future rebuild
+  keeps the new files.
+
 ## 2026-11-21 (p50w): remove white margins from the Pokémon $50 Charizard loop · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): the Charizard / Pokémon $50 video showed white around the frame

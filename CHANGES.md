@@ -14,6 +14,33 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (gv2): replace Gundam Hangar pack loop with the new source video · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): put the new Gundam video on every Hangar pack in place of the current
+loop (added in 186f03b). Backup before editing: git tag `pre-gundam-v2-video-20261121`
+(commit 62dd899).
+
+- Source: owner-supplied `gundam_v2.mp4`, 720×1280, 24 fps, 10 s / 240-frame MP4 with AAC audio.
+  Confirmed a Gundam pack loop, not brand-row character art: it opens and closes on a physical
+  “MOBILE SUIT GUNDAM CARD GAME” / “OUVRIUM BOOSTER PACK” / “BOOSTER PACK - 1 CARD PER PACK”
+  wrapper (Wing Zero–style art, Bandai logo) photographed on a wooden table, then zooms into a
+  full-bleed cinematic of the suit in space (feathers, beams, explosions) and returns to the
+  closed pack. Placed on all 13 Hangar pack-loop spots, the same places as 186f03b. The Pick
+  your brand Barbatos still and other non-pack Gundam art were left alone.
+- No white margins (table is brown, mid-loop is full-bleed), so the encode is uncropped — same
+  approach as the original Hangar loop — and scaled to 436×776 to keep the existing `.gd-vid`
+  aspect and layout. A tighter pack-body crop would have clipped the cinematic. Audio stripped.
+- Loop: last 0.83 s (20 frames) crossfades into the first 0.83 s (output starts at source frame
+  19 / 0.79 s), 9.21 s, 221 frames, `autoplay muted loop playsinline`, poster = first output
+  frame (the pack). Loop MAE first-vs-last ~3.0. Files: `assets/video/gundam.webm` (2.7 MB,
+  VP9) / `gundam.mp4` (4.0 MB, H.264 High faststart) and `gundam-poster.jpg`.
+- Cache tag on the three Gundam assets bumped to `?v=20261121gv2` in all 13 placements
+  (Today’s drops $5/$25/$50, `theme-gundam.html` hero row + 3 tiles, `themes.html` card, and
+  the hero of `pack-gundam-{5,25,50}.html`). Yu-Gi-Oh! and other videos still use their own
+  tags. CSS unchanged. Site stays noindexed. A full regeneration was not run. Generator
+  `pack_loop_video()` cache tag for Gundam in `src/themes_build.py` was updated so a future
+  rebuild keeps the new file.
+
 ## 2026-11-21 (rb): remove the cream “bandage” behind home hero pack videos · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): remove the odd cream/white tilted “bandage” peeking out from behind

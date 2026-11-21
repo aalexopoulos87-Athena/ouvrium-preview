@@ -14,6 +14,42 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (p50): Pokémon $50 pack loop video · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): place his pack video on the Pokémon $50 pack only, same treatment as
+Hangar / Arcane Duel (`186f03b`). The $5 / $25 / $100 Wildlands videos are left untouched.
+Backup before editing: git tag `pre-pokemon50-video-20261121` (commit 186f03b).
+
+- Source: owner-supplied 720×1280, 24 fps, 10 s / 240-frame MP4. Official-style Charizard
+  “CHARIZARD BOOSTER PACK” / “BOOSTER PACK - 1 CARD PER PACK” with the Pokémon logo. Opening
+  and closing shots are the pack on white; mid frames zoom into a full-bleed storm / fire
+  cinematic (Charizard bursting from the pack) and later return to the closed pack. White
+  removed by a fixed rectangular crop at encode (694×1258 from x 16, y 14) — tight enough to
+  clear the flat t0 / t239 white margins, mild enough not to clip the later full-bleed frames.
+  The pack’s rounded crimp still sits on a little white in the corners (a rectangle cannot
+  follow the foil edge). Scaled to 436×790. Not redrawn or AI-edited.
+- Loop: last 0.83 s (20 frames) crossfades into the first 0.83 s (output starts at frame 19 /
+  0.79 s of the source), so the last frame flows into the first. 9.21 s, 221 frames, `autoplay
+  muted loop playsinline`, poster = first output frame. Audio stripped. Loop MAE is ~3.7
+  (source start and end are nearly the same pack shot).
+- Files: `assets/video/pokemon50.webm` (3.1 MB, VP9) / `pokemon50.mp4` (3.3 MB, H.264 High
+  faststart) and `pokemon50-poster.jpg`. Cache tag `?v=20261121p50`.
+- Replaces the Wildlands video in all 5 placements of the Pokémon $50 pack: home mid-page
+  `#pokemon-pack` / `.pp-pack` (label POKÉMON · $50), the $50 row in Today’s drops,
+  `theme-pokemon.html` (the $50 slot in the hero row + the $50 pack tile), and the hero of
+  `pack-pokemon-50.html`. Left alone: the $5 / $25 / $100 Wildlands videos (including
+  `pack-pokemon-100.html` and the $25 home-hero tile), the `themes.html` Pokémon theme card,
+  character / spotlight art, `packs.html` core-pack foils, and `fairness.html`. Same 0.8 width
+  factor as Wildlands/Treasure so layout height stays close to the old pack; same glow/rotation
+  via CSS (`.p50-vid`).
+- CSS only (`.p50-vid` block after `.yg-vid` in `style.css`, including `.pp-art`). `style.css`
+  tag bumped to `?v=20261121p50` on the 3 changed pages. Site stays noindexed; `robots.txt`
+  unchanged.
+- Generator: `pack_loop_video()` in `src/themes_build.py` and home `_pk_art()` now emit the
+  $50 Charizard video when the pack price is 50, and keep Wildlands for the other Pokémon
+  rungs, so a future rebuild keeps the split. A full regeneration was not run, because other
+  later manual page edits would be overwritten.
+
 ## 2026-11-21 (gy): Gundam Hangar and Yu-Gi-Oh! Arcane Duel pack loop videos · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): place his Gundam pack video on every Hangar pack, then add the second video to

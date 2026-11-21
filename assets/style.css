@@ -1712,6 +1712,7 @@ picture:has(> .gd-pack){display:contents}
 @media (max-width:560px){.th-hero .gd-pack.foil{max-width:120px}}
 .gd-media{display:contents}
 video.gd-pack{background:none}
+.gd-media picture[hidden],.gd-media picture[hidden] *{display:none!important}
 
 
 /* 2026-11-21 (gy): Yu-Gi-Oh! Arcane Duel pack loop video (owner-supplied). White margins on the opening pack shot cropped at encode. CSS only. */

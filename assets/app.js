@@ -164,6 +164,7 @@ function initGdPackLoops(){
     if(wrap){
       const pic=wrap.querySelector("picture");
       if(pic) pic.hidden=true;
+      wrap.querySelectorAll("img.gd-pack").forEach(im=>{im.hidden=true});
     }
     const p=vid.play();
     if(p&&p.catch) p.catch(()=>{});

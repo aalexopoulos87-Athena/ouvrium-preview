@@ -44,6 +44,9 @@ Backup before editing: git tag `pre-gundam-alpha-20261121` (commit 51da268).
   no CSS background on the pack media. `.gd-media` is `display:contents` so
   the wrapper is not a layout box. The tile card and hero pattern stay as
   page chrome.
+  The still is hidden on supporting browsers with both `hidden` and a CSS rule
+  that forces `display:none` on the `<picture>` descendants — `display:contents`
+  would otherwise leave the PNG sitting beside the video.
 - Generator `pack_loop_video()` emits the still + alpha-video markup for
   Gundam so a future rebuild keeps it. noindex kept. No full regeneration.
 

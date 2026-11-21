@@ -14,6 +14,39 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (ga): Animate the Gundam pack as a transparent VP9 cutout · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): the static Gundam PNG should be animated, pack only,
+with a transparent background (no wooden table, no box, no gray tab, no matte).
+Backup before editing: git tag `pre-gundam-alpha-20261121` (commit 51da268).
+
+- Per-frame cutout of `/workspace/ouvrium-incoming/gundam_v2.mp4` (720×1280,
+  24 fps, 240 frames) using the same HSV wood/wall + foil-contour + crimp-top
+  method as the frame-19 PNG, with a right-edge clip for the gray wall remnant
+  and 1 px feather. Edges are temporally median-smoothed so they do not flicker.
+  Official art is not redrawn. Mid-loop cinematic frames (source 45–186) stay
+  fully opaque: that sequence is official starfield / fire / earth filling the
+  frame, and those browns match wood HSV so they must not be keyed. A 19-frame
+  crossfade of the last pack-shot into the first produces a 9.21 s / 221-frame
+  loop that starts on source frame 19 (the clean pack shot).
+- Primary encode: VP9 WebM with alpha (`yuva420p`, `alpha_mode=1`), 540×960,
+  3.7 MB, cache `?v=20261121ga`, at `assets/video/gundam.webm`. libx265 on this
+  box cannot write HEVC-with-alpha (it drops the alpha plane to `yuv420p`), and
+  VideoToolbox is not available, so there is no Safari/iOS `.mov`. Safari and
+  iOS keep the existing static `gundam.webp` / `gundam.png` cutout (the video
+  source is only injected after a VP9-alpha support check, so iOS never paints
+  an opaque box). Chrome, Firefox and Edge autoplay the muted looping webm.
+  Poster is the transparent WebP. The flattened `gundam.mp4` is left in the
+  repo unused (it would show a box).
+- All 13 Gundam pack spots (Today’s drops $5/$25/$50, theme-gundam hero row +
+  3 tiles, themes.html card, pack-gundam-{5,25,50} heroes) use the same glow
+  and size as the PNG version (`.gd-pack`). No matte, no `border-radius` box,
+  no CSS background on the pack media. `.gd-media` is `display:contents` so
+  the wrapper is not a layout box. The tile card and hero pattern stay as
+  page chrome.
+- Generator `pack_loop_video()` emits the still + alpha-video markup for
+  Gundam so a future rebuild keeps it. noindex kept. No full regeneration.
+
 ## 2026-11-21 (gp): Gundam Hangar pack as a static transparent PNG cutout · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): looking at the Gundam pack (the pack sat in a dark

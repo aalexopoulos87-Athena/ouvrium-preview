@@ -1710,6 +1710,8 @@ picture:has(> .gd-pack){display:contents}
 .hp-art .gd-pack{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
 .drop-pop .gd-pack{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .gd-pack.foil{max-width:120px}}
+.gd-media{display:contents}
+video.gd-pack{background:none}
 
 
 /* 2026-11-21 (gy): Yu-Gi-Oh! Arcane Duel pack loop video (owner-supplied). White margins on the opening pack shot cropped at encode. CSS only. */

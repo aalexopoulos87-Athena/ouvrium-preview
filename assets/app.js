@@ -140,4 +140,34 @@ O.vault=()=>LS.get("ouv_vault",[]);
 O.vaultAdd=(c)=>{const v=O.vault();v.unshift({...c,ts:Date.now(),status:"kept"});LS.set("ouv_vault",v.slice(0,200))};
 O.credit=()=>LS.get("ouv_credit",0);
 O.addCredit=(x)=>LS.set("ouv_credit",Math.round((O.credit()+x)*100)/100);
+
+/* Transparent VP9 pack loops (Gundam). Safari/iOS cannot paint VP9 alpha, so
+   those browsers keep the static PNG/WebP cutout. Chrome/Firefox/Edge get the
+   webm. The source is injected only after the check so iOS never decodes a
+   webm as an opaque box. */
+function supportsWebmAlpha(){
+  const ua=navigator.userAgent||"";
+  if(/iP(hone|ad|od)/i.test(ua)) return false;
+  if(/Safari/i.test(ua)&&!/Chrome|Chromium|Edg|OPR|Firefox|Android/i.test(ua)) return false;
+  const v=document.createElement("video");
+  return !!(v.canPlayType&&v.canPlayType('video/webm; codecs="vp9"'));
+}
+function initGdPackLoops(){
+  if(!supportsWebmAlpha()) return;
+  $$("video.gd-pack[data-webm]").forEach(vid=>{
+    const src=document.createElement("source");
+    src.src=vid.getAttribute("data-webm");
+    src.type="video/webm; codecs=vp9";
+    vid.appendChild(src);
+    vid.hidden=false;
+    const wrap=vid.parentElement;
+    if(wrap){
+      const pic=wrap.querySelector("picture");
+      if(pic) pic.hidden=true;
+    }
+    const p=vid.play();
+    if(p&&p.catch) p.catch(()=>{});
+  });
+}
+initGdPackLoops();
 })();

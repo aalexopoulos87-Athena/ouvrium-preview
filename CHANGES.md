@@ -14,6 +14,26 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (rb): remove the cream “bandage” behind home hero pack videos · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): remove the odd cream/white tilted “bandage” peeking out from behind
+each home hero pack image. Backup before editing: git tag `pre-remove-bandage-20261121`
+(commit 862413b).
+
+- The bandage was the `.hp-price` price pill (`background:#fff`, `border-radius:999px`,
+  `transform:rotate(6deg)`), meant to sit at the top-right of each hero tile and show $25 /
+  $50. Yesterday’s brand-pattern stacking rule (`.hp > *{position:relative;z-index:1}`) beat
+  `.hp-price` on specificity, so the pill left `position:absolute; z-index:3`, dropped into
+  document flow, and was covered by the pack video. Only the top of the white pill still
+  showed, like a bandage behind the pack.
+- CSS only: the stacking rule is now `.hp > *:not(.hp-price)`, so the price pill is again
+  absolutely positioned at the top-right, above the video. Pack videos, glow, and the faded
+  brand patterns are unchanged. The pill exists only on the three home hero tiles on
+  `index.html` (Pokémon Wildlands $25, One Piece Treasure $50, Yu-Gi-Oh! Arcane Duel $25);
+  Today’s drops, theme pack tiles, and other pages never had this element.
+- Cache tag `?v=20261121rb` on `index.html`. Site stays noindexed. A full regeneration was
+  not run.
+
 ## 2026-11-21 (as): One Piece, Yu-Gi-Oh! and Gundam art sized to match Charizard · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): enlarge the One Piece, Yu-Gi-Oh! and Gundam pop-out figures on the

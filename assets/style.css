@@ -1952,7 +1952,7 @@ section.shop{overflow:visible}
 .pack-tile > *,
 .theme-card > *,
 .wk > *,
-.hp > *,
+.hp > *:not(.hp-price),
 .pp-pack > *{position:relative;z-index:1}
 .pp-pack .pp-fan{z-index:0}
 

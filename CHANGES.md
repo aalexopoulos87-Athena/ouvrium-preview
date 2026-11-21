@@ -14,6 +14,37 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (p50w): remove white margins from the Pokémon $50 Charizard loop · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): the Charizard / Pokémon $50 video showed white around the frame
+when it transitions. Backup before editing: git tag `pre-pokemon50-white-fix-20261121`
+(commit 44db779).
+
+- Cause: the opening and closing shots sit on a studio-white backdrop. The original mild
+  crop (694×1258 from x 16, y 14) was tight enough not to clip the later full-bleed
+  cinematic, so white still remained in the corners and along the pack edges — most
+  visible on the first ~1 s (the pack is pulled back) and during the 0.83 s loop
+  crossfade, when the white margins mixed with the cinematic.
+- Fix: edge-connected near-white pixels (high luma, low saturation, flood-filled only
+  from the frame edge, and only when they cover at least 2% of the frame so lightning
+  in the official art is not punched out) are keyed out. Mid-loop full-bleed frames are
+  untouched. Official art is not redrawn; only the studio backdrop is removed, with a
+  2 px dilate and a 1.2 px feather so the copper crimp stays intact.
+- `pokemon50.webm` is VP9 with an alpha channel (2.7 MB) so the tile background and
+  brand pattern show through around the pack. `pokemon50.mp4` is H.264 High faststart
+  (3.5 MB) flattened onto the existing `.p50-vid` matte `#2a0c08` for browsers that
+  do not composite VP9 alpha. Poster is the first output frame on the same matte.
+  Same crop, scale (436×790), 9.21 s / 221-frame crossfade loop, `autoplay muted loop
+  playsinline`, audio stripped. Loop MAE first-vs-last ~1.9. Every output frame was
+  checked; remaining near-white pixels are official art (lightning, pack label type),
+  not backdrop, and the crossfade no longer shows a white frame.
+- Cache tag on the three Pokémon $50 assets bumped to `?v=20261121p50w` in all 5
+  placements: Today's drops $50, mid-page `#pokemon-pack`, `theme-pokemon.html` hero
+  $50 slot + $50 tile, and the hero of `pack-pokemon-50.html`. Wildlands videos and
+  CSS are unchanged. Site stays noindexed. A full regeneration was not run. Generator
+  cache tag for the $50 loop in `src/themes_build.py` was updated so a future rebuild
+  keeps the new files.
+
 ## 2026-11-21 (gv2): replace Gundam Hangar pack loop with the new source video · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): put the new Gundam video on every Hangar pack in place of the current

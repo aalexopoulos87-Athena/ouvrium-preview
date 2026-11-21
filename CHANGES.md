@@ -14,6 +14,44 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-21 (gnt): keep the Gundam pack crimp intact while removing the table · DEPLOYED TO PREVIEW
+
+Owner request (21 Nov): on the Gundam pack, remove the wood table background and only
+have the pack. This pass replaces the GrabCut encode in 6e4fb2d (`?v=20261121gn`),
+which cut a visible notch in the top foil crimp. Backup before any table-removal
+work: git tag `pre-gundam-notable-20261121` (commit b450ce8).
+
+- Method: strict HSV wood (and darkened studio-wall) classification, inward scan
+  to the foil contour, and a row-wise horizontal-texture detector for the crimp
+  top, with a 1 px dilate and ~1.15 px Gaussian feather. Bright wings/feathers
+  that overflow the pack during the zoom are kept. Mid-loop cinematic frames
+  (source 45–186) stay fully opaque — official art there contains brown fire
+  and earth that would match a wood key, so they are not touched. Transition
+  frames with a weak pack contour use an edge flood of loose wood (grown into
+  leftover islands) plus an above-crimp / header-side punch, not a tight
+  rectangle that would clip overflowing art. Offline rembg (u2net,
+  isnet-general-use) was evaluated and rejected as the primary matte: it treats
+  the dark foil and the black “OUVRIUM BOOSTER PACK” bar as background.
+- `gundam.webm` is VP9 with an alpha channel (2.8 MB) so the tile background
+  and brand pattern show through around the pack. `gundam.mp4` is H.264 High
+  faststart (3.3 MB) flattened onto the existing `.gd-vid` matte `#050c16`.
+  Poster is the first output frame on the same matte. Same uncropped scale
+  (436×776), 9.21 s / 221-frame crossfade loop, `autoplay muted loop playsinline`,
+  audio stripped. Loop MAE first-vs-last ~2.7. Every output frame was checked,
+  especially the first and last ~1.5 s and the 0.83 s crossfade; no wood remains
+  at the pack-shot edges, and the foil crimp and side tabs stay intact.
+- Compromises: on about two zoom-transition frames (source 42–44) a sliver of
+  studio wall beside the pack has already color-shifted into the cinematic
+  starfield (cool blue-gray, H≈115) and was left so emerging stars/space are
+  not keyed out; a few return-transition frames (source 187–188) may show a
+  faint dark, non-wood corner remnant that sits close to the `#050c16` matte.
+- Cache tag on the three Gundam assets bumped to `?v=20261121gnt` in all 13
+  placements (Today’s drops $5/$25/$50, `theme-gundam.html` hero row + 3 tiles,
+  `themes.html` card, and the hero of `pack-gundam-{5,25,50}.html`). CSS
+  unchanged. Site stays noindexed. A full regeneration was not run. Generator
+  `pack_loop_video()` cache tag for Gundam in `src/themes_build.py` was updated
+  so a future rebuild keeps the new files.
+
 ## 2026-11-21 (gn): remove the wooden table from the Gundam Hangar pack loop · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): on the Gundam pack, remove the wood table background and only

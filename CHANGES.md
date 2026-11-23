@@ -14,6 +14,20 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-23 (inv): Ottawa singles inventory sync · DEPLOYED TO PREVIEW
+
+Synced the preview shop (and pack/builder stock counts) to today's Carta Magica
+Ottawa Crystal Commerce export (`cartamagicaottawa-inventory-search-326.csv`,
+TCG Singles category 7466 with descendants, Total Qty ≥ 1). Source pipeline
+is `src/ott4.pkl` → `credit_shop_build.py` (shop) plus in-place qty/price
+updates on pack pools. Backup: `/workspace/ouvrium-site/backups/2026-11-23-pre-ottawa-inv`.
+
+- ott4.pkl: 18,244 products / 97,304 units (10 Nov) → 18,052 products / 92,960 units (23 Nov). Added 514 in-stock singles, removed 706 missing/OOS, 544 qty changes, 565 price changes.
+- Shop ($1+ themed games): 5,390 cards / 14,711 units → 5,560 cards / 14,477 units. Pokémon 1,981→2,095, One Piece 252→338, Yu-Gi-Oh! 2,683→2,664, Gundam 116→139, Anime (Union Arena) 358→324. Shop qty/price matches the export for every themed $1+ single.
+- Preserved, not zeroed: **KAGURABACHI** (70 products, 717 units) had zero rows in this export, so previous stock was kept. The export used only one "TCG Singles" parent (7466); two other admin categories with that name (7613, 7417) were not included. Yu-Gi-Oh Collectors Tins (2 SKUs) were also absent and were dropped, matching the existing Tins filter.
+- Flagged (large Union Arena / Anime set drop-offs that still had a few leftover SKUs in the export, so missing cards were treated as OOS): Evangelion (95→6), Code Geass (101→14), FULLMETAL ALCHEMIST (87→2), Solo Leveling (68→2), Code Geass Vol. 2 (70→6). If those sets actually live under category 7613 or 7417, a follow-up export should restore them. Anime as a whole did not drop to zero (1,555 products remain).
+- Pack/builder lists: 1,229 qty fields and 1,711 prices updated in place; 1,477 OOS cards removed from pack pools. Pack odds/EV prose on pack pages was not fully recomputed (no theme resample), so listed stock is current but published pack math may be slightly stale. Cache-bust: `shop-data.js`, `pool.js`, `build-data.js` `?v=20261123a`.
+
 ## 2026-11-23 (p5): Pokémon $5 pack loop video, cut out with no white fringe · DEPLOYED TO PREVIEW
 
 Owner request (23 Nov): place his new pack video on the Pokémon $5 pack and

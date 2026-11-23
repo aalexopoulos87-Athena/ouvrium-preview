@@ -1728,6 +1728,14 @@ video.gd-pack{background:none}
 .drop-pop .p50-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .p50-vid.foil{max-width:120px}}
 
+/* 2026-11-23 (p100): Pokémon $100 Lugia pack loop video (owner-supplied). Checkerboard studio backdrop keyed; official art unaltered. CSS only. */
+.p100-vid{display:block;aspect-ratio:436/776;height:auto;object-fit:cover;border-radius:3px;background:#0c1a28;pointer-events:none}
+.hp-art .p100-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.pp-art .p100-vid{width:80%;margin:0 auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .p100-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .p100-vid.foil{max-width:120px}}
+
+
 
 
 /* ===== 20 Nov 2026 (ba): Pick your brand tiles — official pop-out art =====

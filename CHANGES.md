@@ -14,6 +14,52 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-23 (p100): Pokémon $100 pack loop video · DEPLOYED TO PREVIEW
+
+Owner request (23 Nov): place his new pack video on the Pokémon $100 pack, same
+treatment as the $50 Charizard / Hangar / Arcane Duel loops. The $5 / $25
+Wildlands videos and the $50 Charizard video are left untouched. Backup before
+editing: git tag `pre-pokemon100-video-20261123` (commit 6830651).
+
+- Source: owner-supplied `pack-100-new.mp4`, 720×1280, 24 fps, 10 s / 240-frame
+  MP4 with AAC audio. Official-style Lugia “OUVRIUM BOOSTER PACK” /
+  “BOOSTER PACK - 1 CARD PER PACK” with the Pokémon logo. Opening and closing
+  shots are the pack on a baked-in light checkerboard studio backdrop; mid
+  frames zoom into a full-bleed storm / sea cinematic and later return to the
+  closed pack. Official art is not redrawn or AI-edited.
+- Backdrop removal: checkerboard pixels (high luma, low saturation, nearly
+  neutral) are keyed by an inward scan from each edge that stops at the foil
+  contour, plus a looser top/bottom column scan through the crimp valleys so
+  the teeth stay intact. The key runs only on pack-shot frames whose 8 px
+  border is at least 25% checker (source frames 0–27 and 178–239). Mid-loop
+  full-bleed frames, including lightning that reaches the edge, are left
+  fully opaque so official art is not punched out. 2 px dilate, 1.2 px
+  feather.
+- Loop: last 0.83 s (20 frames) crossfades into the first 0.83 s (output
+  starts at source frame 19 / 0.79 s). 9.21 s, 221 frames, first and last
+  output frames identical. `autoplay muted loop playsinline`, audio stripped.
+  Scaled to 436×776 (even 9:16). Poster is the first output frame flattened
+  onto the `.p100-vid` matte `#0c1a28`.
+- Files: `assets/video/pokemon100.webm` (2.9 MB, VP9 with alpha,
+  `alpha_mode=1`) so the tile background and brand pattern show through
+  around the pack; `pokemon100.mp4` (3.2 MB, H.264 High faststart) flattened
+  onto `#0c1a28` for browsers that do not composite VP9 alpha; and
+  `pokemon100-poster.jpg`. Cache tag `?v=20261123p100`.
+- Replaces the Wildlands video in all 4 placements of the Pokémon $100 pack:
+  the $100 row in Today’s drops on `index.html`, `theme-pokemon.html` (the
+  $100 slot in the hero row + the $100 pack tile), and the hero of
+  `pack-pokemon-100.html`. Left alone: the $5 / $25 Wildlands videos
+  (including the $25 home-hero tile), the $50 Charizard video, the
+  `themes.html` Pokémon theme card, character / spotlight art, `packs.html`
+  core-pack foils, and `fairness.html`. Same 0.8 width factor and glow /
+  rotation via CSS (`.p100-vid`).
+- CSS only (`.p100-vid` block after `.p50-vid` in `style.css`). `style.css`
+  tag bumped to `?v=20261123p100` on the 3 changed pages. Site stays
+  noindexed; `robots.txt` unchanged. A full regeneration was not run.
+  Generator `pack_loop_video()` in `src/themes_build.py` now emits the $100
+  Lugia video when the pack price is 100, and keeps Wildlands / Charizard
+  for the other Pokémon prices so a future rebuild keeps the new files.
+
 ## 2026-11-21 (ga): Animate the Gundam pack as a transparent VP9 cutout · DEPLOYED TO PREVIEW
 
 Owner request (21 Nov): the static Gundam PNG should be animated, pack only,

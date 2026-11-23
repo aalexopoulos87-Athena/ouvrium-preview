@@ -14,6 +14,55 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-23 (p5): Pokémon $5 pack loop video, cut out with no white fringe · DEPLOYED TO PREVIEW
+
+Owner request (23 Nov): place his new pack video on the Pokémon $5 pack and
+“make it a png no white around the pack.” The $25 Wildlands, $50 Charizard
+and $100 Lugia videos are left untouched. Backup before editing: git tag
+`pre-pokemon5-video-20261123` (commit 9e875f4).
+
+- Source: owner-supplied `pack-pokemon-5-new.mp4`, 720×1280, 24 fps, 10 s /
+  240-frame MP4 with AAC audio. Official-style Pikachu “OUVRIUM BOOSTER
+  PACK” / “BOOSTER PACK - 10 ADDITIONAL CARDS” with the Pokémon logo.
+  Opening and closing shots are the pack on a white studio backdrop; mid
+  frames zoom into a full-bleed storm / lightning cinematic and later return
+  to the closed pack. Official art is not redrawn or AI-edited.
+- Backdrop removal: near-white studio pixels (high luma, low saturation,
+  nearly neutral) are keyed by an inward scan from each edge that stops at
+  the foil contour, plus a looser top/bottom column scan and a flood of
+  leftover white in the crimp valleys so the teeth stay intact. The key runs
+  only on pack-shot frames whose 8 px border is at least 25% white (source
+  frames 0–27 and 183–239). Mid-loop full-bleed frames, including lightning
+  that reaches the edge, are left fully opaque. More aggressive than the
+  $100 pass: 3 px dilate of the cut, a further 2 px contour clean of
+  remaining near-white halo, unmix-white despill on the fringe, and a
+  0.9 px feather. No white frame around the pack.
+- Loop: last 0.83 s (20 frames) crossfades into the first 0.83 s (output
+  starts at source frame 19). 9.21 s, 221 frames, first and last output
+  frames identical. `autoplay muted loop playsinline`, audio stripped.
+  Scaled to 436×776. Transparent PNG still of the first output frame
+  (`pokemon5.png`, 436×776 RGBA) is the poster and static fallback.
+- Files: `assets/video/pokemon5.webm` (2.7 MB, VP9 with alpha,
+  `alpha_mode=1`) so the tile background shows through around the pack;
+  `pokemon5.mp4` (3.0 MB, H.264 High faststart) flattened onto `#0c1a28`
+  for browsers that do not composite VP9 alpha; and `pokemon5.png`.
+  Cache tag `?v=20261123p5`.
+- Replaces the Wildlands video in all 4 placements of the Pokémon $5 pack:
+  the $5 row in Today’s drops on `index.html`, `theme-pokemon.html` (the
+  $5 slot in the hero row + the $5 pack tile), and the hero of
+  `pack-pokemon-5.html`. Left alone: the $25 Wildlands videos (including
+  the home-hero tile), the $50 Charizard and $100 Lugia videos, the
+  `themes.html` Pokémon theme card (it represents the theme, not the $5
+  pack), character / spotlight art, `packs.html` core-pack foils, and
+  `fairness.html`. Same 0.8 width factor and glow / rotation via CSS
+  (`.p5-vid`).
+- CSS only (`.p5-vid` block after `.p100-vid` in `style.css`). `style.css`
+  tag bumped to `?v=20261123p5` on the 3 changed pages. Site stays
+  noindexed; `robots.txt` unchanged. A full regeneration was not run.
+  Generator `pack_loop_video()` in `src/themes_build.py` now emits the $5
+  Pikachu video when the pack price is 5, and keeps the other Pokémon
+  price loops so a future rebuild keeps the new files.
+
 ## 2026-11-23 (p100): Pokémon $100 pack loop video · DEPLOYED TO PREVIEW
 
 Owner request (23 Nov): place his new pack video on the Pokémon $100 pack, same

@@ -14,6 +14,21 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-23 (op): One Piece $25 and $50 transparent pack loops
+
+Alex's $25 (Nami) and $50 (Zoro) pack clips now sit on those pack surfaces only, as
+transparent cutouts in the same pattern as the Gundam Hangar pack: VP9 alpha WebM
+plus a transparent PNG/WebP poster used as the Safari/iOS fallback (no HEVC-alpha;
+the site does not use that). Mid-loop cinematics play inside the pack art window
+so only the pack shows; crimps, the ONE PIECE logo and the OUVRIUM bar stay put.
+Audio is stripped and the loop is muted. The $100 pack and the theme-onepiece
+hero three-pack still use the shared treasure loop.
+
+- assets: `site/assets/video/onepiece25.{webm,png,webp}` and `onepiece50.{webm,png,webp}`
+- `PACK_LOOP_BY_PRICE` entries for `('onepiece', 25)` and `('onepiece', 50)` with `still=True`, `alpha=True`
+- CSS `.op25-vid` / `.op50-vid`: no matte, `object-fit:contain`
+- `app.js`: alpha WebM loader generalized from `video.gd-pack[data-webm]` to `video[data-webm]`
+
 ## 2026-11-23 (inv): Ottawa singles inventory sync · DEPLOYED TO PREVIEW
 
 Synced the preview shop (and pack/builder stock counts) to today's Carta Magica

@@ -154,7 +154,8 @@ function supportsWebmAlpha(){
 }
 function initGdPackLoops(){
   if(!supportsWebmAlpha()) return;
-  $$("video.gd-pack[data-webm]").forEach(vid=>{
+  $$("video[data-webm]").forEach(vid=>{
+    if(vid.querySelector("source")) return;
     const src=document.createElement("source");
     src.src=vid.getAttribute("data-webm");
     src.type="video/webm; codecs=vp9";
@@ -164,7 +165,7 @@ function initGdPackLoops(){
     if(wrap){
       const pic=wrap.querySelector("picture");
       if(pic) pic.hidden=true;
-      wrap.querySelectorAll("img.gd-pack").forEach(im=>{im.hidden=true});
+      wrap.querySelectorAll("img").forEach(im=>{im.hidden=true});
     }
     const p=vid.play();
     if(p&&p.catch) p.catch(()=>{});

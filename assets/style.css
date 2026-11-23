@@ -1742,6 +1742,17 @@ video.gd-pack{background:none}
 .drop-pop .p5-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
 @media (max-width:560px){.th-hero .p5-vid.foil{max-width:120px}}
 
+/* 2026-11-23 (op): One Piece $25 / $50 pack loops as transparent cutouts (Gundam-style).
+   VP9 alpha WebM + PNG/WebP poster fallback. No matte, no rounded box behind the pack. */
+.op25-vid,.op50-vid{display:block;aspect-ratio:436/776;height:auto;object-fit:contain;background:none;pointer-events:none}
+picture:has(> .op25-vid),picture:has(> .op50-vid){display:contents}
+.hp-art .op25-vid,.hp-art .op50-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.pp-art .op25-vid,.pp-art .op50-vid{width:80%;margin:0 auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .op25-vid,.drop-pop .op50-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .op25-vid.foil,.th-hero .op50-vid.foil{max-width:120px}}
+video.op25-vid,video.op50-vid{background:none}
+
+
 
 
 

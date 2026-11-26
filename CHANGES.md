@@ -14,6 +14,44 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-26 (gy25): Gundam $25/$50 and Yu-Gi-Oh! $25 get their own animated packs · DEPLOYED TO PREVIEW
+
+Owner request (26 Nov, voice): finish Gundam and Yu-Gi-Oh! so no pack art repeats inside a category,
+same style as the existing packs. Backup before editing: git tag `pre-gundam-yugioh-tiers-20261126`
+(commit babde8c) plus file copies in `/workspace/ouvrium-site/backups/2026-11-26-pre-gy-tiers/`.
+The $5 tiers keep their art (Wing Gundam Zero `gundam.*`, Dark Magician Girl `yugioh.*`).
+
+- New art: Gundam Hangar $25 = Strike Freedom Gundam, $50 = Unicorn Gundam (Destroy Mode),
+  Yu-Gi-Oh! Arcane Duel $25 = Blue-Eyes White Dragon. None of these is used elsewhere on the site
+  (Thursday spotlight Barbatos and the winged $5 Gundam are untouched).
+- Made with GenerateImage (existing `gundam.png` / Yu-Gi-Oh! pack poster as reference: same wrapper,
+  crimps, game logo placement, BANDAI box, "OUVRIUM BOOSTER PACK" bar) plus a climax still per pack,
+  then GenerateVideo image-to-video with first frame = last frame = pack still and the climax pinned
+  at 5 s. Camera locked; pack does not tilt or move (site CSS adds the same 6° drop-pop rotation as
+  the other packs).
+- Cutout: per-frame chroma key on a flat green plate, largest component + hole fill, 5-frame
+  temporal median on the mask, 0.9 px feather, green despill. Yu-Gi-Oh! source had a 7-12 px white
+  rim around the foil: removed with a 12 px erode (no white edge). Gundam: the bottom bar/crimp
+  slid ~9 px during the climax, so the OUVRIUM bar and bottom crimp are locked to the loop's first
+  frame (OP-style: crimps and bar stay put, art animates). Measured white-edge pixels: <=0.02%.
+- Loop: 241 source frames retimed to 221 (9.21 s at 24 fps, same as gundam.webm/yugioh.webm), last
+  8 frames eased toward frame 0; seam step = normal frame step (seamless). Audio none.
+- Files (cache `?v=20261126gy`): `assets/video/gundam25.{webm,mp4,png,webp}`,
+  `gundam50.{webm,mp4,png,webp}` (webm 540x960 VP9 alpha, `alpha_mode=1`), `yugioh25.{webm,mp4,png,webp}`
+  (436x788). mp4 = H.264 flattened onto `#0c1a28` (kept for parity, not referenced: the alpha
+  pattern uses the transparent PNG/WebP still on Safari/iOS). Stills are transparent tight crops.
+- Wired (gd-media alpha pattern, same as Gundam $5 / One Piece $25-$50): index.html Today's drops
+  Gundam $25 and $50 rows, Yu-Gi-Oh! $25 row and the $25 Yu-Gi-Oh! home-hero tile;
+  theme-gundam.html hero row $25/$50 + $25/$50 tiles; theme-yugioh.html hero row $25 + $25 tile;
+  heroes of pack-gundam-25/50.html and pack-yugioh-25.html. themes.html theme cards (one card per
+  theme, not per tier) are left on the $5 art, as with Pokemon.
+- CSS: new `.yg25-vid` block (copy of `.op25-vid`, aspect 436/788). Fix: `.gd-media video[hidden]`
+  is now forced `display:none` -- `.gd-pack{display:block}` was overriding `hidden`, so Safari/iOS
+  showed the poster video beside the still (a duplicate pack) on every alpha pack.
+  `style.css` / `app.js` tags bumped to `?v=20261126gy` on the 6 changed pages.
+- Generator: `PACK_LOOP_BY_PRICE` in `src/themes_build.py` now has ('gundam',25), ('gundam',50),
+  ('yugioh',25). No full regeneration. Carta Magica logo and cartamagica.com untouched.
+
 ## 2026-11-23 (op): One Piece $25 and $50 transparent pack loops
 
 Alex's $25 (Nami) and $50 (Zoro) pack clips now sit on those pack surfaces only, as

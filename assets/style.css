@@ -1996,3 +1996,12 @@ video.op25-vid,video.op50-vid{background:none}
 .pp-pack > *{position:relative;z-index:1}
 .pp-pack .pp-fan{z-index:0}
 
+/* 2026-11-26 (gy25): Yu-Gi-Oh! $25 Blue-Eyes pack loop, transparent cutout (same treatment as .op25-vid) */
+.yg25-vid{display:block;aspect-ratio:436/788;height:auto;object-fit:contain;background:none;pointer-events:none}
+picture:has(> .yg25-vid){display:contents}
+.hp-art .yg25-vid{width:calc(min(170px,100%)*.8);filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.pp-art .yg25-vid{width:80%;margin:0 auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 12px rgba(223,175,72,.5)) drop-shadow(0 12px 16px rgba(0,0,0,.55))}
+.drop-pop .yg25-vid{height:100%;width:auto;filter:drop-shadow(0 0 1.5px rgba(240,200,110,.95)) drop-shadow(0 0 10px rgba(223,175,72,.45)) drop-shadow(0 10px 14px rgba(0,0,0,.55));transform:rotate(6deg)}
+@media (max-width:560px){.th-hero .yg25-vid.foil{max-width:120px}}
+video.yg25-vid{background:none}
+.gd-media video[hidden]{display:none!important}

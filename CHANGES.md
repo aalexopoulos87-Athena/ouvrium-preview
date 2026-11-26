@@ -14,6 +14,32 @@ on smaller screens, or Saturday's taller `top:-88px` when the subject sits at th
 soft mask fade in the overflow that is solid by the gold edge, same layering and shadows. Art pixels
 are not redrawn. New or replaced spotlight art must ship with this treatment; a rebuild must keep it.
 
+## 2026-11-26 (gy25 v2): Gundam $25/$50 and Yu-Gi-Oh! $25 redone with the full card-to-scene cycle · DEPLOYED TO PREVIEW
+
+Owner review (26 Nov): keep the motion/effects, but add the full cycle the $5 / Pokemon loops use:
+card art -> effect kicks in -> camera leaves the card into a full scene -> effect plays out -> back to
+the original card. The full-bleed scene mid-loop is approved (same as gundam.webm / pokemon5).
+Backup: git tag `pre-gy-tiers-v2-20261126` (commit fbb56b8) + copies in
+`/workspace/ouvrium-site/backups/2026-11-26-pre-gy-tiers-v2/`. Same file names, cache `?v=20261126gy2`.
+
+- Scenes: Strike Freedom $25 = space battle over Earth, firing, then full burst. Unicorn $50 = desert
+  dystopian wasteland (buried ruins, dust storm), beam magnum shot. Blue-Eyes $25 = dives out of a
+  stormy sky onto a duel arena, White Lightning attack, lightning pillar, back into the card.
+- Made with GenerateVideo: first = last frame = the pack still (rescaled so the pack fills the frame
+  like gundam.webm), two scene stills pinned at 3 s and 5.5 s. Assembled on the box to the existing
+  structure: ~0.9 s pack shot with the in-card effect, 8-frame push into the card (pack scales up
+  while the art dissolves into the scene, light flash), full-bleed scene, 10-frame pull back into the
+  card, ~2 s pack hold. Full-bleed frames 25-164 / 25-173 / 23-176 vs gundam.webm 26-167. Scene slowed
+  0.81-0.86x with motion-compensated interpolation to hit 221 frames / 9.21 s.
+- Cutout only on pack-shot / transition frames (chroma key on flat green, largest component, hole
+  fill, temporal median, 0.9 px feather, despill; Yu-Gi-Oh! 13 px erode for the white foil rim).
+  Scene frames are fully opaque. No table, cream strip or white edge; no tilt added.
+- Loop: last 10 frames dissolve into the 10 source frames before the start -> seam difference
+  (3.2 / 3.6 / 8.6) is below the median frame step (7.5 / 7.9 / 13.6).
+- Stills (transparent tight crop of frame 0): gundam25 626x1201, gundam50 626x1202, yugioh25 656x1212;
+  img width/height updated in every placement and in `PACK_LOOP_BY_PRICE`.
+- Same placements as gy25 v1 (index rows + Yu-Gi-Oh! hero tile, theme pages, pack pages).
+
 ## 2026-11-26 (gy25): Gundam $25/$50 and Yu-Gi-Oh! $25 get their own animated packs · DEPLOYED TO PREVIEW
 
 Owner request (26 Nov, voice): finish Gundam and Yu-Gi-Oh! so no pack art repeats inside a category,
